@@ -1,0 +1,15 @@
+.tab.active {
+  color: rgb(0,79,253)!important;
+}
+
+@media (min-width: 992px) {
+  .container-signin {
+    width: 50%;
+  }
+}
+
+.btn-new:hover {
+  background: #ffffff!important;
+  color: var(--bs-success)!important;
+}
+

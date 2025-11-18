@@ -1,0 +1,3 @@
+*.sqlite*
+/public/profile-photos/*
+!/public/profile-photos/.gitignore

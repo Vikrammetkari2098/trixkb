@@ -108,9 +108,7 @@
                                         Effortless documentation with<br>Eddy AI. <a href="#" class="text-primary hover:underline font-medium">Learn more</a>
                                     </h2>
                                 </div>
-                                <img src="/image/dashboard.png" alt="Eddy AI Illustration" class="absolute right-0 bottom-0 h-full object-cover">
-
-                            </div>
+                                <img src="{{ asset('image/dashboard.png') }}" alt="Eddy AI Illustration" class="absolute right-0 bottom-0 h-full object-cover">
                         </div>
 
                         <!-- Tasks Section with Tabs -->
@@ -215,7 +213,7 @@
                             <!-- No Tasks Message -->
                             <template x-if="tasks[activeWorkflowTab].length === 0">
                                 <div class="p-10 text-center">
-                                    <img src="/image/task.png" alt="No open comments illustration" class="mx-auto w-40 h-40 mb-6">
+                                    <img src="{{ asset('image/task.png') }}" alt="No open comments illustration" class="mx-auto w-40 h-40 mb-6">
                                     <h3 class="text-xl font-semibold text-gray-600 mb-2">No tasks in this category</h3>
                                     <p class="text-accent">Sit back and relax. All tasks are complete or unassigned.</p>
                                 </div>
@@ -325,7 +323,7 @@
                             </div>
 
                             <div x-show="activeTab === 'starred'" class="flex flex-col items-center justify-center min-h-[300px] py-10">
-                                <img src="/image/starred.png" alt="No starred items illustration" class="mx-auto w-48 h-48 mb-6">
+                                <img src="{{ asset('image/starred.png') }}"  alt="No starred items illustration" class="mx-auto w-48 h-48 mb-6">
 
                                 <h3 class="text-xl font-semibold text-gray-800 mb-2">No items to display</h3>
                                 <p class="text-gray-500 mb-6">You haven't starred any items yet.</p>
@@ -466,7 +464,7 @@
                                 </div>
 
                                 <div class="p-8 text-center mt-10">
-                                    <img src="/image/comment.png" alt="No open comments illustration" class="mx-auto w-40 h-40 mb-6">
+                                    <img src="{{ asset('image/comment.png') }}" alt="No open comments illustration" class="mx-auto w-40 h-40 mb-6">
                                     <h3 class="text-xl font-semibold text-gray-600 mb-2">No open comments</h3>
                                     <p class="text-accent">There are no open comments for review right now.</p>
                                 </div>

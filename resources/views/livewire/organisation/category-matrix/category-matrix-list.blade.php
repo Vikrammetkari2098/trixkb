@@ -83,7 +83,8 @@
                     <x-button.circle
                         color="blue"
                         icon="eye"
-                        wire:click="$dispatch('viewCategoryMatrix', {{ $row->id }})"
+                       wire:click="$dispatch('viewCategoryMatrix', [{{ $row->id }}])"
+
                         title="View"
                     />
 

@@ -77,7 +77,7 @@
 
         @interact('column_action', $row)
             <div class="flex gap-2">
-                <x-button.circle color="blue" icon="eye" wire:click="$dispatch('loadData-view-sub-case-category1', {{ $row['id'] }})" />
+                <x-button.circle color="blue" icon="eye" wire:click="$dispatch('loadData-view-sub-case-category1', [{{ $row['id'] }}])" />
             </div>
         @endinteract
     </x-table>

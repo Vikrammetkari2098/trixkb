@@ -66,20 +66,33 @@
                 </span>
             @endinteract
 
-            <!-- Action Column -->
-            @interact('column_action', $row)
-               <x-button.circle
-                    color="emerald"
-                    icon="pencil"
-                    wire:click="$dispatch('loadData-edit-segment', {{ $row->id }})"
-                />
-                <x-button.circle
-                    color="blue"
-                    icon="information-circle"
-                    wire:click="$dispatch('loadData-view-segment', { id: {{ $row->id }} })"
-                />
 
-            @endinteract
+          <!-- Action Column -->
+@interact('column_action', $row)
+    <div class="flex gap-2">
+        {{-- Edit --}}
+        <x-button.circle
+            color="yellow"
+            icon="pencil"
+            title="Edit"
+            wire:click="$dispatch('loadData-edit-segment', { id: {{ $row->id }} })"
+        />
+
+        {{-- View --}}
+        <x-button.circle 
+            color="blue"
+            icon="eye"
+            title="View"
+            x-on:click="
+                $dispatch('loadData-view-segment', { id: {{ $row->id }} });
+                $dispatch('open-modal-view-segment');
+            "
+        />
+    </div>
+@endinteract
+
+
+
 
         </x-table>
     </div>

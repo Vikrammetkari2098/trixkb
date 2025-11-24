@@ -29,18 +29,22 @@ class DirectoryList extends Component
     public array $departments_list = [];
 
     protected $paginationTheme = 'tailwind';
-    protected $listeners = ['refresh-directory-list' => '$refresh'];
+
+    protected $listeners = [
+        'refresh-directory-list' => '$refresh',
+        'loadData-view-article' => 'onViewArticle',
+        'loadData-edit-wiki' => 'onEditWiki',
+        'delete-wiki' => 'onDeleteWiki',
+    ];
 
     public function mount()
     {
-        // Status dropdown
         $this->directoryStatus = [
             ['value' => '', 'label' => 'All'],
             ['value' => 1, 'label' => 'Active'],
             ['value' => 0, 'label' => 'Inactive'],
         ];
 
-        // Table headers
         $this->headers = [
             ['index' => 'id', 'label' => 'No.'],
             ['index' => 'name', 'label' => 'Name', 'sortable' => true],
@@ -49,7 +53,6 @@ class DirectoryList extends Component
             ['index' => 'action', 'label' => 'Actions'],
         ];
 
-        // Ministries & Departments
         $this->ministries_list = Ministry::where('status', 1)
             ->get()
             ->map(fn($m) => ['value' => $m->ministry_id, 'label' => $m->name])
@@ -69,14 +72,21 @@ class DirectoryList extends Component
     public function getRowsProperty()
     {
         return Wiki::query()
-            ->with(['user', 'organisation.ministry', 'organisation.department', 'organisation.segment', 'organisation.unit', 'organisation.subUnit'])
+            ->with([
+                'user',
+                'organisation.ministry',
+                'organisation.department',
+                'organisation.segment',
+                'organisation.unit',
+                'organisation.subUnit'
+            ])
             ->where('wiki_type', GeneralHelper::wikiTypeDirectory())
             ->when($this->search, fn($query) =>
                 $query->where(function ($q) {
                     $q->where('wiki.name', 'like', '%' . $this->search . '%')
-                      ->orWhere('wiki.designation', 'like', '%' . $this->search . '%')
-                      ->orWhere('wiki.email', 'like', '%' . $this->search . '%')
-                      ->orWhere('wiki.mobile_number', 'like', '%' . $this->search . '%');
+                        ->orWhere('wiki.designation', 'like', '%' . $this->search . '%')
+                        ->orWhere('wiki.email', 'like', '%' . $this->search . '%')
+                        ->orWhere('wiki.mobile_number', 'like', '%' . $this->search . '%');
                 })
             )
             ->when($this->ministryFilter !== '', fn($query) =>
@@ -91,6 +101,30 @@ class DirectoryList extends Component
             )
             ->orderBy($this->sort['column'], $this->sort['direction'])
             ->paginate($this->quantity);
+    }
+
+    // VIEW
+    public function onViewArticle($data = [])
+    {
+        if (!isset($data['id'])) return;
+
+        $this->dispatch('open-modal-view-article', id: $data['id']);
+    }
+
+    // EDIT
+    public function onEditWiki($data = [])
+    {
+        if (!isset($data['id'])) return;
+
+        $this->dispatch('open-modal-edit-wiki', id: $data['id']);
+    }
+
+    // DELETE
+    public function onDeleteWiki($data = [])
+    {
+        if (!isset($data['wikiId'])) return;
+
+        $this->dispatch('confirm-delete-wiki', wikiId: $data['wikiId']);
     }
 
     public function render()

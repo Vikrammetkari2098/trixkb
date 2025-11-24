@@ -11,26 +11,21 @@ class ArticleView extends Component
     public $article;
     public $articleId;
 
-    #[On('loadData-view-article')]
-    public function loadArticle($data)
-    {
-        $id = $data['id'];
+   #[On('loadData-view-article')]
+public function loadArticle($id)
+{
+    $this->article = Wiki::with([
+        'categories',
+        'spaces',
+        'organisation.ministry',
+        'organisation.department',
+        'organisation.segment',
+        'organisation.unit',
+        'organisation.subUnit',
+    ])->find($id);
 
-        $this->article = Wiki::with([
-            'categories',
-            'spaces',
-            'organisation.ministry',
-            'organisation.department',
-            'organisation.segment',
-            'organisation.unit',
-            'organisation.subUnit',
-        ])->find($id);
+    $this->dispatch('open-modal-view-article');
+}
 
-        $this->dispatch('open-modal-view-article');
-    }
 
-    public function render()
-    {
-        return view('livewire.organisation.articles.article-view');
-    }
 }

@@ -137,12 +137,13 @@
             @interact('column_action', $row)
             <div class="flex gap-2">
                 <x-button.circle
-                    color="blue"
-                    icon="eye"
-                    wire:click="$dispatch('loadData-view-article', {{ json_encode(['id' => $row->id]) }})"
-                    x-on:click="$dispatch('open-modal-view-article')"
-                    title="View"
-                />
+                color="blue"
+                icon="eye"
+                wire:click="$dispatch('loadData-view-article', { id: {{ $row->id }} })"
+
+                title="View"
+/>
+
 
                 {{-- Edit --}}
                 <x-button.circle color="yellow" icon="pencil"

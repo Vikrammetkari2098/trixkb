@@ -1,7 +1,6 @@
 <div>
     <x-errors />
-
-    <form wire:submit.prevent="save">
+        <form wire:submit.prevent="save">
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <!-- Status Name -->
             <div>

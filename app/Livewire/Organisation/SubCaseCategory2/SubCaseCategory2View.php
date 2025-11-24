@@ -17,7 +17,9 @@ class SubCaseCategory2View extends Component
     public function loadData($id)
     {
         $this->subCaseCategory2Id = $id;
-        $this->subCaseCategory2 = SubCaseCategory2::with('user')->findOrFail($id);
+
+        $this->subCaseCategory2 = SubCaseCategory2::with('user')
+            ->findOrFail($id);
     }
 
     public function render()

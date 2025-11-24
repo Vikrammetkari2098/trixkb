@@ -42,15 +42,15 @@ class StatusList extends Component
     {
         $this->resetPage();
     }
+public function getRowsProperty()
+{
+    return Status::query()
+        ->when($this->statusFilter === 'default', fn($q) => $q->where('is_default', 1))
+        ->when($this->statusFilter === 'private', fn($q) => $q->where('is_private', 1))
+        ->when($this->statusFilter === 'public', fn($q) => $q->where('is_public', 1))
+        ->paginate($this->quantity);
+}
 
-    public function getRowsProperty()
-    {
-        return Status::query()
-            ->when($this->statusFilter === 'default', fn($q) => $q->where('is_default', 1))
-            ->when($this->statusFilter === 'private', fn($q) => $q->where('is_private', 1))
-            ->when($this->statusFilter === 'public', fn($q) => $q->where('is_public', 1))
-            ->paginate($this->quantity);
-    }
 
     public function render()
     {

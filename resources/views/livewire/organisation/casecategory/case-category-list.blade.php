@@ -89,7 +89,8 @@
                     <x-button.circle
                         color="blue"
                         icon="eye"
-                        wire:click="$dispatch('loadData-view-case-category', {{ $row->id }})"
+                        wire:click="$dispatch('loadData-view-case-category', { id: {{ $row->id }} })"
+
                     />
 
                 </div>

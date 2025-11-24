@@ -16,7 +16,9 @@ class SegmentEdit extends Component
     public $slug = '';
     public $status = 1;
 
-    protected $listeners = ['loadData-edit-segment' => 'loadSegment'];
+    protected $listeners = [
+        'loadData-edit-segment' => 'loadSegment'
+    ];
 
     protected function rules()
     {
@@ -26,32 +28,34 @@ class SegmentEdit extends Component
         ];
     }
 
-     public function loadSegment($data)
+    public function loadSegment($data)
     {
-        $segment = Segment::findOrFail($data['id']);
+        $id = is_array($data) ? $data['id'] : $data;
+
+        $segment = Segment::findOrFail($id);
+
         $this->segmentId = $segment->id;
         $this->name = $segment->name;
         $this->slug = $segment->slug;
         $this->status = $segment->status;
 
-        $this->dispatch('open-modal-edit-segment');
+        $this->dispatch('open-modal-edit-segment'); // open modal
     }
 
-     public function update()
+    public function update()
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|boolean',
-        ]);
+        $this->validate();
 
         $segment = Segment::findOrFail($this->segmentId);
+
         $segment->update([
             'name' => $this->name,
-            'slug' => \Str::slug($this->name),
+            'slug' => Str::slug($this->name),
             'status' => $this->status,
         ]);
 
-        $this->toast()->success('Success', 'Division updated successfully')->send();
+        $this->toast()->success('Success', 'Segment updated successfully')->send();
+
         $this->dispatch('close-modal-edit-segment');
         $this->dispatch('refresh-segment-list');
     }
@@ -61,4 +65,3 @@ class SegmentEdit extends Component
         return view('livewire.organisation.segment.segment-edit');
     }
 }
-

@@ -11,12 +11,12 @@
         <livewire:organisation.status.status-create />
     </x-modal>
 
-    <!-- Edit Status Modal -->
+    <!-- Edit Status Modl -->
     <x-modal id="modal-edit-status"
              x-data="{ show: false }"
              x-show="show"
              x-on:open-modal-edit-status.window="show = true"
-             x-on:close-modal-edit-status.window="show = false"
+      x-on:close-modal-edit-status.window="show = false"
              center>
         <h2 class="text-xl font-semibold mb-4">Edit Status</h2>
         <livewire:organisation.status.status-edit />
@@ -89,7 +89,9 @@
                 <x-button.circle
                     color="yellow"
                     icon="pencil"
-                    wire:click="$dispatch('open-modal-edit-status', {id: {{ $row->id }}})"
+                 wire:click="$dispatch('open-modal-edit-status', [{{ $row->id }}])"
+
+
                 />
 
             @endinteract

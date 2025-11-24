@@ -19,18 +19,17 @@ class DepartmentShow extends Component
     ];
 
     public function openModal($data)
-    {
-        $id = is_array($data) ? $data['id'] : $data;
+{
+    $department = Department::findOrFail($data['id']);
 
-        $department = Department::findOrFail($id);
+    $this->departmentId = $department->department_id;
+    $this->name = $department->name;
+    $this->short_name = $department->short_name;
+    $this->status = $department->status;
 
-        $this->departmentId = $department->id;
-        $this->name = $department->name;
-        $this->short_name = $department->short_name;
-        $this->status = $department->status;
+    $this->open = true;
+}
 
-        $this->open = true;
-    }
 
     public function render()
     {

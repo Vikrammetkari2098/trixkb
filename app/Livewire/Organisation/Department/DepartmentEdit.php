@@ -16,10 +16,10 @@ class DepartmentEdit extends Component
     public $short_name;
     public $status = 1;
 
-    public bool $open = false; // modal state
+    public bool $open = false;
 
     protected $listeners = [
-        'loadData-edit-department' => 'openModal' // listens for dispatch from table
+        'loadData-edit-department' => 'openModal',
     ];
 
     protected $rules = [
@@ -28,35 +28,31 @@ class DepartmentEdit extends Component
         'status' => 'required|boolean',
     ];
 
-    // Open modal and load data
     public function openModal($data)
-    {
-        $id = is_array($data) ? $data['id'] : $data;
+{
+    $department = Department::findOrFail($data['id']);
 
-        $department = Department::findOrFail($id);
+    $this->departmentId = $department->department_id;
+    $this->name = $department->name;
+    $this->short_name = $department->short_name;
+    $this->status = $department->status;
 
-        $this->departmentId = $department->id;
-        $this->name = $department->name;
-        $this->short_name = $department->short_name;
-        $this->status = $department->status;
+    $this->open = true;
+}
 
-        $this->open = true; // open modal
-    }
 
-    // Update department
     public function update()
     {
         $this->validate();
 
-        $department = Department::findOrFail($this->departmentId);
-        $department->update([
+        Department::findOrFail($this->departmentId)->update([
             'name' => $this->name,
             'short_name' => $this->short_name,
             'status' => $this->status,
             'slug' => Str::slug($this->name),
         ]);
 
-        $this->open = false; // close modal
+        $this->open = false;
         $this->dispatch('refresh-departments-list');
         $this->toast()->success('Success', 'Department updated successfully!')->send();
     }

@@ -70,13 +70,37 @@
                 {{ $row['user']['name'] ?? '-' }}
             @endinteract
 
-            @interact('column_action', $row)
-                <div class="flex gap-2">
-                    <x-button.circle color="blue" icon="eye"
-                        wire:click="$dispatch('loadData-view-directory', {{ $row['id'] }})"
-                    />
-                </div>
-            @endinteract
+        @interact('column_action', $row)
+    <div class="flex gap-2">
+
+        {{-- View --}}
+        <x-button.circle
+            color="blue"
+            icon="eye"
+            wire:click="$dispatch('loadData-view-article', { id: {{ $row->id }} })"
+            title="View"
+        />
+
+        {{-- Edit --}}
+        <x-button.circle
+            color="yellow"
+            icon="pencil"
+            wire:click="$dispatch('loadData-edit-wiki', { id: {{ $row->id }} })"
+            title="Edit"
+            class="hover:scale-110 transition"
+        />
+
+        {{-- Delete --}}
+        <x-button.circle
+            color="red"
+            icon="trash"
+            x-on:click="$dispatch('delete-wiki', { wikiId: {{ $row->id }} })"
+            title="Delete"
+            class="hover:scale-110 transition"
+        />
+
+    </div>
+@endinteract
 
         </x-table>
     </div>

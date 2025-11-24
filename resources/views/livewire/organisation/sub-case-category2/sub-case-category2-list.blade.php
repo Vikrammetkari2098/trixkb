@@ -78,13 +78,18 @@
                 {{ $row['created_by_name'] }}
             @endinteract
 
-            @interact('column_action', $row)
-                <div class="flex gap-2">
-                    <x-button.circle color="blue" icon="eye"
-                        wire:click="$dispatch('loadData-view-sub-case-category2', {{ $row['id'] }})"
-                    />
-                </div>
-            @endinteract
+     @interact('column_action', $row)
+    <div class="flex gap-2">
+        <x-button.circle 
+            color="blue" 
+            icon="eye"
+            x-on:click="
+                $dispatch('loadData-view-sub-case-category2', [{{ $row->id }}]);
+                $dispatch('open-view-subcasecategory2-modal');
+            "
+        />
+    </div>
+@endinteract
 
         </x-table>
     </div>

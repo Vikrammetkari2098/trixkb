@@ -14,18 +14,21 @@ class UnitEdit extends Component
     public $name;
     public $status;
 
+    protected $listeners = [
+        'loadUnit' => 'loadUnit',
+    ];
+
+    public function loadUnit($data)
+    {
+        $this->unit = Unit::find($data['id']);
+        $this->name = $this->unit->name;
+        $this->status = $this->unit->status;
+    }
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'status' => 'required|boolean',
     ];
-
-    public function mount(Team $team, Unit $unit)
-    {
-        $this->team = $team;
-        $this->unit = $unit;
-        $this->name = $unit->name;
-        $this->status = $unit->status;
-    }
 
     public function update()
     {
@@ -43,7 +46,9 @@ class UnitEdit extends Component
         ]);
 
         session()->flash('success', 'Unit updated successfully!');
-        return redirect()->route('unit.show', [$this->team->slug, $this->unit->slug]);
+
+        $this->dispatch('refresh-unit-list');
+        $this->dispatch('close-modal-edit-unit');
     }
 
     public function render()

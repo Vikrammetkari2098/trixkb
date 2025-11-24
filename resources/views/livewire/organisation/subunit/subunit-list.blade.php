@@ -77,20 +77,23 @@
             @endinteract
 
             <!-- Action Column -->
-            @interact('column_action', $row)
-                <div class="flex items-center space-x-2">
-                    <x-button.circle
-                        color="emerald"
-                        icon="pencil"
-                        wire:click="$dispatch('loadData-edit-subunit', {{ $row->id }})"
-                    />
-                    <x-button.circle
-                        color="blue"
-                        icon="information-circle"
-                        wire:click="$dispatch('loadData-view-subunit', { id: {{ $row->id }} })"
-                    />
-                </div>
-            @endinteract
+           @interact('column_action', $row)
+    <div class="flex items-center space-x-2">
+        <x-button.circle
+            color="yellow"
+            icon="pencil"
+           wire:click="$dispatch('loadData-edit-subunit', { id: {{ $row->id }} })"
+
+        />
+
+        <x-button.circle
+            color="blue"
+            icon="eye"
+            wire:click="$dispatch('loadData-view-subunit', { id: {{ $row->id }} })"
+        />
+    </div>
+@endinteract
+
 
         </x-table>
     </div>

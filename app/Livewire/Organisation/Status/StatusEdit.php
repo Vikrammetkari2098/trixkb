@@ -29,18 +29,16 @@ class StatusEdit extends Component
         'is_public' => 'boolean',
     ];
 
-    public function loadStatus($id)
-    {
-        $this->statusId = $id;
-        $status = Status::findOrFail($id);
+   public function loadStatus($id)
+{
+    $this->statusId = $id;
+    $status = Status::findOrFail($id);
 
-        $this->status_name = $status->name;
-        $this->is_default = $status->is_default;
-        $this->is_private = $status->is_private;
-        $this->is_public = $status->is_public;
-
-        $this->dispatch('open-modal-edit-status');
-    }
+    $this->status_name = $status->name;
+    $this->is_default = $status->is_default;
+    $this->is_private = $status->is_private;
+    $this->is_public = $status->is_public;
+}
 
     public function save()
     {

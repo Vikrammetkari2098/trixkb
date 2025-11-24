@@ -100,15 +100,17 @@
                                 color="blue"
                                 icon="eye"
                                 title="View"
-                                wire:click="view({{ $org->id }})"
+                               wire:click="view({{ $org->id }})"
+
                                 class="hover:scale-110 hover:shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-300"
                             />
                            <x-button.circle
                                 size="sm"
-                                color="indigo"
+                                color="yellow"
                                 icon="pencil"
                                 title="Edit"
-                                wire:click="$dispatch('loadData-edit-matrix', {{ $org->id }})"
+                               wire:click="$dispatch('loadData-edit-matrix', { id: {{ $org->id }} })"
+
                                 class="hover:scale-110 hover:shadow-[0_0_10px_rgba(99,102,241,0.4)] transition-all duration-300"
                             />
 

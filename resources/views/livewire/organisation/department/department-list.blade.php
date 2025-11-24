@@ -74,18 +74,28 @@
             @endinteract
 
             <!-- Action Column -->
-            @interact('column_action', $row)
-            <x-button.circle
-                color="emerald"
-                icon="pencil"
-                wire:click="$dispatch('loadData-edit-department', { id: {{ $row->id }} })"
-            />
-            <x-button.circle
-                color="blue"
-                icon="information-circle"
-                wire:click="$dispatch('loadData-view-department', { id: {{ $row->id }} })"
-            />
-            @endinteract
+           @interact('column_action', $row)
+    <div class="flex gap-2">
+        {{-- Edit --}}
+        <x-button.circle
+            color="yellow"
+            icon="pencil"
+            title="Edit Department"
+            wire:click="$dispatch('loadData-edit-department', { id: '{{ $row->id }}' })"
+
+        />
+
+        {{-- View --}}
+        <x-button.circle
+            color="blue"
+            icon="eye"
+            title="View Department"
+            wire:click="$dispatch('loadData-view-department', { id: {{ $row->id }} })"
+
+        />
+    </div>
+@endinteract
+
         </x-table>
     </div>
 </div>

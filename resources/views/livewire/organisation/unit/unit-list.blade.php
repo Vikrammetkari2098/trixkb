@@ -77,16 +77,25 @@
 
             <!-- Action Column -->
             @interact('column_action', $row)
+        
+               
                 <div class="flex items-center space-x-2">
+
+
                     <x-button.circle
-                        color="emerald"
-                        icon="pencil"
-                        wire:click="$dispatch('loadData-edit-unit', {{ $row->id }})"
-                    />
+    color="yellow"
+    icon="pencil"
+    wire:click="loadEditUnit({{ $row->id }})"
+    x-on:click="$dispatch('open-modal', { id: 'edit-unit' })"
+    title="Edit"
+/>
+
+                
                     <x-button.circle
                         color="blue"
-                        icon="information-circle"
-                        wire:click="$dispatch('loadData-view-unit', { id: {{ $row->id }} })"
+                        icon="eye"
+                        wire:click="$dispatch('loadData-view-unit', { id: {{ $row->unit_id }} })"
+                        title="View"
                     />
                 </div>
             @endinteract

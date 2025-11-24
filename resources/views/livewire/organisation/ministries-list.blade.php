@@ -120,13 +120,14 @@
                         </span>
                     @endinteract
                     @interact('column_action', $row)
+                        <!-- @dump($row) -->
                         <div class="flex gap-2">
-                            <x-button.circle size="sm" color="indigo" icon="pencil"
-                                title="Edit" wire:click="$dispatch('loadData-edit-ministry', {{ $row->ministry_id }})"
+                            <x-button.circle size="sm" color="yellow" icon="pencil"
+                                title="Edit" wire:click="$dispatch('loadData-edit-ministry', { id: {{ $row->id }} })"
                                 class="hover:scale-110 hover:shadow-[0_0_10px_rgba(99,102,241,0.4)] transition-all duration-300" />
 
                             <x-button.circle size="sm" color="blue" icon="eye"
-                                title="View" wire:click="$dispatch('loadData-view-ministry', {{ $row->id }})"
+                                title="View" wire:click="$dispatch('loadData-view-ministry', { id: {{ $row->id }} })"
                                 class="hover:scale-110 hover:shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-300" />
                         </div>
                     @endinteract

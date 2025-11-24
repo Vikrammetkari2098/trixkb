@@ -88,12 +88,12 @@
             <a @click.prevent="openArticleForm = true"
             href="#"
             class="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-4 py-2 h-10 rounded-lg font-semibold flex items-center shadow-lg transform hover:scale-[1.02] transition duration-200 hidden sm:flex no-underline cursor-pointer">
-
                 <span>Create Article</span>
                 <i class="fa-solid fa-plus ml-2 text-sm"></i>
             </a>
 
             <div x-show="openArticleForm"
+                x-cloak
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100"
@@ -131,6 +131,7 @@
                 </form>
             </div>
         </div>
+
 
        <button class="open-site-button text-gray-300 hover:text-white bg-[#374151] hover:bg-[#4b5563] font-medium h-10 px-4 rounded-lg text-sm cursor-pointer hidden lg:flex items-center space-x-2 transition duration-200">
             <a href="https://dyn-edge.com/v5/" target="_blank" class="flex items-center space-x-2 text-inherit no-underline">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Helpers\GeneralHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -25,17 +26,16 @@ class Reports extends Model
         $sub_unit_data = [];
 
         $wikisCreateQuery = Wiki::join('users', 'wiki.user_id', '=', 'users.id')
-            ->join('space', 'wiki.space_id', '=', 'space.id')
+            ->join('spaces', 'wiki.space_id', '=', 'spaces.id')
             ->join('organisations', 'wiki.organisation_id', '=', 'organisations.id')
             ->leftJoin('ministry', 'organisations.ministry_id', '=', 'ministry.ministry_id')
             ->leftJoin('department', 'organisations.department_id', '=', 'department.department_id')
             ->leftJoin('segment', 'organisations.segment_id', '=', 'segment.segment_id')
             ->leftJoin('unit', 'organisations.unit_id', '=', 'unit.unit_id')
             ->leftJoin('sub_unit', 'organisations.sub_unit_id', '=', 'sub_unit.sub_unit_id')
-
             ->select(
                 'users.name as user_name',
-                'space.name as space_name',
+                'spaces.name as space_name',
                 'wiki.name as wiki_name',
                 'wiki.wiki_type',
                 'wiki.ministry_id',
@@ -54,6 +54,7 @@ class Reports extends Model
                 'unit.name as unit_name',
                 'sub_unit.name as sub_unit_name'
             )
+
             ->when($startDate, function ($query) use ($startDate) {
                 $query->where('wiki.created_at', '>=', $startDate);
             })
@@ -78,7 +79,7 @@ class Reports extends Model
                         ->orWhere('sub_unit.name', 'like', '%' . $searchTerm . '%');
                 });
             })
-            ->when($user->current_role_id == userInternalContentCreator(), function ($query) use ($startDate, $user) {
+            ->when($user->current_role_id == GeneralHelper::userInternalContentCreator(), function ($query) use ($startDate, $user) {
                 $query->where('wiki.created_by', '=', $user->id);
             })
             ->orderBy('wiki.created_at', 'desc');

@@ -29,6 +29,10 @@ class CategoryMatrixCreate extends Component
     public $caseCategories = [];
     public $subCaseCategories1 = [];
     public $subCaseCategories2 = [];
+    public $statusOptions = [
+        ['value' => 1, 'text' => 'Active'],
+        ['value' => 0, 'text' => 'Inactive'],
+    ];
 
     protected $listeners = [
         'open-modal-create-category-matrix' => 'openModal'
@@ -36,44 +40,39 @@ class CategoryMatrixCreate extends Component
 
     protected $rules = [
         'status' => 'required|boolean',
-        'ministry_id' => 'required|exists:ministry,ministry_id',
-        'department_id' => 'required|exists:department,department_id',
-        'case_category_id' => 'nullable|exists:categories,category_id',
+        'ministry_id' => 'required|exists:ministries,ministry_id',
+        'department_id' => 'required|exists:departments,department_id',
+        'case_category_id' => 'nullable|exists:case_categories,category_id',
         'sub_case_category_1_id' => 'nullable|exists:sub_case_categories_1,id',
         'sub_case_category_2_id' => 'nullable|exists:sub_case_categories_2,id',
     ];
-
 
     public function mount()
     {
         $this->ministries = Ministry::where('status', 1)
             ->get(['ministry_id', 'name'])
-            ->map(fn($m) => ['id' => $m->ministry_id, 'name' => $m->name])
+            ->map(fn($m) => ['value' => $m->ministry_id, 'text' => $m->name])
             ->toArray();
 
         $this->departments = Department::where('status', 1)
             ->get(['department_id', 'name'])
-            ->map(fn($d) => ['id' => $d->department_id, 'name' => $d->name])
+            ->map(fn($d) => ['value' => $d->department_id, 'text' => $d->name])
             ->toArray();
 
         $this->caseCategories = CaseCategory::where('category_status', 1)
             ->get(['category_id', 'category_name'])
-            ->map(fn($c) => ['id' => $c->category_id, 'name' => $c->category_name])
+            ->map(fn($c) => ['value' => $c->category_id, 'text' => $c->category_name])
             ->toArray();
-
 
         $this->subCaseCategories1 = SubCaseCategory1::where('status', 1)
             ->get(['id', 'name'])
-            ->map(fn($s1) => ['id' => $s1->id, 'name' => $s1->name])
+            ->map(fn($s1) => ['value' => $s1->id, 'text' => $s1->name])
             ->toArray();
-
 
         $this->subCaseCategories2 = SubCaseCategory2::where('status', 1)
             ->get(['id', 'name'])
-            ->map(fn($s2) => ['id' => $s2->id, 'name' => $s2->name])
+            ->map(fn($s2) => ['value' => $s2->id, 'text' => $s2->name])
             ->toArray();
-
-
     }
 
     public function save()
@@ -86,11 +85,10 @@ class CategoryMatrixCreate extends Component
         $sub1 = SubCaseCategory1::find($this->sub_case_category_1_id);
         $sub2 = SubCaseCategory2::find($this->sub_case_category_2_id);
 
-        // Auto-generate matrix name dynamically
         $parts = array_filter([
             $ministry?->name,
             $department?->name,
-            $caseCategory?->name,
+            $caseCategory?->category_name,
             $sub1?->name,
             $sub2?->name,
         ]);
@@ -111,10 +109,13 @@ class CategoryMatrixCreate extends Component
         ]);
 
         $this->toast()->success('Success', 'Category Matrix created successfully')->send();
+
         $this->reset([
             'status', 'ministry_id', 'department_id', 'case_category_id',
             'sub_case_category_1_id', 'sub_case_category_2_id'
         ]);
+
+        $this->dispatch('reset-tomselect');
         $this->dispatch('refresh-category-matrix-list');
         $this->dispatch('close-modal-create-category-matrix');
     }

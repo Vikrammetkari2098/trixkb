@@ -12,7 +12,7 @@
         :style="{ position: 'fixed', left: posX + 'px', top: posY + 'px' }"
         class="btn btn-gradient btn-primary px-5 py-10 rounded-full shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105 flex items-center gap-3 cursor-grab"
     >
-        <img src="/image/kbai.png" alt="AI" class="w-14 h-14 object-contain rounded-full border-2 border-white" />
+        <img src="{{ asset('image/kbai.png') }}" alt="AI" class="w-14 h-14 object-contain rounded-full border-2 border-white" />
         <span class="font-semibold text-lg">KB ChatBot</span>
     </button>
     <div x-show="show" x-transition:enter="transition ease-out duration-300"

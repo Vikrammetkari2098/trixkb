@@ -199,12 +199,25 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Create Wiki Modal -->
+                        <x-modal center size="6xl" x-data="{ open: false }" x-show="open" @open-modal.window="if($event.detail == 'modal-create') open = true">
+                            <div class="px-6 py-4">
+                                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Create New Wiki Article</h2>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                                    Add a new wiki article to your team documentation. Fill out the details below.
+                                </p>
 
+                                <livewire:wiki.wiki-create :team="$team" />
+                            </div>
+                        </x-modal>
                         <!-- Create New Article Card -->
-                        <div class="border-2 border-dashed border-blue-300 bg-blue-50 rounded-xl flex items-center justify-center p-4 transition-colors duration-300 hover:bg-blue-100 hover:border-blue-400 cursor-pointer h-full min-h-[120px] hover-lift">
+                       <div
+                            class="border-2 border-dashed border-blue-300 bg-blue-50 rounded-xl flex items-center justify-center p-4 transition-colors duration-300 hover:bg-blue-100 hover:border-blue-400 cursor-pointer h-full min-h-[120px] hover-lift"
+                            @click="$dispatch('open-modal', 'modal-create')"
+                        >
                             <div class="text-center">
                                 <div class="w-10 h-10 rounded-full border-2 border-blue-300 flex items-center justify-center mx-auto mb-2 bg-white">
-                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                     </svg>
                                 </div>
@@ -223,6 +236,7 @@
                         </button>
                     </div>
                 </div>
+                @livewire('dashboard.document-list')
                 <!-- Analytics and Comments -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="analyticsData()">
                     <!-- Analytics -->

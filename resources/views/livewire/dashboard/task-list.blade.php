@@ -12,13 +12,13 @@
 
         </h2>
 
-        {{-- Static badges --}}
         <div class="flex flex-wrap gap-2 text-xs font-semibold">
             <span class="badge badge-soft badge-error">This week ({{ $countThisWeek }})</span>
             <span class="badge badge-soft badge-neutral">Today ({{ $countToday }})</span>
             <span class="badge badge-soft badge-error">Overdue ({{ $countOverdue }})</span>
             <span class="badge badge-soft badge-neutral">Snoozed ({{ $countSnoozed }})</span>
         </div>
+
 
     </div>
 

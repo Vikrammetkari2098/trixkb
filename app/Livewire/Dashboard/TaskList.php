@@ -22,22 +22,36 @@ class TaskList extends Component
         'in-progress'      => 2,
         'pending-review'   => 3,
     ];
-
-    // Counters
     public $countThisWeek = 0;
     public $countToday = 0;
     public $countOverdue = 0;
     public $countSnoozed = 0;
-    public function updatingActiveWorkflowTab() { $this->resetPage(); }
-    public function updatingSearch() { $this->resetPage(); }
-    public function updatingAssignedFilter() { $this->resetPage(); }
-    public function updatingStatusFilter() { $this->resetPage(); }
+
+    public function updatingActiveWorkflowTab()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingAssignedFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter()
+    {
+        $this->resetPage();
+    }
 
     public function viewAllTasks()
     {
         $this->resetPage();
-        $this->activeWorkflowTab = '';       // no tab filter
-        $this->assignedFilter = 'assigned_to_me'; // you can change if needed
+        $this->activeWorkflowTab = ''; // no tab filter
+        $this->assignedFilter = 'assigned_to_me';
         $this->search = '';
     }
 
@@ -45,12 +59,14 @@ class TaskList extends Component
     {
         $query = Task::query();
 
+        // Assigned filter
         if ($this->assignedFilter === 'assigned_to_me') {
             $query->where('assigned_to', Auth::id());
         } else {
             $query->where('created_by', Auth::id());
         }
 
+        // Status filter
         if ($this->activeWorkflowTab && isset($this->statusMap[$this->activeWorkflowTab])) {
             $query->where('status', $this->statusMap[$this->activeWorkflowTab]);
         }
@@ -66,18 +82,16 @@ class TaskList extends Component
         $today = $now->toDateString();
         $weekStart = $now->startOfWeek()->toDateString();
 
-        // Today
+        // Update component properties (reactive)
         $this->countToday = Task::whereDate('created_at', $today)->count();
-
-        // This Week
         $this->countThisWeek = Task::whereBetween('created_at', [$weekStart, $today])->count();
-
         $this->countOverdue = Task::where('end_time', '<', $now)
             ->where('status', '!=', $this->statusMap['completed'])
             ->count();
-
         $this->countSnoozed = Task::where('start_time', '>', $now)->count();
 
-        return view('livewire.dashboard.task-list', compact('tasks'));
+        return view('livewire.dashboard.task-list', [
+            'tasks' => $tasks,
+        ]);
     }
 }

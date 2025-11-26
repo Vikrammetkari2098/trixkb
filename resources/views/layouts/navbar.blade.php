@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between h-[64px] px-6 bg-[#1f2937] text-gray-100 shadow-xl border-b border-[#374151] z-50">
+<header class="flex items-center justify-between h-[64px] px-6 bg-[#09325d] text-gray-100 shadow-xl border-b border-[#374151] z-50">
     <div class="flex items-center space-x-4">
         <button type="button" class="text-gray-300 lg:hidden hover:text-white transition duration-200 p-1 -ml-1 rounded-md hover:bg-[#374151]"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="with-navbar-sidebar" data-overlay="#with-navbar-sidebar">
@@ -66,21 +66,24 @@
     </div>
 
     <div class="flex-grow max-w-2xl px-2 mx-auto hidden md:block">
-        <div class="flex items-center bg-[#374151] h-10 rounded-full px-4 shadow-inner border border-transparent focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500 transition-all duration-300">
+    <div class="flex items-center bg-[#09325d] h-10 rounded-full px-4 shadow-inner border border-gray-400
+                focus-within:border-white/90 transition-all duration-300">
 
-            <div class="flex items-center mr-3 space-x-2">
-                <i class="fas fa-search text-gray-400"></i>
+        <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
+            <i class="fas fa-search text-gray-300"></i>
 
-                <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
-                    AI
-                </span>
-            </div>
-
-            <input type="text" placeholder="Search articles, documents, or ask a question..."
-                class="bg-transparent border-none text-gray-200 text-sm w-full focus:outline-none placeholder-gray-400"
-                aria-label="AI Search">
+            <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
+                AI
+            </span>
         </div>
+
+        <input type="text" placeholder="Search articles, documents, or ask a question..."
+            class="bg-transparent border-none text-gray-100 text-sm w-full placeholder-gray-300
+                   focus:outline-none focus:ring-0 focus:border-none"
+            aria-label="AI Search">
     </div>
+</div>
+
 
     @persist('navigation-elements')
     <div class="flex items-center space-x-5">
@@ -133,7 +136,7 @@
         </div>
 
 
-       <button class="open-site-button text-gray-300 hover:text-white bg-[#374151] hover:bg-[#4b5563] font-medium h-10 px-4 rounded-lg text-sm cursor-pointer hidden lg:flex items-center space-x-2 transition duration-200">
+       <button class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300">
             <a href="https://dyn-edge.com/v5/" target="_blank" class="flex items-center space-x-2 text-inherit no-underline">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 <span>OPEN SITE</span>

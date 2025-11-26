@@ -35,7 +35,7 @@
                 <aside id="with-navbar-sidebar"
                     :class="{
                         'translate-x-0 w-64': sidebarOpen,
-                        '-translate-x-full sm:translate-x-0 w-16': !sidebarOpen
+                        '-translate-x-full sm:translate-x-0 w-24': !sidebarOpen
                     }"
                     class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg transition-[width,transform] duration-300 min-h-screen z-20">
 
@@ -44,9 +44,8 @@
                         <button @click="sidebarOpen = !sidebarOpen"
                             class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 w-full flex transition-colors duration-200"
                             :class="{ 'justify-between': sidebarOpen, 'justify-center': !sidebarOpen }">
-                            <span x-show="sidebarOpen" x-transition class="font-semibold text-[#09325d] ml-3 whitespace-nowrap">Menu</span>
-                            <i class="fas fa-chevron-right text-lg transition-transform"
-                                :class="sidebarOpen ? 'rotate-180' : 'rotate-0'"></i>
+                            <span x-show="sidebarOpen" x-transition img src="kblogo.png"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#09325d"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
                         </button>
                     </div>
                     {{-- End Toggle Button --}}

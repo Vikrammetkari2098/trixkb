@@ -223,6 +223,7 @@
                         </button>
                     </div>
                 </div>
+                @livewire('dashboard.document-list')
                 <!-- Analytics and Comments -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="analyticsData()">
                     <!-- Analytics -->

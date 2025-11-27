@@ -22,61 +22,107 @@
 
     <body id="page-top" class="bg-gray-50">
 
-        <div x-data="{ activePage: window.location.pathname, sidebarOpen: false }" x-init="
-                activePage = window.location.pathname;
-                document.addEventListener('livewire:navigated', () => { activePage = window.location.pathname; });
-            " class="flex flex-col min-h-screen">
+        <div x-data="{ activePage: window.location.pathname, sidebarOpen: false }"
+            x-init=" activePage = window.location.pathname; document.addEventListener('livewire:navigated', () => { activePage = window.location.pathname; }); "
+            class="flex flex-col min-h-screen">
 
             {{-- Top Navbar --}}
             @include('layouts.navbar')
 
             {{-- Sidebar + Main Container --}}
             <div class="flex flex-1 min-h-[calc(100vh-40px)]">
+
                 <aside id="with-navbar-sidebar"
-                    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'"
-                    class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg w-16 transition-transform duration-300 sm:translate-x-0 min-h-screen z-20">
-                    <ul class="menu p-0 space-y-2" x-data="{ activePath: window.location.pathname }">
+                    :class="{
+                        'translate-x-0 w-64': sidebarOpen,
+                        '-translate-x-full sm:translate-x-0 w-24': !sidebarOpen
+                    }"
+                    class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg transition-[width,transform] duration-300 min-h-screen z-20">
+
+                    {{-- New: Toggle Button (The "Arrow") --}}
+                    <div class="w-full px-2 mb-2">
+                        <button @click="sidebarOpen = !sidebarOpen"
+                            class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 w-full flex transition-colors duration-200"
+                            :class="{ 'justify-between': sidebarOpen, 'justify-center': !sidebarOpen }">
+                            <span x-show="sidebarOpen" x-transition img src="kblogo.png"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#09325d"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+                        </button>
+                    </div>
+                    {{-- End Toggle Button --}}
+
+                    <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
                         {{-- Dashboard --}}
-                       <li class="relative group">
+                        <li class="relative group w-full px-2">
                             <a href="{{ route('dashboard') }}"
                                 :class="activePath === '/' || activePath === '/dashboard'
                                     ? 'bg-[#09325d] text-white shadow-md'
                                     : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all relative">
-                                <i class="fas fa-home text-lg"></i>
-                                <span
+                                class="flex items-center w-full h-12 rounded-xl transition-all relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-home text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath === '/' || activePath === '/dashboard' ? 'text-white' : 'text-gray-700'">
+                                    Dashboard
+                                </span>
+                                {{-- Tooltip (only for collapsed state) --}}
+                                <span x-show="!sidebarOpen"
                                     class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Dashboard
                                 </span>
                             </a>
                         </li>
                         {{-- Docs --}}
-                        <li class="relative group">
+                        <li class="relative group w-full px-2">
                             <a href="{{ route('docs') }}"
                                 :class="activePath.includes('/docs')
                                     ? 'bg-[#09325d] text-white shadow-md'
                                     : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all relative">
-                                <i class="fas fa-book text-lg"></i>
-                                <!-- Tooltip -->
-                                <span
+                                class="flex items-center w-full h-12 rounded-xl transition-all relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-book text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/docs') ? 'text-white' : 'text-gray-700'">
+                                    Docs
+                                </span>
+                                <span x-show="!sidebarOpen"
                                     class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Docs
                                 </span>
                             </a>
                         </li>
 
-                        <!-- Roles -->
-                        <li class="relative group">
+                        <li class="relative group w-full px-2">
                             <a href="{{ route('roles') }}"
                                 :class="activePath.includes('/roles')
                                     ? 'bg-[#09325d] text-white shadow-md'
                                     : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all relative">
-                                <i class="fas fa-users text-lg"></i>
-                                <!-- Tooltip -->
-                                <span
+                                class="flex items-center w-full h-12 rounded-xl transition-all relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-users text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/roles') ? 'text-white' : 'text-gray-700'">
+                                    Roles
+                                </span>
+                                <span x-show="!sidebarOpen"
                                     class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Roles
                                 </span>
@@ -85,16 +131,24 @@
 
                         {{-- Members with Dropdown --}}
                         <li x-data="{ open: false, timeout: null }"
-                            @mouseover.away="timeout = setTimeout(() => { open = false }, 150)" class="relative z-50">
+                            @mouseover.away="timeout = setTimeout(() => { open = false }, 150)" class="relative z-50 w-full px-2">
 
                             <button
                                 @mouseenter="clearTimeout(timeout); open = true"
                                 @click="activePath = '/members'; window.location.href = '{{ route('members') }}';"
                                 :class="open || activePath.includes('/members') ? 'bg-[#09325d] text-white shadow-lg' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'"
-                                class="sidebar-item transition-all w-12 h-12 flex items-center justify-center rounded-xl cursor-pointer relative focus:outline-none group"
+                                class="sidebar-item transition-all w-full h-12 flex items-center rounded-xl cursor-pointer relative focus:outline-none group"
                                 aria-expanded="open ? 'true' : 'false'" aria-controls="members-popup">
-                                <i class="fas fa-user text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Members</span>
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-user text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="open || activePath.includes('/members') ? 'text-white' : 'text-gray-700'">
+                                    Members
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Members</span>
                             </button>
 
                             <div x-cloak x-show="open"
@@ -133,157 +187,337 @@
                         </li>
 
                         {{-- Projects --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('projects.show') }}"
                                 :class="activePath.includes('/projects') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-briefcase text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Projects</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-briefcase text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/projects') ? 'text-white' : 'text-gray-700'">
+                                    Projects
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Projects</span>
                             </a>
                         </li>
 
                         {{-- Meetings --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('meetings') }}"
                                 :class="activePath.includes('/meetings') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-calendar-alt text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Meetings</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-calendar-alt text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/meetings') ? 'text-white' : 'text-gray-700'">
+                                    Meetings
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Meetings</span>
                             </a>
                         </li>
 
                         {{-- My Tasks --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('tasks') }}"
                                 :class="activePath.includes('/tasks') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-clipboard-list text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">My Tasks</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-clipboard-list text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/tasks') ? 'text-white' : 'text-gray-700'">
+                                    My Tasks
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">My Tasks</span>
                             </a>
                         </li>
 
                         {{-- Teams --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('teams') }}"
                                 :class="activePath.includes('/teams') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-users-cog text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Teams</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-users-cog text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/teams') ? 'text-white' : 'text-gray-700'">
+                                    Teams
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Teams</span>
                             </a>
                         </li>
 
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('spaces.index') }}"
                                 :class="activePath.includes('/spaces') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-th text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Spaces</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-th text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/spaces') ? 'text-white' : 'text-gray-700'">
+                                    Spaces
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Spaces</span>
                             </a>
                         </li>
 
                         {{-- Matrix --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.matrix') }}"
                                 :class="activePath.includes('/organisation/matrix') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-table text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Matrix</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-table text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/organisation/matrix') ? 'text-white' : 'text-gray-700'">
+                                    Matrix
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Matrix</span>
                             </a>
                         </li>
 
                         {{-- All Article (Wikies) --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.wikies', ['team' => $team->slug, 'user' => Auth::user()->slug]) }}"
                                 :class="activePath.includes('/wikies') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-book-open text-lg"></i> {{-- Changed icon for distinction from Docs --}}
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Article</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-book-open text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/wikies') ? 'text-white' : 'text-gray-700'">
+                                    All Article
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Article</span>
                             </a>
                         </li>
 
 
                         {{-- All Directory --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.directory', ['team' => $team->slug, 'user' => Auth::user()->slug]) }}"
                                 :class="activePath.includes('/directory') && !activePath.includes('/directoryUpload') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-folder-open text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Directory</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-folder-open text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/directory') && !activePath.includes('/directoryUpload') ? 'text-white' : 'text-gray-700'">
+                                    All Directory
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Directory</span>
                             </a>
                         </li>
 
                         {{-- All Resolution (Tickets) --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.tickets', ['team' => $team->slug, 'user' => Auth::user()->slug]) }}"
                                 :class="activePath.includes('/tickets') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-check-circle text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Resolution</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-check-circle text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/tickets') ? 'text-white' : 'text-gray-700'">
+                                    All Resolution
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All Resolution</span>
                             </a>
                         </li>
 
 
                         {{-- All ChatBot --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.chatbot', [$team->slug, Auth::user()->slug]) }}"
                                 :class="activePath.includes('/chatbot') && !activePath.includes('/chatbotUpload') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-robot text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All ChatBot</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-robot text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/chatbot') && !activePath.includes('/chatbotUpload') ? 'text-white' : 'text-gray-700'">
+                                    All ChatBot
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">All ChatBot</span>
                             </a>
                         </li>
 
                         {{-- Nota PKP --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.notaPKP', [$team->slug, Auth::user()->slug]) }}"
                                 :class="activePath.includes('/notaPKP') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-sticky-note text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Nota PKP</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-sticky-note text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/notaPKP') ? 'text-white' : 'text-gray-700'">
+                                    Nota PKP
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Nota PKP</span>
                             </a>
                         </li>
 
                         {{-- Directory Upload --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.directoryUpload', [$team->slug, Auth::user()->slug]) }}"
                                 :class="(activePath.includes('/directoryUpload') || activePath.includes('/upload'))
                                     ? 'bg-[#09325d] text-white shadow-md'
                                     : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-folder text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-folder text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="(activePath.includes('/directoryUpload') || activePath.includes('/upload')) ? 'text-white' : 'text-gray-700'">
+                                    Directory Upload
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Directory Upload
                                 </span>
                             </a>
                         </li>
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('users.chatbotUpload', [$team->slug, Auth::user()->slug]) }}"
                                 :class="activePath.includes('/chatbotUpload') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-robot text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Chatbot Upload</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-robot text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/chatbotUpload') ? 'text-white' : 'text-gray-700'">
+                                    Chatbot Upload
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Chatbot Upload</span>
                             </a>
                         </li>
 
                         {{-- Reporting (role check) --}}
                         @if (auth()->user()->current_role_id != App\Helpers\GeneralHelper::userInternalPKPAgent() && auth()->user()->current_role_id != App\Helpers\GeneralHelper::userExternalPKPAgent())
-                            <li>
+                            <li class="w-full px-2">
                                 <a href="{{ route('reports.reportings', [$team->slug, Auth::user()->slug]) }}"
                                     :class="activePath.includes('/reportings') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                    class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                    <i class="fas fa-file-alt text-lg"></i>
-                                    <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Reporting</span>
+                                    class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                    <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                        <i class="fas fa-file-alt text-lg"></i>
+                                    </div>
+                                    <span x-show="sidebarOpen"
+                                        x-transition:enter="transition ease-out duration-100 delay-50"
+                                        x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                        x-transition:enter-end="opacity-100 translate-x-0"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        class="ml-2 font-medium whitespace-nowrap"
+                                        :class="activePath.includes('/reportings') ? 'text-white' : 'text-gray-700'">
+                                        Reporting
+                                    </span>
+                                    <span x-show="!sidebarOpen"
+                                        class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Reporting</span>
                                 </a>
                             </li>
                         @endif
 
                         {{-- Administrative --}}
-                        <li>
+                        <li class="w-full px-2">
                             <a href="{{ route('ministry.index', $team->slug) }}"
                                 :class="activePath.includes('/ministry') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center justify-center w-12 h-12 rounded-xl transition-all group relative">
-                                <i class="fas fa-sitemap text-lg"></i>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Administrative</span>
+                                class="flex items-center w-full h-12 rounded-xl transition-all group relative">
+                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                                    <i class="fas fa-sitemap text-lg"></i>
+                                </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/ministry') ? 'text-white' : 'text-gray-700'">
+                                    Administrative
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Administrative</span>
                             </a>
                         </li>
                     </ul>

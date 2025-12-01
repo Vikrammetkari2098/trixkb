@@ -28,20 +28,21 @@
             {{-- Top Navbar --}}
             @include('layouts.navbar')
 
-            {{-- Sidebar + Main Container --}}
             <div class="flex flex-1 min-h-[calc(100vh-40px)]">
-
                <aside id="with-navbar-sidebar"
-                        class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg min-h-screen z-20 -translate-x-full sm:translate-x-0 w-24">
+                    class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg min-h-screen z-20 -translate-x-full sm:translate-x-0 w-24">
                     <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
-                        {{-- Dashboard --}}
-                        <li class="relative group w-full px-2">
+                        <li class="relative group w-full px-2" x-data="{ open: false, timeout: null }"
+                            @mouseenter="clearTimeout(timeout); open = true"
+                            @mouseleave="timeout = setTimeout(() => open = false, 200)">
+
                             <a href="{{ route('dashboard') }}"
-                                :class="activePath === '/' || activePath === '/dashboard'
+                            :class="activePath === '/' || activePath === '/dashboard'
                                         ? 'bg-gray-100 text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                                class="flex items-center w-full h-12 rounded-xl transition-all relative">
+                            class="flex items-center w-full h-12 rounded-xl transition-all relative">
+
                                 <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                                     <i class="fas fa-home text-lg"
                                     :class="activePath === '/' || activePath === '/dashboard'
@@ -49,13 +50,58 @@
                                                 : 'text-gray-500 group-hover:text-gray-800'">
                                     </i>
                                 </div>
-                                <span style="display: none;"
-                                    class="ml-2 font-medium whitespace-nowrap"
+
+                                <span style="display: none;" class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath === '/' || activePath === '/dashboard' ? 'text-white' : 'text-gray-700'">
                                     Dashboard
                                 </span>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200 z-50 top-1/2 -translate-y-1/2">Dashboard</span>
                             </a>
+
+                            <div x-show="open"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 transform -translate-y-2"
+                                x-transition:enter-end="opacity-100 transform translate-y-0"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 transform translate-y-0"
+                                x-transition:leave-end="opacity-0 transform -translate-y-2"
+                                class="absolute left-full top-0 ml-0 w-40 bg-white rounded-lg z-30 py-2 pointer-events-auto">
+
+                                <div class="w-40 bg-white rounded-lg shadow-xl py-2">
+                                    <div class="px-4 py-2 text-xs font-semibold uppercase text-gray-500 border-b">
+                                        HOME
+                                    </div>
+                                    <ul class="space-y-1">
+                                        <li class="hover:bg-gray-100">
+                                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                                                <i class="fas fa-th-large mr-3"></i> Overview
+                                            </a>
+                                        </li>
+                                        <li class="hover:bg-gray-100">
+                                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                                                <i class="fas fa-check-square mr-3"></i> Tasks
+                                            </a>
+                                        </li>
+                                        <li class="hover:bg-gray-100">
+                                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                                                <i class="fas fa-clock mr-3"></i> Recent
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <hr class="my-1 border-gray-200">
+                                    <ul class="space-y-1">
+                                        <li class="hover:bg-gray-100">
+                                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                                                <i class="fas fa-star mr-3"></i> Starred
+                                            </a>
+                                        </li>
+                                        <li class="hover:bg-gray-100">
+                                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                                                <i class="fas fa-trash-alt mr-3"></i> Recycle bin
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
 
                        {{-- Docs --}}
@@ -73,7 +119,7 @@
                                     </i>
                                 </div>
                                 <span style="display: none;"class="ml-2 font-medium whitespace-nowrap" :class="activePath.includes('/docs') ? 'text-white' : 'text-gray-700'"> Docs </span>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Docs</span>
+                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">Documentation</span>
                             </a>
                         </li>
                         {{-- Interactive Decision Tree --}}

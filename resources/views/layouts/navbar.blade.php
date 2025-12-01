@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between h-[64px] px-6 bg-[#09325d] text-gray-100 shadow-xl border-b border-[#374151] z-50">
+<header class="flex items-center justify-between h-[45px] px-6 bg-[#18181b] text-gray-100 shadow-xl border-b border-[#374151] z-50">
     <div class="flex items-center space-x-4">
         <button type="button" class="text-gray-300 lg:hidden hover:text-white transition duration-200 p-1 -ml-1 rounded-md hover:bg-[#374151]"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="with-navbar-sidebar" data-overlay="#with-navbar-sidebar">
@@ -21,7 +21,7 @@
                     <span class="flag-icon flag-icon-us rounded-md" style="border-radius: 4px;"></span>
                 </span>
 
-                <span class="font-medium text-gray-300 group-hover:text-white transition">v1</span>
+               <span class="font-bold text-white group-hover:text-white">All Workspace</span>
 
                 <i class="fas fa-chevron-down text-gray-500 text-xs ml-1 transition dropdown-open:rotate-180"></i>
             </button>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="flex-grow max-w-2xl px-2 mx-auto hidden md:block">
-    <div class="flex items-center bg-[#09325d] h-10 rounded-full px-4 shadow-inner border border-gray-400
+    <div class="flex items-center bg-[#3e3e46] h-10 rounded-full px-4 shadow-inner border border-gray-400
                 focus-within:border-white/90 transition-all duration-300">
 
         <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
@@ -77,7 +77,7 @@
             </span>
         </div>
 
-        <input type="text" placeholder="Search articles, documents, or ask a question..."
+        <input type="text" placeholder="Search"
             class="bg-transparent border-none text-gray-100 text-sm w-full placeholder-gray-300
                    focus:outline-none focus:ring-0 focus:border-none"
             aria-label="AI Search">

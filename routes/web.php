@@ -101,3 +101,5 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::get('/forgot-password', function () {
     return view('forgot-password');
 })->name('password.request');
+
+Route::get('/feedback', [FeedbackManagerController::class, 'index'])->name('feedback.index');

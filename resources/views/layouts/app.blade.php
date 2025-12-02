@@ -173,28 +173,68 @@
                         </li>
 
                         {{-- Feedback Manager --}}
-                        <li class="relative group w-full px-2">
-                            <a href="{{ route('feedback.manager') }}"
-                            :class="activePath.includes('/feedback')
-                                        ? 'bg-gray-100 text-white shadow-md'
-                                        : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
-                            class="flex items-center w-full h-12 rounded-xl transition-all relative">
-                                <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                                    <i class="fas fa-comment-dots text-lg"
-                                    :class="activePath.includes('/feedback')
-                                                ? 'text-blue-600'
-                                                : 'text-gray-500 group-hover:text-gray-800'"></i>
-                                </div>
-                                <span style="display:none"
-                                    class="ml-2 font-medium whitespace-nowrap"
-                                    :class="activePath.includes('/feedback') ? 'text-white' : 'text-gray-700'">
-                                    Feedback Manager
-                                </span>
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0
-                                    group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200 z-50
-                                    top-1/2 -translate-y-1/2">Feedback Manager</span>
-                            </a>
-                        </li>
+     <li class="relative w-full px-2"
+    x-data="{ openFM: false, timeoutId: null }"
+     @mouseenter="
+        clearTimeout(timeoutId);
+        openFM = true;
+    " @mouseleave="
+        timeoutId = setTimeout(() => {
+            openFM = false;}, 250);  "
+>
+
+    <a href="{{ route('feedback.manager') }}"
+        :class="activePath.includes('/feedback')
+                ? 'bg-white text-gray-700 shadow-md'
+                : 'text-gray-500 hover:text-gray-800 hover:bg-white'" 
+        class="flex items-center w-full h-12 rounded-xl transition-all relative group">
+
+        <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+             <i class="fas fa-comment-dots text-lg"
+               :class="activePath.includes('/feedback')
+                       ? 'text-blue-600'
+                       : 'text-gray-500 group-hover:text-gray-800'"></i>
+        </div>
+
+        <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0
+            group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200 z-50
+            top-1/2 -translate-y-1/2">Feedback Manager</span>
+    </a>
+
+    <div x-show.immediate="openFM"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 transform -translate-y-2"
+        x-transition:enter-end="opacity-100 transform translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 transform translate-y-0"
+        x-transition:leave-end="opacity-0 transform -translate-y-2"
+        
+        @mouseenter="clearTimeout(timeoutId)" 
+        @mouseleave="
+            timeoutId = setTimeout(() => {
+                openFM = false }, 50);  "
+        
+ class="absolute left-full top-0 -ml-1 w-40 bg-white rounded-lg z-50 py-2 shadow-xl">
+
+     <div class="w-40 bg-white rounded-lg shadow-xl py-2">
+     <div class="px-4 py-2 text-xs font-semibold uppercase text-gray-500 border-b">
+                FEEDBACK MANAGER
+     </div>
+            <ul class="space-y-1">
+                  <li class="rounded-lg hover:bg-white"> 
+                    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                        <i class="fas fa-newspaper mr-3"></i> Articles
+                    </a>
+                </li>
+                <li class="rounded-lg hover:bg-white">
+                    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700">
+                        <i class="fas fa-robot mr-3"></i> Eddy AI
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
 
                         {{-- Analytics --}}
                         <li class="relative group w-full px-2">

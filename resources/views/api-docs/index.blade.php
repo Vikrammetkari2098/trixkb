@@ -200,7 +200,7 @@
                 </div>
 
                 <div x-data="{ portalOpen: false }" class="space-y-1">
-                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>KNOWLEDGE BASE PORTAL</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': portalOpen}"></i>
                     </button>
@@ -244,7 +244,7 @@
                 </div>
                 
                 <div x-data="{ kbSiteOpen: true }" class="space-y-1 mt-2">
-                    <button @click="kbSiteOpen = !kbSiteOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="kbSiteOpen = !kbSiteOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>KNOWLEDGE BASE SITE</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': kbSiteOpen}"></i>
                     </button>
@@ -294,7 +294,7 @@
                 </div>
 
                 <div x-data="{ portalOpen: false }" class="space-y-1 mt-2">
-                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>USERS & SECURITY</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': portalOpen}"></i>
                     </button>
@@ -339,7 +339,7 @@
                 </div>
 
                 <div x-data="{ portalOpen: false }" class="space-y-1 mt-2">
-                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="portalOpen = !portalOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>AI FEATURES</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': portalOpen}"></i>
                     </button>
@@ -377,7 +377,7 @@
                 <div class="my-4 border-t border-gray-200"></div>
 
                 <div x-data="{ documentationopen: true }" class="space-y-1">
-                    <button @click="documentationopen = !documentationopen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="documentationopen = !documentationopen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>DOCUMENTATION</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': documentationopen}"></i>
                     </button>
@@ -409,7 +409,7 @@
                 </div>
 
                 <div x-data="{ contentReuseOpen: false }" class="space-y-1 mt-2">
-                    <button @click="contentReuseOpen = !contentReuseOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="contentReuseOpen = !contentReuseOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>CONTENT REUSE</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': contentReuseOpen}"></i>
                     </button>
@@ -434,7 +434,7 @@
                 </div>
 
                 <div x-data="{ importExportOpen: false }" class="space-y-1 mt-2">
-                    <button @click="importExportOpen = !importExportOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 hover:bg-gray-100 rounded-md transition duration-150">
+                    <button @click="importExportOpen = !importExportOpen" class="w-full flex items-center justify-between p-2 text-xs font-semibold uppercase text-gray-700 bg-gray-100 rounded-md transition duration-150">
                         <span>IMPORT AND EXPORT</span>
                         <i class="fa-solid fa-caret-down w-3 h-3 text-gray-500 transition-transform duration-200" :class="{'rotate-180': importExportOpen}"></i>
                     </button>
@@ -457,7 +457,7 @@
                 <div class="space-y-1 mt-2 mb-4">
                     <a href="#" @click.prevent="contentToolState = 'custom-pages'" 
                         :class="{'bg-purple-100 text-purple-700': contentToolState === 'custom-pages'}" 
-                        class="flex items-center space-x-2 p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                        class="flex items-center space-x-2 p-2 text-sm text-gray-700 bg-gray-100 rounded-md">
                         <i class="fa-regular fa-file-lines w-4 h-4" 
                             :class="{'text-purple-600': contentToolState === 'custom-pages', 'text-gray-500': contentToolState !== 'custom-pages'}"></i>
                         <span>Custom pages</span>
@@ -470,6 +470,7 @@
     
     
     <main class="flex-1 flex flex-col items-center justify-center text-center overflow-y-auto h-full">
+                   <!-- API Main page -->
         <div x-show="menuState === 'default'" 
          class="w-full h-full flex flex-col items-center justify-center p-8">
 
@@ -489,6 +490,7 @@
             new API
         </button>
     </div>
+                    <!-- Custom Pages -->
         <div x-show="menuState === 'content-tools' && contentToolState === 'custom-pages'" 
          class="w-full h-full flex flex-col items-center justify-center p-8">
         
@@ -510,42 +512,43 @@
             Create page
         </button>
     </div>
-
+                  <!-- Find & replece Page -->
         <div x-show="menuState === 'content-tools' && contentToolState === 'find-and-replace'" 
      class="w-full h-full flex flex-col items-center justify-start p-8 overflow-y-auto bg-white">
     
-    <div class="w-full max-w-4xl flex justify-between items-start mb-6 pt-4">
+    <div class="w-full flex justify-between items-start mb-6 pt-4">
         <div class="text-left">
             <h2 class="text-xl md:text-2xl font-semibold text-gray-800 flex items-center mb-1 mr-2">
                 Find and replace&nbsp; 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" /></svg>  
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" /></svg> 
             </h2>
             <p class="text-sm text-gray-500">
                 Find article content and replace with desired text across all versions and languages.
             </p>
         </div>
         
-        <button class="flex items- space-x-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150">
-           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" /></svg>
+        <button class="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" /></svg>
             <span>Filter</span>
         </button>
     </div>
     
-    <div class="w-full max-w-4xl mb-10">
+    <div class="w-full mb-10">
         <div class="flex flex-wrap items-center gap-4">
             
-            <div class="flex items-center space-x-2 flex-1 min-w-[300px] sm:min-w-[180px]">
+            <div class="flex items-center space-x-2 w-100">
                 <label for="find-text" class="text-sm font-medium text-gray-700 whitespace-nowrap">Find</label>
-                <input type="text" id="find-text" placeholder="Enter search text"**
+                <input type="text" id="find-text" placeholder="Enter search text"
                        class="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-purple-500 focus:border-purple-500">
             </div>
             
-            <div class="flex items-center space-x-2 flex-1 min-w-[350px] sm:min-w-[180px]">
+            <div class="flex items-center space-x-2 w-110">
                 <label for="replace-text" class="text-sm font-medium text-gray-700 whitespace-nowrap">Replace with</label>
-                <input type="text" id="replace-text" placeholder="Enter replace text"**
+                <input type="text" id="replace-text" placeholder="Enter replace text"
                        class="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-purple-500 focus:border-purple-500">
             </div>
+            
             <button class="px-6 py-2.5 text-sm font-medium text-white bg-purple-600 rounded-md shadow-md hover:bg-purple-700 transition duration-150 h-10">
                 Replace
             </button>
@@ -562,7 +565,7 @@
     <div class="w-full max-w-4xl flex flex-col items-center justify-center pt-8">
         
         <div class="mb-6 w-80 h-auto mx-auto">
-            <img src="{{ asset('image/apiimage3.png') }}" alt="API Documentation Illustration" class="mx-auto max-w-full h-auto">
+             <img src="{{ asset('image/apiimage3.png') }}" alt="Find and Replace Illustration" class="mx-auto max-w-full h-auto">
         </div>
 
         <h3 class="text-xl font-semibold text-gray-800 mt-4">
@@ -573,6 +576,7 @@
         </p>
     </div>
 </div>
+             <!-- Customize Page -->
 <div x-show="menuState === 'site-builder' && siteBuilderState === 'customize-site'" 
      x-transition:enter.duration.500ms 
      x-transition:leave.duration.300ms
@@ -894,6 +898,7 @@
         </div>
     </div>
 </div>
+                     <!-- New Page Create -->
     </main>
 
 </div>

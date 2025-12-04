@@ -32,3 +32,4 @@ module.exports = {
     // Add other plugins here as needed
   ],
 }
+

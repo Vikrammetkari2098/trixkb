@@ -580,16 +580,17 @@
 <div x-show="menuState === 'site-builder' && siteBuilderState === 'customize-site'"
      x-transition:enter.duration.500ms
      x-transition:leave.duration.300ms
-     class="w-full h-full flex flex-col items-center justify-start p-8 overflow-y-auto bg-gray-50">
+     class="w-full h-full flex flex-col items-start p-6 justify-start overflow-y-auto bg-gray-50">
 
-    <div class="w-full max-w-7xl bg-white p-6 shadow-md rounded-lg mb-4 sticky top-0 z-10">
-        <div class="flex justify-between items-center pb-4 mb-4">
+            <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 rounded-lg mb-4 flex justify-between items-center">      
             <h2 class="text-2xl font-semibold text-gray-800">Customize site</h2>
             <div class="space-x-2">
-                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150">
+                <button
+                    class="btn btn-outline btn-primary waves waves-primary">
                     Cancel
                 </button>
-                <button class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 transition duration-150">
+                <button
+                    class="btn btn-primary">
                     Save
                 </button>
             </div>
@@ -605,7 +606,7 @@
                 <p class="text-sm text-gray-600 mb-4 max-w-4xl text-left">Personalize your website by incorporating branding elements, header and footer sections, homepage, login page, and error pages all in one central location.</p>
 
                 <div class="flex space-x-4">
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 transition duration-150 flex items-center space-x-2">
+                    <button class="btn btn-primary">
                         <i class="fa-solid fa-pen"></i>
                         <span>Customize site</span>
                     </button>
@@ -643,9 +644,9 @@
         </div>
 
         <div class="border-b border-gray-300 pb-6">
-    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-left">Branding</h3>
+     <h3 class="text-xl font-semibold text-gray-800 mb-4 text-left">Branding</h3>
 
-    <div class="flex flex-col space-y-4 mb-8">
+     <div class="flex flex-col space-y-4 mb-8">
 
         <div class="flex justify-start">
 
@@ -885,18 +886,8 @@
     </div>
 </div>
 
-    </div>
-
-    <div class="w-full max-w-7xl flex justify-end p-6 mt-6 bg-white shadow-md rounded-lg">
-        <div class="space-x-2">
-            <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150">
-                Cancel
-            </button>
-            <button class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 transition duration-150">
-                Save
-            </button>
-        </div>
-    </div>
+</div>
+    
 </div>
                      <!-- New Page Create -->
     </main>

@@ -290,7 +290,7 @@
                                     <div x-show="nestedSecurityOpen"
                                          x-transition
                                          x-cloak
-                                         class="absolute left-full top-0 ml-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                                         class="absolute left-0 top-full ml-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
                                         <a class="flex items-start gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                                             <span class="icon-[tabler--lock] text-gray-400 size-5"></span>
                                             <span>

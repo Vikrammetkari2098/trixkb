@@ -489,7 +489,7 @@
                                     <div x-show="headerSecurityOpen"
                                          x-transition
                                          x-cloak
-                                         class="absolute left-full top-0 ml-1 w-72 bg-white border border-gray-200 shadow-lg rounded-lg p-3 z-50">
+                                         class="absolute left-0 top-full ml-1 w-72 bg-white border border-gray-200 shadow-lg rounded-lg p-3 z-50">
                                         <div class="p-3 rounded-lg hover:bg-gray-100 cursor-pointer">
                                             <div class="flex items-start gap-3">
                                                 <span class="icon-[tabler--lock] size-5 text-gray-500 mt-1"></span>

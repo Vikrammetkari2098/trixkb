@@ -60,11 +60,24 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                            <i class="fas fa-home text-lg"
-                               :class="activePath === '/' || activePath === '/dashboard'
-                                            ? 'text-blue-600'
-                                            : 'text-gray-500 group-hover:text-gray-800'">
-                            </i>
+                            <svg viewBox="-0.5 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                fill="currentColor" 
+                                :class="activePath === '/' || activePath === '/dashboard'
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
+                                        <g id="ui-gambling-website-lined-icnos-casinoshunter" transform="translate(-83.000000, -153.000000)" fill="currentColor" fill-rule="nonzero"> 
+                                            <g id="square-filled" transform="translate(50.000000, 120.000000)"> 
+                                                <path d="M35.0026185,49.8218969 C33.8966028,49.8218969 33,48.9673526 33,47.9132188 C33,47.386939 33.2279956,46.884013 33.6300945,46.5233194 L48.1274731,33.5187787 C48.8985814,32.8270738 50.1014129,32.8270738 50.8725211,33.5187787 L65.3698998,46.5233194 C66.1753004,47.2457855 66.2137066,48.4537391 65.4556825,49.2213594 C65.0772365,49.6045963 64.5495577,49.8218969 63.9973758,49.8218969 L63.5183266,49.8218969 L63.5183266,63.1826438 C63.5183266,65.2909114 61.7251209,67 59.5130896,67 L55.5039249,67 C53.8470706,67 52.5039249,65.6568542 52.5039249,64 L52.5039249,57.4566094 L52.5039249,57.4566094 C52.5039249,56.4443825 51.6743634,55.6094251 50.6488932,55.5523934 L50.5013064,55.5479313 L48.4986879,55.5479313 C47.4366417,55.5479313 46.5605898,56.3385791 46.5007511,57.3159457 L46.4960694,57.4566094 L46.4960694,64 C46.4960694,65.6568542 45.1529236,67 43.4960694,67 L39.4869047,67 L39.4869047,67 C37.2748734,67 35.4816677,65.2909114 35.4816677,63.1826438 L35.4816677,49.8218969 L35.0026185,49.8218969 Z M56.1065434,65.0913219 L59.5130896,65.0913219 L59.5130896,65.0913219 C60.6191052,65.0913219 61.5157081,64.2367776 61.5157081,63.1826438 L61.5157081,48.1132188 C61.5157081,48.0027618 61.6052511,47.9132188 61.7157081,47.9132188 L63.4748998,47.9132188 C63.5853567,47.9132188 63.6748998,47.8236757 63.6748998,47.7132188 C63.6748998,47.6564068 63.6507384,47.6022757 63.608448,47.5643401 L50.1677383,35.50766 C49.787807,35.1668514 49.2121872,35.1668514 48.832256,35.50766 L35.3915462,47.5643401 C35.3093228,47.6380967 35.3024591,47.7645436 35.3762158,47.846767 C35.4141514,47.8890574 35.4682825,47.9132188 35.5250945,47.9132188 L37.2842862,47.9132188 C37.3947431,47.9132188 37.4842862,48.0027618 37.4842862,48.1132188 L37.4842862,63.1826438 L37.4842862,63.1826438 C37.4842862,64.2367776 38.380889,65.0913219 39.4869047,65.0913219 L42.8934971,65.0913219 C43.7771225,65.0912443 44.4934543,64.3749472 44.4935747,63.4913219 L44.4938685,57.4290491 L44.4938685,57.4290491 L44.5002268,57.2331823 C44.6226127,55.2200264 46.3741379,53.6392531 48.4986879,53.6392531 L50.5302231,53.6396512 L50.73573,53.6457112 C52.8479684,53.7623562 54.5065434,55.4317194 54.5065434,57.4566094 L54.5065434,63.4913219 C54.5065434,64.3749775 55.2228878,65.0913219 56.1065434,65.0913219 Z" id="home"> </path> 
+                                            </g> 
+                                        </g> 
+                                    </g> 
+                                </g>
+                            </svg>
                         </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
@@ -127,13 +140,19 @@
                                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-book text-lg"
-                               :class="activePath.includes('/docs')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                        <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                :class="activePath.includes('/docs')
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6.1519V19.3095C3.99197 18.8639 5.40415 18.4 7 18.4C8.58915 18.4 9.9999 18.8602 11 19.3094V6.1519C10.7827 6.02653 10.4894 5.8706 10.1366 5.71427C9.31147 5.34869 8.20352 5 7 5C5.26385 5 3.74016 5.72499 3 6.1519ZM13 6.1519V19.3578C13.9977 18.9353 15.41 18.5 17 18.5C18.596 18.5 20.0095 18.9383 21 19.3578V6.1519C20.2598 5.72499 18.7362 5 17 5C15.7965 5 14.6885 5.34869 13.8634 5.71427C13.5106 5.8706 13.2173 6.02653 13 6.1519ZM12 4.41985C11.7302 4.26422 11.3734 4.07477 10.9468 3.88572C9.96631 3.45131 8.57426 3 7 3C4.69187 3 2.76233 3.97065 1.92377 4.46427C1.30779 4.82687 1 5.47706 1 6.11223V20.0239C1 20.6482 1.36945 21.1206 1.79531 21.3588C2.21653 21.5943 2.78587 21.6568 3.30241 21.3855C4.12462 20.9535 5.48348 20.4 7 20.4C8.90549 20.4 10.5523 21.273 11.1848 21.6619C11.6757 21.9637 12.2968 21.9725 12.7959 21.6853C13.4311 21.32 15.0831 20.5 17 20.5C18.5413 20.5 19.9168 21.0305 20.7371 21.4366C21.6885 21.9075 23 21.2807 23 20.0593V6.11223C23 5.47706 22.6922 4.82687 22.0762 4.46427C21.2377 3.97065 19.3081 3 17 3C15.4257 3 14.0337 3.45131 13.0532 3.88572C12.6266 4.07477 12.2698 4.26422 12 4.41985Z" fill="currentColor"></path> 
+                                </g>
+                            </svg>
                         </div>
-
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
                               :class="activePath.includes('/docs') ? 'text-white' : 'text-gray-700'">
                             Docs
@@ -155,11 +174,19 @@
                                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-project-diagram text-lg"
-                               :class="activePath.includes('/decision-tree')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                        <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                            <svg fill="currentColor" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" 
+                                :class="activePath.includes('/decision-tree')
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <title>share-nodes</title> 
+                                    <path d="M26 20.75c-1.594 0.006-3.019 0.726-3.972 1.856l-0.006 0.008-10.91-5.455c0.088-0.348 0.139-0.747 0.139-1.159s-0.050-0.811-0.146-1.193l0.007 0.034 10.911-5.455c0.963 1.109 2.374 1.806 3.949 1.806 2.883 0 5.221-2.338 5.221-5.221s-2.337-5.221-5.221-5.221c-2.883 0-5.221 2.337-5.221 5.221 0 0.010 0 0.020 0 0.031v-0.002c0.003 0.412 0.053 0.811 0.146 1.194l-0.007-0.036-10.911 5.455c-0.969-1.143-2.406-1.864-4.012-1.864-2.9 0-5.25 2.351-5.25 5.25s2.351 5.25 5.25 5.25c1.606 0 3.043-0.721 4.006-1.857l0.006-0.008 10.911 5.455c-0.082 0.347-0.129 0.745-0.129 1.154 0 2.897 2.348 5.245 5.245 5.245s5.245-2.348 5.245-5.245c0-2.897-2.348-5.245-5.245-5.245-0.002 0-0.004 0-0.005 0h0zM26 3.25c1.519 0 2.75 1.231 2.75 2.75s-1.231 2.75-2.75 2.75c-1.519 0-2.75-1.231-2.75-2.75v0c0.002-1.518 1.232-2.748 2.75-2.75h0zM6 18.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0zM26 28.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0z"></path> 
+                                </g>
+                            </svg>
                         </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
@@ -185,11 +212,19 @@
                                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-code text-lg"
-                               :class="activePath.includes('/api-docs')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                       <div class="flex justify-center items-center w-12 h-12">
+                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                :class="activePath.includes('/api-docs')
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M16 4C14 4 11 5 11 9C11 13 11 15 11 18C11 21 6 23 6 23C6 23 11 25 11 28C11 31 11 35 11 39C11 43 14 44 16 44" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M32 4C34 4 37 5 37 9C37 13 37 15 37 18C37 21 42 23 42 23C42 23 37 25 37 28C37 31 37 35 37 39C37 43 34 44 32 44" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
                         </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
@@ -215,15 +250,23 @@
 
                     <a href="{{ route('feedback.index') }}"
                        :class="activePath.includes('/feedback')
-                                ? 'bg-white text-gray-700 shadow-md'
-                                : 'text-gray-500 hover:text-gray-800 hover:bg-white'"
+                                ? 'bg-gray-100 text-white shadow-md'
+                                : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative group">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-comment-dots text-lg"
-                               :class="activePath.includes('/feedback')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                        <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                                :class="activePath.includes('/feedback')
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <path d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z" 
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                </g>
+                            </svg>
                         </div>
                     </a>
 
@@ -275,11 +318,18 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-chart-line text-lg"
-                               :class="activePath.includes('/analytics')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
-                        </div>
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    :class="activePath.includes('/analytics')
+                                            ? 'text-purple-600' 
+                                            : 'text-gray-900 group-hover:text-gray-900'" 
+                                    class="size-7 text-sm">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M21 21H4.6C4.03995 21 3.75992 21 3.54601 20.891C3.35785 20.7951 3.20487 20.6422 3.10899 20.454C3 20.2401 3 19.9601 3 19.4V3M20 8L16.0811 12.1827C15.9326 12.3412 15.8584 12.4204 15.7688 12.4614C15.6897 12.4976 15.6026 12.5125 15.516 12.5047C15.4179 12.4958 15.3215 12.4458 15.1287 12.3457L11.8713 10.6543C11.6785 10.5542 11.5821 10.5042 11.484 10.4953C11.3974 10.4875 11.3103 10.5024 11.2312 10.5386C11.1416 10.5796 11.0674 10.6588 10.9189 10.8173L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
                               :class="activePath.includes('/analytics') ? 'text-white' : 'text-gray-700'">
@@ -303,10 +353,13 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-lightbulb text-lg"
-                               :class="activePath.includes('/knowledge-pulse')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+                                :class="activePath.includes('/knowledge-pulse')
+                                        ? 'text-purple-600' 
+                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                class="size-7 text-lg">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                            </svg>
                         </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
@@ -331,11 +384,18 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-cube text-lg"
-                               :class="activePath.includes('/widget')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
-                        </div>
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    :class="activePath.includes('/widget')
+                                            ? 'fill-none stroke-purple-600'
+                                            : 'fill-none stroke-gray-900 group-hover:stroke-gray-800'" 
+                                    class="size-7 text-lg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M17 14V20M14 17H20M15.6 10H18.4C18.9601 10 19.2401 10 19.454 9.89101C19.6422 9.79513 19.7951 9.64215 19.891 9.45399C20 9.24008 20 8.96005 20 8.4V5.6C20 5.03995 20 4.75992 19.891 4.54601C19.7951 4.35785 19.6422 4.20487 19.454 4.10899C19.2401 4 18.9601 4 18.4 4H15.6C15.0399 4 14.7599 4 14.546 4.10899C14.3578 4.20487 14.2049 4.35785 14.109 4.54601C14 4.75992 14 5.03995 14 5.6V8.4C14 8.96005 14 9.24008 14.109 9.45399C14.2049 9.64215 14.3578 9.79513 14.546 9.89101C14.7599 10 15.0399 10 15.6 10ZM5.6 10H8.4C8.96005 10 9.24008 10 9.45399 9.89101C9.64215 9.79513 9.79513 9.64215 9.89101 9.45399C10 9.24008 10 8.96005 10 8.4V5.6C10 5.03995 10 4.75992 9.89101 4.54601C9.79513 4.35785 9.64215 4.20487 9.45399 4.10899C9.24008 4 8.96005 4 8.4 4H5.6C5.03995 4 4.75992 4 4.54601 4.10899C4.35785 4.20487 4.20487 4.35785 4.10899 4.54601C4 4.75992 4 5.03995 4 5.6V8.4C4 8.96005 4 9.24008 4.10899 9.45399C4.20487 9.64215 4.35785 9.79513 4.54601 9.89101C4.75992 10 5.03995 10 5.6 10ZM5.6 20H8.4C8.96005 20 9.24008 20 9.45399 19.891C9.64215 19.7951 9.79513 19.6422 9.89101 19.454C10 19.2401 10 18.9601 10 18.4V15.6C10 15.0399 10 14.7599 9.89101 14.546C9.79513 14.3578 9.64215 14.2049 9.45399 14.109C10 14 8.96005 14 8.4 14H5.6C5.03995 14 4.75992 14 4.54601 14.109C4.35785 14.2049 4.20487 14.3578 4.10899 14.546C4 14.7599 4 15.0399 4 15.6V18.4C4 18.9601 4 19.2401 4.10899 19.454C4.20487 19.6422 4.35785 19.7951 4.54601 19.891C4.75992 20 5.03995 20 5.6 20Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
                               :class="activePath.includes('/widget') ? 'text-white' : 'text-gray-700'">
@@ -359,10 +419,17 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-folder-open text-lg"
-                               :class="activePath.includes('/drive')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
+                            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                :class="activePath.includes('/drive')
+                                        ? 'fill-none stroke-none' 
+                                        : 'fill-purple-600 stroke-gray-900 group-hover:stroke-gray-900'"
+                                class="size-7 text-lg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier"> 
+                                    <path d="M2,18.5 L2,5.5 C2,4.11928813 3.11928813,3 4.5,3 L19.5,3 C20.8807119,3 22,4.11928813 22,5.5 L22,18.5 C22,19.8807119 20.8807119,21 19.5,21 L4.5,21 C3.11928813,21 2,19.8807119 2,18.5 Z M3,14.4998169 C3.41783027,14.1859724 3.93719704,14 4.5,14 L19.5,14 C20.062803,14 20.5821697,14.1859724 21,14.4998169 L21,5.5 C21,4.67157288 20.3284271,4 19.5,4 L4.5,4 C3.67157288,4 3,4.67157288 3,5.5 L3,14.4998169 L3,14.4998169 Z M3,18.5 C3,19.3284271 3.67157288,20 4.5,20 L19.5,20 C20.3284271,20 21,19.3284271 21,18.5 L21,16.5 C21,15.6715729 20.3284271,15 19.5,15 L4.5,15 C3.67157288,15 3,15.6715729 3,16.5 L3,18.5 Z M17.5,16 L19.5,16 C19.7761424,16 20,16.2238576 20,16.5 L20,18.5 C20,18.7761424 19.7761424,19 19.5,19 L17.5,19 C17.2238576,19 17,18.7761424 17,18.5 L17,16.5 C17,16.2238576 17.2238576,16 17.5,16 Z M18,17 L18,18 L19,18 L19,17 L18,17 Z M5.5,18 C5.22385763,18 5,17.7761424 5,17.5 C5,17.2238576 5.22385763,17 5.5,17 L11.5,17 C11.7761424,17 12,17.2238576 12,17.5 C12,17.7761424 11.7761424,18 11.5,18 L5.5,18 Z"></path> 
+                                </g>
+                            </svg>
                         </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
@@ -379,19 +446,26 @@
                 </li>
 
                 {{-- Settings --}}
-                <li class="relative group w-full px-2">
+                <li class="relative group w-full px-2 py-40">
                     <a href="{{ route('settings') }}"
                        :class="activePath.includes('/settings')
                                 ? 'bg-gray-100 text-white shadow-md'
                                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <i class="fas fa-cog text-lg"
-                               :class="activePath.includes('/settings')
-                                        ? 'text-blue-600'
-                                        : 'text-gray-500 group-hover:text-gray-800'"></i>
-                        </div>
+                       <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                            :class="activePath.includes('/settings')
+                                    ? 'text-purple-600' 
+                                    : 'text-gray-900 group-hover:text-gray-900'" 
+                            class="size-7 text-lg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> 
+                                <path d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z" fill="currentColor"></path> 
+                            </g>
+                        </svg>
+                    </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
                               :class="activePath.includes('/settings') ? 'text-white' : 'text-gray-700'">

@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-soft p-5 md:p-6 mb-6" x-data="{}">
+<div class="bg-white rounded-xl p-5 md:p-6 mb-6" x-data="{}">
     <div>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
             <h1 class="text-2xl font-semibold text-gray-900 flex items-center mb-4 sm:mb-0">

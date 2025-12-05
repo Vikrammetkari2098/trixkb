@@ -3,7 +3,7 @@
 
 <div class="flex h-screen overflow-hidden" x-data="{ menuState: 'default', contentToolState: 'find-and-replace', siteBuilderState: 'customize-site', documentationopen: true, kbSiteOpen: true }">
 
-    <div class="w-80 bg-white flex flex-col space-y-2 border-r border-gray-200">
+    <div class="w-80 bg-gray-100  flex flex-col space-y-2 border-r border-gray-200">
 
         <div class="flex items-center justify-start p-2 border-b border-gray-200">
 

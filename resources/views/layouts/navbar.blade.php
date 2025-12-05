@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between h-[45px] px-6 bg-[#18181b] text-gray-100 shadow-xl border-b border-[#374151] z-50">
+<header class="flex items-center justify-between h-[45px] px-6 bg-[#18181b] text-gray-100 shadow-xl border-b border-[#374151] z-50 sticky top-0">
     <div class="flex items-center space-x-4">
         <button type="button" class="text-gray-300 lg:hidden hover:text-white transition duration-200 p-1 -ml-1 rounded-md hover:bg-[#374151]"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="with-navbar-sidebar" data-overlay="#with-navbar-sidebar">

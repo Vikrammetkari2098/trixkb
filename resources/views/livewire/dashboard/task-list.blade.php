@@ -9,10 +9,10 @@
             </h1>
             <!-- Badge Counters (Top Right) -->
             <div class="flex flex-wrap justify-start sm:justify-end items-center gap-2 text-xs font-semibold">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">This week <span class="ml-1 px-1 bg-gray-200 text-gray-700 rounded-full font-bold">10</span></span>
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">Today <span class="ml-1 px-1 bg-gray-200 text-gray-700 rounded-full font-bold">5</span></span>
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-error-soft-text" style="background-color: rgba(235, 100, 100, 0.1);">Overdue <span class="ml-1 px-1 bg-gray-200 text-gray-700 rounded-full font-bold">5</span></span>
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">Snoozed <span class="ml-1 px-1 bg-gray-200 text-gray-700 rounded-full font-bold">3</span></span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">This week <span class="ml-1 px-1 bg-gray-900 text-white rounded-full font-bold">10</span></span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">Today <span class="ml-1 px-1 bg-gray-900 text-white rounded-full font-bold">5</span></span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-error-soft-text" style="background-color: rgba(235, 100, 100, 0.1);">Overdue <span class="ml-1 px-1 bg-gray-900 text-white rounded-full font-bold">5</span></span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-neutral-soft-text" style="background-color: rgba(107, 114, 128, 0.1);">Snoozed <span class="ml-1 px-1 bg-gray-900 text-white rounded-full font-bold">3</span></span>
             </div>
         </div>
 
@@ -82,7 +82,12 @@
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
 
                         <!-- Filter Icon -->
-                        <svg class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 cursor-pointer hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414A1 1 0 0012 15.586V21h-2v-5.414a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 
+                                text-gray-400 w-5 h-5 cursor-pointer 
+                                hover:text-gray-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                        </svg>
                     </div>
                 </div>
 

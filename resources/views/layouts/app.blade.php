@@ -42,8 +42,8 @@
 
         {{-- Sidebar --}}
         <aside id="with-navbar-sidebar"
-               class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg min-h-screen z-20
-                      -translate-x-full sm:translate-x-0 w-24">
+               class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg
+           w-24 sticky top-[45px] h-196 overflow-visible z-20">
 
             <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
@@ -52,7 +52,7 @@
                     x-data="{ open: false, timeout: null }"
                     @mouseenter="clearTimeout(timeout); open = true"
                     @mouseleave="timeout = setTimeout(() => open = false, 200)">
-
+                    
                     <a href="{{ route('dashboard') }}"
                        :class="activePath === '/' || activePath === '/dashboard'
                                     ? 'bg-gray-100 text-white shadow-md'
@@ -158,7 +158,7 @@
                             Docs
                         </span>
 
-                        <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                        <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded 
                                      opacity-0 invisible group-hover:opacity-100 group-hover:visible
                                      whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                             Documentation

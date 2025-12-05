@@ -4,7 +4,7 @@
 <div class="bg-white">
     <div x-data="{ currentView: 'list', currentConfigTab: 'connect' }">
 
-        <div id="widgetListPage" x-show="currentView === 'list'" class="p-8 bg-gray-50 min-h-screen">
+        <div id="widgetListPage" x-show="currentView === 'list'" class="p-8 bg-white min-h-screen">
             <div class="mx-auto bg-white rounded-md shadow-sm">
                 <header class="flex items-center justify-between p-6 border-b">
                     <h2 class="text-xl font-semibold text-gray-800">Knowledge base widget</h2>
@@ -200,7 +200,7 @@
 
                 <textarea
                     class="w-full h-[300px] p-4 text-gray-800 text-sm focus:outline-none resize-none"
-                   
+
                 ></textarea>
             </div>
 
@@ -230,7 +230,7 @@
 
                 <textarea
                     class="w-full h-[300px] p-4 text-gray-800 text-sm focus:outline-none resize-none font-mono"
-                   
+
                 ></textarea>
             </div>
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="flex h-screen overflow-hidden" x-data="{ menuState: 'default', contentToolState: 'find-and-replace', siteBuilderState: 'customize-site', documentationopen: true, kbSiteOpen: true }">
+<div class="bg-white rounded-xl flex h-screen overflow-hidden" x-data="{ menuState: 'default', contentToolState: 'find-and-replace', siteBuilderState: 'customize-site', documentationopen: true, kbSiteOpen: true }">
 
     <div class="w-80 bg-gray-100  flex flex-col space-y-2 border-r border-gray-200">
 
@@ -582,7 +582,7 @@
      x-transition:leave.duration.300ms
      class="w-full h-full flex flex-col items-start p-6 justify-start overflow-y-auto bg-gray-50">
 
-            <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 rounded-lg mb-4 flex justify-between items-center">      
+            <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 rounded-lg mb-4 flex justify-between items-center">
             <h2 class="text-2xl font-semibold text-gray-800">Customize site</h2>
             <div class="space-x-2">
                 <button
@@ -887,7 +887,7 @@
 </div>
 
 </div>
-    
+
 </div>
                      <!-- New Page Create -->
     </main>

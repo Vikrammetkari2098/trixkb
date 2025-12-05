@@ -193,17 +193,17 @@
             font-size: 0.875rem;
         }
     </style>
-
+<div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 space-y-6 ">
     <div class="flex h-screen overflow-hidden" x-data="{
-        showCreateTreeModal: false,
-        showStepEditorModal: false,
-        stepTitle: 'Step title goes here',
-        stepContent: '',
-        activeTab: 'edit'
-    }">
+            showCreateTreeModal: false,
+            showStepEditorModal: false,
+            stepTitle: 'Step title goes here',
+            stepContent: '',
+            activeTab: 'edit'
+        }">
         <div class="flex-1 flex overflow-hidden bg-gray-50">
             <!-- Sidebar -->
-            <div class="flex-shrink-0 w-64 bg-white border-r border-gray-200 overflow-y-auto shadow-lg z-10">
+            <div class="flex-shrink-0 w-64 bg-gray border-r border-gray-200 overflow-y-auto shadow-lg z-10">
                 <div class="px-4 py-4 border-b border-gray-100 flex items-center h-16">
                     <span class="text-lg font-semibold text-gray-800 tracking-tight">INTERACTIVE DECISION TREES</span>
                 </div>
@@ -411,7 +411,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col overflow-y-auto bg-white">
+            <div class="flex-1 flex flex-col overflow-y-auto  bg-white">
                 <header class="flex-shrink-0 bg-white border-b border-gray-200 shadow-sm h-16 flex items-center justify-between px-6">
                     <div class="flex items-center space-x-4">
                         <h1 class="text-xl font-bold text-gray-900">new kb</h1>
@@ -527,7 +527,7 @@
                     </div>
                 </header>
 
-                <main class="flex-1 p-6 flex flex-col justify-center items-center bg-gray-50">
+                <main class="flex-1 p-6 flex flex-col justify-center items-center bg-white">
                     <div class="w-full max-w-md text-center py-10">
                         <p class="text-gray-600 mb-6 font-semibold">Load from template</p>
                         <div class="space-y-3 mb-8">
@@ -730,7 +730,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Add slash command listener

@@ -22,6 +22,9 @@
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    [x-cloak] { display: none !important; } 
+</style>
 </head>
 
 <body id="page-top" class="bg-gray-50">
@@ -52,7 +55,7 @@
                     x-data="{ open: false, timeout: null }"
                     @mouseenter="clearTimeout(timeout); open = true"
                     @mouseleave="timeout = setTimeout(() => open = false, 200)">
-                    
+                                    
                     <a href="{{ route('dashboard') }}"
                        :class="activePath === '/' || activePath === '/dashboard'
                                     ? 'bg-gray-100 text-white shadow-md'
@@ -89,15 +92,14 @@
                     </a>
 
                     {{-- Dashboard Hover Menu --}}
-                    <div x-show="open"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 transform -translate-y-2"
-                         x-transition:enter-end="opacity-100 transform translate-y-0"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 transform translate-y-0"
-                         x-transition:leave-end="opacity-0 transform -translate-y-2"
-                         class="absolute left-full top-0 ml-0 w-40 bg-white rounded-lg z-30 py-2 pointer-events-auto">
-
+                   <div x-show="open"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2"   
+                        x-cloak   class="absolute left-full top-0 ml-0 w-40 bg-white rounded-lg z-30 py-2 pointer-events-auto">
                         <div class="w-40 bg-white rounded-lg shadow-xl py-2">
                             <div class="px-4 py-2 text-xs font-semibold uppercase text-gray-500 border-b">
                                 HOME
@@ -271,16 +273,15 @@
                     </a>
 
                     {{-- Feedback Dropdown --}}
-                    <div x-show.immediate="openFM"
+                    <div x-show.immediate="openFM" 
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
                          x-transition:leave="transition ease-in duration-150"
                          x-transition:leave-start="opacity-100 transform translate-y-0"
                          x-transition:leave-end="opacity-0 transform -translate-y-2"
-                         @mouseenter="clearTimeout(timeoutId)"
-                         @mouseleave="timeoutId = setTimeout(() => openFM = false, 50)"
-                         class="absolute left-full top-0 -ml-1 w-40 bg-white rounded-lg z-50 py-2 shadow-xl">
+                         x-cloak   class="absolute left-full top-0 ml-0 w-40 bg-white rounded-lg z-30 py-2 pointer-events-auto">
+
 
                         <div class="w-40 bg-white rounded-lg shadow-xl py-2">
                        <div class="px-4 py-2 text-xs font-semibold uppercase text-gray-500 border-b whitespace-nowrap">
@@ -418,19 +419,19 @@
                                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
-                        <div class="flex justify-center items-center w-12 h-12">
-                            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                :class="activePath.includes('/drive')
-                                        ? 'fill-none stroke-none' 
-                                        : 'fill-purple-600 stroke-gray-900 group-hover:stroke-gray-900'"
-                                class="size-7 text-lg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <path d="M2,18.5 L2,5.5 C2,4.11928813 3.11928813,3 4.5,3 L19.5,3 C20.8807119,3 22,4.11928813 22,5.5 L22,18.5 C22,19.8807119 20.8807119,21 19.5,21 L4.5,21 C3.11928813,21 2,19.8807119 2,18.5 Z M3,14.4998169 C3.41783027,14.1859724 3.93719704,14 4.5,14 L19.5,14 C20.062803,14 20.5821697,14.1859724 21,14.4998169 L21,5.5 C21,4.67157288 20.3284271,4 19.5,4 L4.5,4 C3.67157288,4 3,4.67157288 3,5.5 L3,14.4998169 L3,14.4998169 Z M3,18.5 C3,19.3284271 3.67157288,20 4.5,20 L19.5,20 C20.3284271,20 21,19.3284271 21,18.5 L21,16.5 C21,15.6715729 20.3284271,15 19.5,15 L4.5,15 C3.67157288,15 3,15.6715729 3,16.5 L3,18.5 Z M17.5,16 L19.5,16 C19.7761424,16 20,16.2238576 20,16.5 L20,18.5 C20,18.7761424 19.7761424,19 19.5,19 L17.5,19 C17.2238576,19 17,18.7761424 17,18.5 L17,16.5 C17,16.2238576 17.2238576,16 17.5,16 Z M18,17 L18,18 L19,18 L19,17 L18,17 Z M5.5,18 C5.22385763,18 5,17.7761424 5,17.5 C5,17.2238576 5.22385763,17 5.5,17 L11.5,17 C11.7761424,17 12,17.2238576 12,17.5 C12,17.7761424 11.7761424,18 11.5,18 L5.5,18 Z"></path> 
-                                </g>
-                            </svg>
-                        </div>
+                        <div class="flex justify-center items-center w-12 h-12 group">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                            :class="activePath.includes('/drive')
+                                ? 'text-purple-600' 
+                                : 'text-gray-900'" 
+                            class="size-7 text-lg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> 
+                                <path stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15h14M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M5 15V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10m-6 3h3"></path>
+                            </g>
+                        </svg>
+                    </div>
 
                         <span class="hidden ml-2 font-medium whitespace-nowrap"
                               :class="activePath.includes('/drive') ? 'text-white' : 'text-gray-700'">

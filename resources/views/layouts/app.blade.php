@@ -46,7 +46,7 @@
         {{-- Sidebar --}}
         <aside id="with-navbar-sidebar"
                class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg
-           w-24 sticky top-[45px] h-196 overflow-visible z-20">
+           w-24 sticky top-[45px] h-185 overflow-visible z-20">
 
             <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 

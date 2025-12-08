@@ -23,7 +23,7 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-    [x-cloak] { display: none !important; } 
+    [x-cloak] { display: none !important; }
 </style>
 </head>
 
@@ -46,7 +46,7 @@
         {{-- Sidebar --}}
         <aside id="with-navbar-sidebar"
                class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg
-           w-24 sticky top-[45px] h-196 overflow-visible z-20">
+           w-24 sticky top-[45px] h-185 overflow-visible z-20">
 
             <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
@@ -55,7 +55,7 @@
                     x-data="{ open: false, timeout: null }"
                     @mouseenter="clearTimeout(timeout); open = true"
                     @mouseleave="timeout = setTimeout(() => open = false, 200)">
-                                    
+
                     <a href="{{ route('dashboard') }}"
                        :class="activePath === '/' || activePath === '/dashboard'
                                     ? 'bg-gray-100 text-white shadow-md'
@@ -63,22 +63,22 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                            <svg viewBox="-0.5 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                fill="currentColor" 
+                            <svg viewBox="-0.5 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                fill="currentColor"
                                 :class="activePath === '/' || activePath === '/dashboard'
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
-                                        <g id="ui-gambling-website-lined-icnos-casinoshunter" transform="translate(-83.000000, -153.000000)" fill="currentColor" fill-rule="nonzero"> 
-                                            <g id="square-filled" transform="translate(50.000000, 120.000000)"> 
-                                                <path d="M35.0026185,49.8218969 C33.8966028,49.8218969 33,48.9673526 33,47.9132188 C33,47.386939 33.2279956,46.884013 33.6300945,46.5233194 L48.1274731,33.5187787 C48.8985814,32.8270738 50.1014129,32.8270738 50.8725211,33.5187787 L65.3698998,46.5233194 C66.1753004,47.2457855 66.2137066,48.4537391 65.4556825,49.2213594 C65.0772365,49.6045963 64.5495577,49.8218969 63.9973758,49.8218969 L63.5183266,49.8218969 L63.5183266,63.1826438 C63.5183266,65.2909114 61.7251209,67 59.5130896,67 L55.5039249,67 C53.8470706,67 52.5039249,65.6568542 52.5039249,64 L52.5039249,57.4566094 L52.5039249,57.4566094 C52.5039249,56.4443825 51.6743634,55.6094251 50.6488932,55.5523934 L50.5013064,55.5479313 L48.4986879,55.5479313 C47.4366417,55.5479313 46.5605898,56.3385791 46.5007511,57.3159457 L46.4960694,57.4566094 L46.4960694,64 C46.4960694,65.6568542 45.1529236,67 43.4960694,67 L39.4869047,67 L39.4869047,67 C37.2748734,67 35.4816677,65.2909114 35.4816677,63.1826438 L35.4816677,49.8218969 L35.0026185,49.8218969 Z M56.1065434,65.0913219 L59.5130896,65.0913219 L59.5130896,65.0913219 C60.6191052,65.0913219 61.5157081,64.2367776 61.5157081,63.1826438 L61.5157081,48.1132188 C61.5157081,48.0027618 61.6052511,47.9132188 61.7157081,47.9132188 L63.4748998,47.9132188 C63.5853567,47.9132188 63.6748998,47.8236757 63.6748998,47.7132188 C63.6748998,47.6564068 63.6507384,47.6022757 63.608448,47.5643401 L50.1677383,35.50766 C49.787807,35.1668514 49.2121872,35.1668514 48.832256,35.50766 L35.3915462,47.5643401 C35.3093228,47.6380967 35.3024591,47.7645436 35.3762158,47.846767 C35.4141514,47.8890574 35.4682825,47.9132188 35.5250945,47.9132188 L37.2842862,47.9132188 C37.3947431,47.9132188 37.4842862,48.0027618 37.4842862,48.1132188 L37.4842862,63.1826438 L37.4842862,63.1826438 C37.4842862,64.2367776 38.380889,65.0913219 39.4869047,65.0913219 L42.8934971,65.0913219 C43.7771225,65.0912443 44.4934543,64.3749472 44.4935747,63.4913219 L44.4938685,57.4290491 L44.4938685,57.4290491 L44.5002268,57.2331823 C44.6226127,55.2200264 46.3741379,53.6392531 48.4986879,53.6392531 L50.5302231,53.6396512 L50.73573,53.6457112 C52.8479684,53.7623562 54.5065434,55.4317194 54.5065434,57.4566094 L54.5065434,63.4913219 C54.5065434,64.3749775 55.2228878,65.0913219 56.1065434,65.0913219 Z" id="home"> </path> 
-                                            </g> 
-                                        </g> 
-                                    </g> 
+                                <g id="SVGRepo_iconCarrier">
+                                    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="ui-gambling-website-lined-icnos-casinoshunter" transform="translate(-83.000000, -153.000000)" fill="currentColor" fill-rule="nonzero">
+                                            <g id="square-filled" transform="translate(50.000000, 120.000000)">
+                                                <path d="M35.0026185,49.8218969 C33.8966028,49.8218969 33,48.9673526 33,47.9132188 C33,47.386939 33.2279956,46.884013 33.6300945,46.5233194 L48.1274731,33.5187787 C48.8985814,32.8270738 50.1014129,32.8270738 50.8725211,33.5187787 L65.3698998,46.5233194 C66.1753004,47.2457855 66.2137066,48.4537391 65.4556825,49.2213594 C65.0772365,49.6045963 64.5495577,49.8218969 63.9973758,49.8218969 L63.5183266,49.8218969 L63.5183266,63.1826438 C63.5183266,65.2909114 61.7251209,67 59.5130896,67 L55.5039249,67 C53.8470706,67 52.5039249,65.6568542 52.5039249,64 L52.5039249,57.4566094 L52.5039249,57.4566094 C52.5039249,56.4443825 51.6743634,55.6094251 50.6488932,55.5523934 L50.5013064,55.5479313 L48.4986879,55.5479313 C47.4366417,55.5479313 46.5605898,56.3385791 46.5007511,57.3159457 L46.4960694,57.4566094 L46.4960694,64 C46.4960694,65.6568542 45.1529236,67 43.4960694,67 L39.4869047,67 L39.4869047,67 C37.2748734,67 35.4816677,65.2909114 35.4816677,63.1826438 L35.4816677,49.8218969 L35.0026185,49.8218969 Z M56.1065434,65.0913219 L59.5130896,65.0913219 L59.5130896,65.0913219 C60.6191052,65.0913219 61.5157081,64.2367776 61.5157081,63.1826438 L61.5157081,48.1132188 C61.5157081,48.0027618 61.6052511,47.9132188 61.7157081,47.9132188 L63.4748998,47.9132188 C63.5853567,47.9132188 63.6748998,47.8236757 63.6748998,47.7132188 C63.6748998,47.6564068 63.6507384,47.6022757 63.608448,47.5643401 L50.1677383,35.50766 C49.787807,35.1668514 49.2121872,35.1668514 48.832256,35.50766 L35.3915462,47.5643401 C35.3093228,47.6380967 35.3024591,47.7645436 35.3762158,47.846767 C35.4141514,47.8890574 35.4682825,47.9132188 35.5250945,47.9132188 L37.2842862,47.9132188 C37.3947431,47.9132188 37.4842862,48.0027618 37.4842862,48.1132188 L37.4842862,63.1826438 L37.4842862,63.1826438 C37.4842862,64.2367776 38.380889,65.0913219 39.4869047,65.0913219 L42.8934971,65.0913219 C43.7771225,65.0912443 44.4934543,64.3749472 44.4935747,63.4913219 L44.4938685,57.4290491 L44.4938685,57.4290491 L44.5002268,57.2331823 C44.6226127,55.2200264 46.3741379,53.6392531 48.4986879,53.6392531 L50.5302231,53.6396512 L50.73573,53.6457112 C52.8479684,53.7623562 54.5065434,55.4317194 54.5065434,57.4566094 L54.5065434,63.4913219 C54.5065434,64.3749775 55.2228878,65.0913219 56.1065434,65.0913219 Z" id="home"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
                                 </g>
                             </svg>
                         </div>
@@ -98,7 +98,7 @@
                         x-transition:enter-end="opacity-100 transform translate-y-0"
                         x-transition:leave="transition ease-in duration-150"
                         x-transition:leave-start="opacity-100 transform translate-y-0"
-                        x-transition:leave-end="opacity-0 transform -translate-y-2"   
+                        x-transition:leave-end="opacity-0 transform -translate-y-2"
                         x-cloak   class="absolute left-full top-0 ml-0 w-40 bg-white rounded-lg z-30 py-2 pointer-events-auto">
                         <div class="w-40 bg-white rounded-lg shadow-xl py-2">
                             <div class="px-4 py-2 text-xs font-semibold uppercase text-gray-500 border-b">
@@ -145,13 +145,13 @@
                         <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                 :class="activePath.includes('/docs')
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6.1519V19.3095C3.99197 18.8639 5.40415 18.4 7 18.4C8.58915 18.4 9.9999 18.8602 11 19.3094V6.1519C10.7827 6.02653 10.4894 5.8706 10.1366 5.71427C9.31147 5.34869 8.20352 5 7 5C5.26385 5 3.74016 5.72499 3 6.1519ZM13 6.1519V19.3578C13.9977 18.9353 15.41 18.5 17 18.5C18.596 18.5 20.0095 18.9383 21 19.3578V6.1519C20.2598 5.72499 18.7362 5 17 5C15.7965 5 14.6885 5.34869 13.8634 5.71427C13.5106 5.8706 13.2173 6.02653 13 6.1519ZM12 4.41985C11.7302 4.26422 11.3734 4.07477 10.9468 3.88572C9.96631 3.45131 8.57426 3 7 3C4.69187 3 2.76233 3.97065 1.92377 4.46427C1.30779 4.82687 1 5.47706 1 6.11223V20.0239C1 20.6482 1.36945 21.1206 1.79531 21.3588C2.21653 21.5943 2.78587 21.6568 3.30241 21.3855C4.12462 20.9535 5.48348 20.4 7 20.4C8.90549 20.4 10.5523 21.273 11.1848 21.6619C11.6757 21.9637 12.2968 21.9725 12.7959 21.6853C13.4311 21.32 15.0831 20.5 17 20.5C18.5413 20.5 19.9168 21.0305 20.7371 21.4366C21.6885 21.9075 23 21.2807 23 20.0593V6.11223C23 5.47706 22.6922 4.82687 22.0762 4.46427C21.2377 3.97065 19.3081 3 17 3C15.4257 3 14.0337 3.45131 13.0532 3.88572C12.6266 4.07477 12.2698 4.26422 12 4.41985Z" fill="currentColor"></path> 
+                                <g id="SVGRepo_iconCarrier">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6.1519V19.3095C3.99197 18.8639 5.40415 18.4 7 18.4C8.58915 18.4 9.9999 18.8602 11 19.3094V6.1519C10.7827 6.02653 10.4894 5.8706 10.1366 5.71427C9.31147 5.34869 8.20352 5 7 5C5.26385 5 3.74016 5.72499 3 6.1519ZM13 6.1519V19.3578C13.9977 18.9353 15.41 18.5 17 18.5C18.596 18.5 20.0095 18.9383 21 19.3578V6.1519C20.2598 5.72499 18.7362 5 17 5C15.7965 5 14.6885 5.34869 13.8634 5.71427C13.5106 5.8706 13.2173 6.02653 13 6.1519ZM12 4.41985C11.7302 4.26422 11.3734 4.07477 10.9468 3.88572C9.96631 3.45131 8.57426 3 7 3C4.69187 3 2.76233 3.97065 1.92377 4.46427C1.30779 4.82687 1 5.47706 1 6.11223V20.0239C1 20.6482 1.36945 21.1206 1.79531 21.3588C2.21653 21.5943 2.78587 21.6568 3.30241 21.3855C4.12462 20.9535 5.48348 20.4 7 20.4C8.90549 20.4 10.5523 21.273 11.1848 21.6619C11.6757 21.9637 12.2968 21.9725 12.7959 21.6853C13.4311 21.32 15.0831 20.5 17 20.5C18.5413 20.5 19.9168 21.0305 20.7371 21.4366C21.6885 21.9075 23 21.2807 23 20.0593V6.11223C23 5.47706 22.6922 4.82687 22.0762 4.46427C21.2377 3.97065 19.3081 3 17 3C15.4257 3 14.0337 3.45131 13.0532 3.88572C12.6266 4.07477 12.2698 4.26422 12 4.41985Z" fill="currentColor"></path>
                                 </g>
                             </svg>
                         </div>
@@ -160,7 +160,7 @@
                             Docs
                         </span>
 
-                        <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded 
+                        <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                      opacity-0 invisible group-hover:opacity-100 group-hover:visible
                                      whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                             Documentation
@@ -177,16 +177,16 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                            <svg fill="currentColor" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" 
+                            <svg fill="currentColor" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 :class="activePath.includes('/decision-tree')
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <title>share-nodes</title> 
-                                    <path d="M26 20.75c-1.594 0.006-3.019 0.726-3.972 1.856l-0.006 0.008-10.91-5.455c0.088-0.348 0.139-0.747 0.139-1.159s-0.050-0.811-0.146-1.193l0.007 0.034 10.911-5.455c0.963 1.109 2.374 1.806 3.949 1.806 2.883 0 5.221-2.338 5.221-5.221s-2.337-5.221-5.221-5.221c-2.883 0-5.221 2.337-5.221 5.221 0 0.010 0 0.020 0 0.031v-0.002c0.003 0.412 0.053 0.811 0.146 1.194l-0.007-0.036-10.911 5.455c-0.969-1.143-2.406-1.864-4.012-1.864-2.9 0-5.25 2.351-5.25 5.25s2.351 5.25 5.25 5.25c1.606 0 3.043-0.721 4.006-1.857l0.006-0.008 10.911 5.455c-0.082 0.347-0.129 0.745-0.129 1.154 0 2.897 2.348 5.245 5.245 5.245s5.245-2.348 5.245-5.245c0-2.897-2.348-5.245-5.245-5.245-0.002 0-0.004 0-0.005 0h0zM26 3.25c1.519 0 2.75 1.231 2.75 2.75s-1.231 2.75-2.75 2.75c-1.519 0-2.75-1.231-2.75-2.75v0c0.002-1.518 1.232-2.748 2.75-2.75h0zM6 18.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0zM26 28.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0z"></path> 
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>share-nodes</title>
+                                    <path d="M26 20.75c-1.594 0.006-3.019 0.726-3.972 1.856l-0.006 0.008-10.91-5.455c0.088-0.348 0.139-0.747 0.139-1.159s-0.050-0.811-0.146-1.193l0.007 0.034 10.911-5.455c0.963 1.109 2.374 1.806 3.949 1.806 2.883 0 5.221-2.338 5.221-5.221s-2.337-5.221-5.221-5.221c-2.883 0-5.221 2.337-5.221 5.221 0 0.010 0 0.020 0 0.031v-0.002c0.003 0.412 0.053 0.811 0.146 1.194l-0.007-0.036-10.911 5.455c-0.969-1.143-2.406-1.864-4.012-1.864-2.9 0-5.25 2.351-5.25 5.25s2.351 5.25 5.25 5.25c1.606 0 3.043-0.721 4.006-1.857l0.006-0.008 10.911 5.455c-0.082 0.347-0.129 0.745-0.129 1.154 0 2.897 2.348 5.245 5.245 5.245s5.245-2.348 5.245-5.245c0-2.897-2.348-5.245-5.245-5.245-0.002 0-0.004 0-0.005 0h0zM26 3.25c1.519 0 2.75 1.231 2.75 2.75s-1.231 2.75-2.75 2.75c-1.519 0-2.75-1.231-2.75-2.75v0c0.002-1.518 1.232-2.748 2.75-2.75h0zM6 18.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0zM26 28.75c-1.519 0-2.75-1.231-2.75-2.75s1.231-2.75 2.75-2.75c1.519 0 2.75 1.231 2.75 2.75v0c-0.002 1.518-1.232 2.748-2.75 2.75h-0z"></path>
                                 </g>
                             </svg>
                         </div>
@@ -217,8 +217,8 @@
                        <div class="flex justify-center items-center w-12 h-12">
                             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
                                 :class="activePath.includes('/api-docs')
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -257,23 +257,23 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative group">
 
                         <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                 :class="activePath.includes('/feedback')
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier"> 
-                                    <path d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z" 
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </g>
                             </svg>
                         </div>
                     </a>
 
                     {{-- Feedback Dropdown --}}
-                    <div x-show.immediate="openFM" 
+                    <div x-show.immediate="openFM"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
@@ -321,8 +321,8 @@
                         <div class="flex justify-center items-center w-12 h-12">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     :class="activePath.includes('/analytics')
-                                            ? 'text-purple-600' 
-                                            : 'text-gray-900 group-hover:text-gray-900'" 
+                                            ? 'text-purple-600'
+                                            : 'text-gray-900 group-hover:text-gray-900'"
                                     class="size-7 text-sm">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -354,10 +354,10 @@
                        class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                         <div class="flex justify-center items-center w-12 h-12">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 :class="activePath.includes('/knowledge-pulse')
-                                        ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        ? 'text-purple-600'
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
                             </svg>
@@ -388,7 +388,7 @@
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     :class="activePath.includes('/widget')
                                             ? 'fill-none stroke-purple-600'
-                                            : 'fill-none stroke-gray-900 group-hover:stroke-gray-800'" 
+                                            : 'fill-none stroke-gray-900 group-hover:stroke-gray-800'"
                                     class="size-7 text-lg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -422,12 +422,12 @@
                         <div class="flex justify-center items-center w-12 h-12 group">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                             :class="activePath.includes('/drive')
-                                ? 'text-purple-600' 
-                                : 'text-gray-900'" 
+                                ? 'text-purple-600'
+                                : 'text-gray-900'"
                             class="size-7 text-lg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier"> 
+                            <g id="SVGRepo_iconCarrier">
                                 <path stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15h14M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M5 15V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10m-6 3h3"></path>
                             </g>
                         </svg>
@@ -457,13 +457,13 @@
                        <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
                             :class="activePath.includes('/settings')
-                                    ? 'text-purple-600' 
-                                    : 'text-gray-900 group-hover:text-gray-900'" 
+                                    ? 'text-purple-600'
+                                    : 'text-gray-900 group-hover:text-gray-900'"
                             class="size-7 text-lg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier"> 
-                                <path d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z" fill="currentColor"></path> 
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z" fill="currentColor"></path>
                             </g>
                         </svg>
                     </div>

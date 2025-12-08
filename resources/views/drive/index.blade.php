@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex">
+<div class="flex" x-data="{ myDriveOpen: false, uploadModal: false }">
+
 
 <script>
     tailwind.config = {
         theme: {
             extend: {
                 colors: {
-                    // Custom colors to match the screenshot
-                    'primary-purple': '#6d28d9', // Dark Purple
-                    'active-bg': '#f3e8ff',     // Lightest Purple background (approx. bg-purple-50)
+                    'primary-purple': '#6d28d9',
+                    'active-bg': '#f3e8ff',
                     'border-light': '#e5e7eb',
-                    'user-initial-bg': '#fcd34d', // Yellow/Orange for JW
-                    'icon-blue': '#2563eb', // Blue folder icon
+                    'user-initial-bg': '#fcd34d',
+                    'icon-blue': '#2563eb',
                 }
             }
         }
@@ -21,46 +21,42 @@
 </script>
 
 <style>
-    /* Custom Styles to match the screenshot details */
     .icon {
         margin-right: 0.5rem;
         width: 1rem;
         display: inline-block;
         text-align: center;
-        color: theme('colors.gray.500'); 
+        color: theme('colors.gray.500');
     }
     .file-row:hover {
         background-color: theme('colors.gray.50');
         cursor: pointer;
     }
-    /* Active Menu Styling (Matching the light purple background in the photo) */
     .active-menu-item {
         background-color: theme('colors.active-bg');
         color: theme('colors.primary-purple');
         font-weight: 600;
-        /* Note: The screenshot doesn't show a strong left border, just the background */
     }
     .active-menu-item .icon {
         color: theme('colors.primary-purple');
     }
     .folder-arrow {
-        color: theme('colors.gray.400'); /* Gray color for the arrow */
+        color: theme('colors.gray.400');
         margin-right: 0.5rem;
-        font-size: 0.75rem; /* Smaller arrow size */
+        font-size: 0.75rem;
     }
-    /* Ensure the search bar is the width shown in the image */
     .search-input-w {
-        width: 250px; /* Specific width for the search box */
+        width: 250px;
     }
 </style>
 
 <div class="w-68 bg-white border-r h-screen p-4" x-data="{ myDriveOpen: false }">
-    <!-- Top Buttons -->
     <div class="flex flex-nowrap gap-2 mb-4">
-    <button class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 whitespace-nowrap">
-        Upload files
-    
-    </button>
+   <button @click="uploadModal = true"
+        class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 whitespace-nowrap">
+    Upload files
+</button>
+
     
     <button class="px-4 py-2 border border-indigo-400 text-indigo-600 rounded-md hover:bg-indigo-50 whitespace-nowrap">
         New folder
@@ -68,7 +64,6 @@
 </div>
 
 
-    <!-- Menu List -->
     <ul class="space-y-1 text-sm">
         <li class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md cursor-pointer">
             <span>📄</span> All files
@@ -84,7 +79,6 @@
         </li>
     </ul>
 
-    <!-- My Drive -->
     <div class="mt-6">
         <button @click="myDriveOpen = !myDriveOpen"
                 :class="myDriveOpen ? 'bg-purple-100 text-blue-700' : ''"
@@ -95,7 +89,6 @@
             </svg>
         </button>
 
-        <!-- Folder Tree -->
         <ul x-show="myDriveOpen" x-transition class="mt-2 ml-4 space-y-1 text-sm">
             <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">
                 <span>📁</span> Images
@@ -124,7 +117,7 @@
         <div class="flex items-center space-x-2 text-gray-700 font-semibold text-lg">
             <span>Drive</span>
             <button class="text-blue-500 hover:text-blue-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM13 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM13 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z" /></svg>
             </button>
             <button class="text-blue-500 hover:text-blue-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-7-9a1 1 0 011-1h1a1 1 0 110 2H4a1 1 0 01-1-1zm4 0a1 1 0 011-1h1a1 1 0 110 2H8a1 1 0 01-1-1zm4 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zm4 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
@@ -286,9 +279,95 @@
             </tbody>
         </table>
     </div>
+   
+<div x-show="uploadModal"
+     x-transition:enter="transition ease-out duration-200"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-150"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     x-cloak
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+
+    <div x-show="uploadModal"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         @click.away="uploadModal = false"
+         class="bg-white rounded-lg shadow-lg w-full max-w-5xl h-[60vh] flex flex-col overflow-hidden border border-gray-200">
+
+        <div class="p-6 pb-3 relative">
+            <button @click="uploadModal = false"
+                    class="absolute right-6 top-6 text-gray-400 hover:text-black text-xl">
+                ✕
+            </button>
+
+            <h2 class="text-xl font-semibold mb-4">Upload Files</h2>
+
+            <label class="text-sm font-medium text-gray-700">Folder location</label>
+            <select class="w-full mt-1 mb-5 border rounded-lg px-3 py-2">
+                <option>Images</option>
+                <option>Documents</option>
+                <option>Videos</option>
+            </select>
+
+            <div class="border border-gray-300 rounded-xl h-[240px] flex flex-col items-center justify-center bg-gray-50">
+                
+                <svg width="40" height="40" fill="none" stroke="#444" stroke-width="1.5" class="mb-4 opacity-80">
+                    <path d="M20 12v16m0-16l-6 6m6-6l6 6"/>
+                    <rect x="6" y="6" width="28" height="28" rx="4"/>
+                </svg>
+
+                <div class="flex gap-3">
+                    <button class="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100">
+                        Upload from my device
+                    </button>
+                    <button class="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100">
+                        Screen capture
+                    </button>
+                </div>
+
+                <p class="mt-3 text-gray-500 text-sm">or drag and drop</p>
+            </div>
+        </div>
+
+        <div class="bg-white border-t px-6 py-4 flex justify-between items-center">
+            <p class="text-gray-600 text-sm">Supported formats: All</p>
+            <p class="text-gray-600 text-sm">Max size: 150 MB</p>
+        </div>
+
+        <div class="bg-white px-6 py-4 flex justify-end gap-3 rounded-b-lg">
+            <button @click="uploadModal = false"
+                    class="px-4 py-2 border rounded-lg">
+                Cancel
+            </button>
+
+            <button class="px-6 py-2 bg-purple-500 text-white rounded-lg">
+                Upload
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('uploadComponent', () => ({
+        uploadModal: false,
+    }))
+})
+</script>
+
+    </div>
+
 </div>
 </div>
 
+
 </div>
 
-@endsection 
+@endsection

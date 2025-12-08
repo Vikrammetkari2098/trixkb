@@ -8,6 +8,9 @@
             width: 100%;
         }
     </style>
+<div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 space-y-6">
+    test
+</div>
 
     <div class="flex h-screen" x-data="{ menuState: 'default', isOpen: false, currentPage: 'Articles', pages: ['Articles', 'Eddy AI', 'Search', 'Reader', 'Team accounts', 'Feedback', 'Link status', 'Page not found', 'Ticket deflector'] }">
     

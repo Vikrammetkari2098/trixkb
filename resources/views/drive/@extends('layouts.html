@@ -1,0 +1,160 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="flex" x-data="{ myDriveOpen: false, uploadModal: false }">
+
+    <!-- Sidebar -->
+    <div class="w-68 bg-white border-r h-screen p-4">
+        <!-- Top Buttons -->
+        <div class="flex flex-nowrap gap-2 mb-4">
+            <button 
+                @click="uploadModal = true"
+                class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 whitespace-nowrap"
+            >
+                Upload files
+            </button>
+
+            <button class="px-4 py-2 border border-indigo-400 text-indigo-600 rounded-md hover:bg-indigo-50 whitespace-nowrap">
+                New folder
+            </button>
+        </div>
+
+        <!-- Menu List -->
+        <ul class="space-y-1 text-sm">
+            <li class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md cursor-pointer">📄 All files</li>
+            <li class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md cursor-pointer">⏱ Recent</li>
+            <li class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md cursor-pointer">⭐ Starred</li>
+            <li class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md cursor-pointer">🗑 Recycle bin</li>
+        </ul>
+
+        <!-- My Drive -->
+        <div class="mt-6">
+            <button @click="myDriveOpen = !myDriveOpen"
+                    :class="myDriveOpen ? 'bg-purple-100 text-blue-700' : ''"
+                    class="flex items-center gap-2 px-3 py-2 rounded-md font-medium w-full transition-colors duration-200">
+                💾 My drive
+                <svg :class="{'rotate-90': myDriveOpen}" class="ml-auto w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Folder Tree -->
+            <ul x-show="myDriveOpen" x-transition class="mt-2 ml-4 space-y-1 text-sm">
+                <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">📁 Images</li>
+                <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">📁 PDF</li>
+                <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">📁 Presentation</li>
+                <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">📁 Word-documents</li>
+                <li class="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded-md cursor-pointer">📁 Zip</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 bg-gray-50 min-h-screen">
+
+        <!-- Drive Header -->
+        <div class="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
+            <h2 class="text-lg font-semibold text-gray-700">Drive</h2>
+            <div class="flex space-x-2">
+                <button class="p-1 border border-gray-300 rounded-md text-gray-500 hover:bg-gray-100">Filter</button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto w-full bg-gray-50 p-4 rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 bg-white shadow rounded-lg">
+                <thead class="bg-white">
+                    <tr>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[5%]">
+                            <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                        </th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                            <div class="flex items-center space-x-2 w-full border border-gray-300 rounded-md p-1 bg-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <input type="text" placeholder="Search file name" class="flex-grow bg-white focus:outline-none text-sm text-gray-900">
+                            </div>
+                        </th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dependencies</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated on</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated by</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tags</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-3 py-3 whitespace-nowrap">
+                            <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                        </td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
+                            📁 Images
+                        </td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-400">-</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">4 Files</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">Nov 27, 2025</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">Justin Wan</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-400">-</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-3 py-3 whitespace-nowrap">
+                            <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                        </td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
+                            📁 PDF
+                        </td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-400">-</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">0 Files</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">Nov 27, 2025</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-500">Justin Wan</td>
+                        <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-400">-</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div 
+        x-cloak
+        x-show="uploadModal"
+        x-transition
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
+    >
+        <div class="bg-white w-96 rounded-lg shadow-lg p-6">
+            <h2 class="text-lg font-semibold mb-4">Upload Files</h2>
+
+            <!-- Drop Zone -->
+            <div 
+                @click="$refs.uploadInput.click()"
+                class="border-2 border-dashed border-gray-300 p-6 rounded-lg text-center cursor-pointer hover:border-indigo-500"
+            >
+                <p class="text-gray-500">Drag & drop files here</p>
+                <p class="text-xs text-gray-400 mt-1">Or click to browse</p>
+                <input type="file" class="hidden" x-ref="uploadInput">
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 flex justify-end gap-2">
+                <button 
+                    @click="uploadModal = false"
+                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100"
+                >
+                    Cancel
+                </button>
+
+                <button 
+                    class="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
+                >
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="//unpkg.com/alpinejs" defer></script>
+@endsection

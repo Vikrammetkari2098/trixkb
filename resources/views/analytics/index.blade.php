@@ -522,7 +522,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
                 <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
                     <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
+                    <p class="mt-2 text-sm text-gray-400">test</p>
                 </div>
             </div>
                                     <!-- Page Not Found -->

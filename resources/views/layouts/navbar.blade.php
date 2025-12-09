@@ -87,54 +87,68 @@
 
     @persist('navigation-elements')
     <div class="flex items-center space-x-5">
-       <div x-data="{ openArticleForm: false }" class="relative">
-            <a @click.prevent="openArticleForm = true"
-            href="#"
-            class="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-4 py-2 h-10 rounded-lg font-semibold flex items-center shadow-lg transform hover:scale-[1.02] transition duration-200 hidden sm:flex no-underline cursor-pointer">
-                <span>Create Article</span>
-                <i class="fa-solid fa-plus ml-2 text-sm"></i>
-            </a>
+       <div class="dropdown relative inline-flex">
+            <button
+                id="dropdown-create-article"
+                type="button"
+                class="dropdown-toggle bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-4 py-2 h-10 rounded-lg font-semibold flex items-center shadow-lg transform hover:scale-[1.02] transition duration-200"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-label="Create Article"
+            >
+                Create Article
+                <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4 ml-2"></span>
+            </button>
 
-            <div x-show="openArticleForm"
-                x-cloak
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-90"
-                @click.away="openArticleForm = false"
-                class="absolute right-0 mt-3 w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-black ring-opacity-5 z-50 p-4">
-
-                <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100"> Create New Article</h3>
-
+            <!-- Dropdown Menu -->
+            <div
+                class="dropdown-menu dropdown-open:opacity-100 hidden min-w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-gray ring-opacity-5 z-50 p-4"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="dropdown-create-article"
+            >
+                <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
+                Create New Article
+                </h3>
                 <form action="#" method="POST">
                     <div class="mb-3">
-                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Article Title</label>
-                        <input type="text" id="title" name="title" placeholder="How to use the new feature..."
-                            class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Article Title
+                        </label>
+                        <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="How to use the new feature..."
+                        class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        >
                     </div>
-
                     <div class="mb-4">
-                        <label for="prompt" class="block text-sm font-medium text-indigo-600 dark:text-indigo-400">AI Prompt (What do you want to write about?)</label>
-                        <textarea id="prompt" name="prompt" rows="3" placeholder="Generate an article about..."
-                                class="mt-1 block w-full rounded-md border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        <label for="prompt" class="block text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                        AI Prompt (What do you want to write about?)
+                        </label>
+                        <textarea
+                        id="prompt"
+                        name="prompt"
+                        rows="3"
+                        placeholder="Generate an article about..."
+                        class="mt-1 block w-full rounded-md border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        ></textarea>
                     </div>
-
                     <div class="flex justify-end space-x-3">
-                        <button type="button" @click="openArticleForm = false"
-                                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-[#4b5563] transition duration-150">
-                            Cancel
+                        <button type="button" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-[#4b5563] transition duration-150">
+                        Cancel
                         </button>
-                        <button type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 shadow-md">
-                            Start AI Draft
+                        <button
+                        type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 shadow-md"
+                        >
+                        Start AI Draft
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-
 
        <button class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300">
             <a href="https://dyn-edge.com/v5/" target="_blank" class="flex items-center space-x-2 text-inherit no-underline">

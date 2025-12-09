@@ -8,9 +8,6 @@
             width: 100%;
         }
     </style>
-<div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 space-y-6">
-    test
-</div>
 
     <div class="flex h-screen" x-data="{ menuState: 'default', isOpen: false, currentPage: 'Articles', pages: ['Articles', 'Eddy AI', 'Search', 'Reader', 'Team accounts', 'Feedback', 'Link status', 'Page not found', 'Ticket deflector'] }">
     
@@ -472,52 +469,438 @@
         </div>
                          <!-- Eddy AI -->
              <div x-show="currentPage === 'Eddy AI'" class="w-full">
-                <h2 class="text-xl font-semibold border-b pb-4 mb-4 text-purple-700">Eddy AI Performance</h2>
-                
-                <div class="grid grid-cols-5 gap-6 mb-8">
-                    <div class="border p-6 rounded-lg text-center bg-purple-50"><p class="text-sm text-gray-500">Total AI Queries</p><p class="text-3xl font-bold">450</p></div>
-                    <div class="border p-6 rounded-lg text-center bg-blue-50"><p class="text-sm text-gray-500">Auto-Resolved</p><p class="text-3xl font-bold">380</p></div>
-                    <div class="border p-6 rounded-lg text-center bg-red-50"><p class="text-sm text-gray-500">Agent Hand-off</p><p class="text-3xl font-bold">70</p></div>
-                    <div class="border p-6 rounded-lg text-center bg-green-50"><p class="text-sm text-gray-500">AI Accuracy</p><p class="text-3xl font-bold">92%</p></div>
-                    <div class="border p-6 rounded-lg text-center bg-yellow-50"><p class="text-sm text-gray-500">Avg.
-                    Response Time</p><p class="text-3xl font-bold">0.8s</p></div>
+           <h1 class="text-2xl font-semibold text-gray-900 mb-6">Eddy AI - Assistive Search</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total Conversations</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">22</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total Queries</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">112</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Answered Queries</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">88</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Unanswered Queries</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">24</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total likes</p>
+            <p class="text-3xl font-bold text-green-600 mt-1">23</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total dislikes</p>
+            <p class="text-3xl font-bold text-red-600 mt-1">12</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total Feedback</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">10</p>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg mb-8" x-data="{ queryChart: null }" x-init="
+        queryChart = new Chart($refs.queryCanvas.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['4/2', '4/3', '4/4', '4/5', '4/6', '4/7', '4/8', '4/9', '4/10', '4/11', '4/12', '4/13', '4/14', '4/15', '4/16', '4/17', '4/18', '4/19', '4/20', '4/21', '4/22', '4/23', '4/24', '4/25', '4/26', '4/27', '4/28'],
+                datasets: [
+                    { label: 'All', data: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 23, 21, 20, 18, 17, 16, 14, 12, 10, 8, 6, 4], borderColor: '#6366f1', fill: false, tension: 0.4,pointRadius: 0 },
+                    { label: 'Answered', data: [8, 10, 9, 12, 11, 14, 12, 15, 17, 16, 22, 19, 25, 27, 26, 24, 22, 18, 16, 13, 14, 12, 10, 8, 6, 5, 4], borderColor: '#10b981', fill: false, tension: 0.4,pointRadius: 0 },
+                    { label: 'Unanswered', data: [1, 4, 8, 9, 11, 13, 15, 18, 21, 23, 25, 27, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 7, 6, 5, 4, 3], borderColor: '#ef4444', fill: false, tension: 0.4,pointRadius: 0 },
+                    { label: 'Likes', data: [3, 4, 3, 5, 4, 6, 5, 7, 8, 7, 10, 9, 12, 13, 12, 11, 10, 8, 7, 6, 7, 6, 5, 4, 3, 3, 2], borderColor: '#f97316', fill: false, tension: 0.4,pointRadius: 0 },
+                    { label: 'Dislikes', data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], borderColor: '#facc15', fill: false, tension: 0.4,pointRadius: 0 },
+                    { label: 'Conversations', data: [4, 5, 4, 6, 5, 7, 6, 8, 9, 8, 12, 10, 14, 15, 14, 13, 12, 10, 9, 8, 9, 7, 6, 5, 4, 3, 3], borderColor: '#06b6d4', fill: false, tension: 0.4,pointRadius: 0 },
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Query analysis' } }
+                }
+            }
+        });
+     ">
+        <h2 class="text-lg font-medium text-gray-900 mb-4">Query analysis</h2>
+        <div class="relative h-96"> 
+            <canvas x-ref="queryCanvas"></canvas>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg" x-data="{ depthChart: null }" x-init="
+            depthChart = new Chart($refs.depthCanvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6+'],
+                    datasets: [{
+                        label: 'No. of queries per conversation',
+                        data: [28, 45, 30, 38, 32, 10],
+                        backgroundColor: '#a78bfa',
+                        hoverBackgroundColor: '#8b5cf6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Conversation depth metrics' } },
+                        x: { title: { display: true, text: 'No of questions per conversation' } }
+                    }
+                }
+            });
+         ">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Conversation depth metrics</h2>
+            <div class="relative h-64">
+                <canvas x-ref="depthCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Feedback metrics for dislikes</h2>
+            <div class="space-y-3">
+                <div class="flex justify-between text-sm text-gray-700 font-medium">
+                    <span>Feedback</span>
+                    <span>Total</span>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="md:col-span-2 p-6 border rounded-lg h-80 flex items-center justify-center">Query Volume Trend Chart Placeholder</div>
-                    <div class="md:col-span-1 p-6 border rounded-lg">Top Query Intents List Placeholder</div>
-                </div>
-            </div> 
-                              <!-- Search -->
-            <div x-show="currentPage === 'Search'" class="w-full">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
-                <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
-                    <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Inaccurate or irrelevant content</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">7</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Need more information</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">6</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Missing information</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 70%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">5</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Others</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 55%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">4</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Incorrect sources/references</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">3</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Difficult to understand</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 25%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">2</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="w-2/3">Don't like the style</span>
+                        <div class="flex items-center w-1/3">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 15%"></div>
+                            </div>
+                            <span class="font-semibold text-gray-900">1</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Popular queries</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Topic</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                    <tr><td class="px-3 py-2">Crowdin translation</td><td class="px-3 py-2">20</td></tr>
+                    <tr><td class="px-3 py-2">Github integration</td><td class="px-3 py-2">20</td></tr>
+                    <tr><td class="px-3 py-2">Ask Eddy</td><td class="px-3 py-2">12</td></tr>
+                    <tr><td class="px-3 py-2">Team accounts</td><td class="px-3 py-2">12</td></tr>
+                    <tr><td class="px-3 py-2">Document360</td><td class="px-3 py-2">10</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Unanswered queries</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Topic</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                    <tr><td class="px-3 py-2">Salesforce</td><td class="px-3 py-2">10</td></tr>
+                    <tr><td class="px-3 py-2">Gaming</td><td class="px-3 py-2">5</td></tr>
+                    <tr><td class="px-3 py-2">Pricing</td><td class="px-3 py-2">5</td></tr>
+                    <tr><td class="px-3 py-2">Team accounts</td><td class="px-3 py-2">2</td></tr>
+                    <tr><td class="px-3 py-2">Redirection</td><td class="px-3 py-2">2</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Most referenced articles</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Articles</th>
+                        <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Occurence</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
+                    <tr><td class="px-3 py-2">How to write AI friendly content</td><td class="px-3 py-2">34</td></tr>
+                    <tr><td class="px-3 py-2">5 basic things to get started</td><td class="px-3 py-2">14</td></tr>
+                    <tr><td class="px-3 py-2">View your knowledge base insights</td><td class="px-3 py-2">12</td></tr>
+                    <tr><td class="px-3 py-2">Understanding home page builder and its use...</td><td class="px-3 py-2">9</td></tr>
+                    <tr><td class="px-3 py-2">Why did we build homepage builder</td><td class="px-3 py-2">8</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-medium text-gray-900">Conversations</h2>
+            <div class="flex space-x-2">
+                <button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md">Filter</button>
+                <button class="px-3 py-1 text-sm font-medium text-indigo-600 border border-indigo-600 hover:bg-indigo-50 rounded-md">Export CSV</button>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <input type="text" placeholder="Search questions" class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Query topic</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Like/Dislike</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feedback</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reader info</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-800">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Why did we build homepage builder</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><span class="text-green-500 text-xl">⚪</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><button class="text-indigo-600 hover:text-indigo-900">Feedback</button></td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">How to write AI friendly content</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><span class="text-red-500 text-xl">⚫</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><button class="text-indigo-600 hover:text-indigo-900">Feedback</button></td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                    </tr>
+                    </tbody>
+            </table>
+        </div>
+        <p class="text-sm text-gray-500 mt-4">0 - 0 of 0 items</p>
+    </div>
+
+</div>
+                              <!-- Search -->
+            <div x-show="currentPage === 'Search'" class="w-full">
+            <h2 class="text-xl font-semibold border-b pb-4 mb-4 text-indigo-700">Search Analytics</h2>
+            
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex space-x-4">
+                    <select class="p-2 border border-gray-300 rounded-lg text-sm text-gray-700">
+                        <option>Knowledge base</option>
+                    </select>
+                    <select class="p-2 border border-gray-300 rounded-lg text-sm text-gray-700">
+                        <option>Date: Last week</option>
+                    </select>
+                </div>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white hover:bg-gray-50 flex items-center">
+                    <svg class="w-4 h-4 mr-2" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g><polygon points="20 22 26 22 26 26 22 26 22 29 20 29 20 26 16 26 16 24 20 24 20 22 16 22 16 18 20 18 20 14 14 14 14 18 10 18 10 14 6 14 6 18 4 18 4 22 6 22 6 24 4 24 4 26 6 26 6 29 10 29 10 26 14 26 14 24 10 24 10 22 14 22 14 18 18 18 18 22 22 22 22 26 26 26 26 22 29 22 29 20 26 20 26 18 30 18"></polygon> <path d="M19,26H15V16h4a3.0033,3.0033,0,0,1,3,3v4A3.0033,3.0033,0,0,1,19,26Zm-2-2h2a1.0011,1.0011,0,0,0,1-1V19a1.0011,1.0011,0,0,0-1-1H17Z"></path> <path d="M11,16H6V26H8V23h3a2.0027,2.0027,0,0,0,2-2V18A2.0023,2.0023,0,0,0,11,16ZM8,21V18h3l.001,3Z"></path> <path d="M22,14V10a.9092.9092,0,0,0-.3-.7l-7-7A.9087.9087,0,0,0,14,2H4A2.0059,2.0059,0,0,0,2,4V28a2,2,0,0,0,2,2H20V28H4V4h8v6a2.0059,2.0059,0,0,0,2,2h6v2Zm-8-4V4.4L19.6,10Z"></path> <rect id="_Transparent_Rectangle_" class="cls-1" width="32" height="32"></rect> </g></svg>
+                    Export PDF 
+                </button>
+            </div> 
+            
+            <div class="grid grid-cols-4 gap-6 mb-8">
+                <div class="border-1 border-gray-200 p-6 rounded-lg flex flex-col items-center">
+                    <div class="w-12 h-12 mb-2 bg-indigo-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div> 
+                    <p class="text-sm text-gray-500">Total Searches</p> 
+                    <p class="text-3xl font-bold text-gray-900">1,500</p> 
+                </div> 
+                <div class="border-1 border-gray-200 p-6 rounded-lg flex flex-col items-center">
+                    <div class="w-12 h-12 mb-2 bg-red-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </div>
+                    <p class="text-sm text-gray-500">Zero Result Searches</p>
+                    <p class="text-3xl font-bold text-gray-900">120</p>
+                </div>
+                <div class="border-1 border-gray-200 p-6 rounded-lg flex flex-col items-center">
+                    <div class="w-12 h-12 mb-2 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <p class="text-sm text-gray-500">Success Rate</p>
+                    <p class="text-3xl font-bold text-gray-900">92%</p>
+                </div>
+                <div class="border-1 border-gray-200 p-6 rounded-lg flex flex-col items-center">
+                    <div class="w-12 h-12 mb-2 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <p class="text-sm text-gray-500">Avg. Click Position</p>
+                    <p class="text-3xl font-bold text-gray-900">1.5</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8"> 
+                
+                <div class="md:col-span-8 p-6 rounded-lg border border-gray-200" x-data="{ queryChart: null }" x-init="
+                    queryChart = new Chart($refs.queryCanvas.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['4/2', '4/3', '4/4', '4/5', '4/6', '4/7', '4/8', '4/9', '4/10', '4/11', '4/12', '4/13', '4/14', '4/15', '4/16', '4/17', '4/18', '4/19', '4/20', '4/21', '4/22', '4/23', '4/24', '4/25', '4/26', '4/27', '4/28'],
+                            datasets: [
+                                { label: 'All', data: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 23, 21, 20, 18, 17, 16, 14, 12, 10, 8, 6, 4], borderColor: 'purple', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Answered', data: [8, 10, 9, 12, 11, 14, 12, 15, 17, 16, 22, 19, 25, 27, 26, 24, 22, 18, 16, 13, 14, 12, 10, 8, 6, 5, 4], borderColor: 'green', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Unanswered', data: [1, 4, 8, 9, 11, 13, 15, 18, 21, 23, 25, 27, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 7, 6, 5, 4, 3], borderColor: '#ef4444', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Likes', data: [3, 4, 3, 5, 4, 6, 5, 7, 8, 7, 10, 9, 12, 13, 12, 11, 10, 8, 7, 6, 7, 6, 5, 4, 3, 3, 2], borderColor: '#f97316', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Dislikes', data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], borderColor: '#facc15', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Conversations', data: [4, 5, 4, 6, 5, 7, 6, 8, 9, 8, 12, 10, 14, 15, 14, 13, 12, 10, 9, 8, 9, 7, 6, 5, 4, 3, 3], borderColor: '#06b6d4', fill: false, tension: 0.4,pointRadius: 0 },
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false, 
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: '' } }
+                            }
+                        }
+                    });
+                 ">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">Query analysis</h2>
+                    <div class="relative h-96"> 
+                        <canvas x-ref="queryCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="md:col-span-4 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Search Status Breakdown</h3>
+                    <div class="chart-container flex items-center justify-center h-64">
+                         <canvas id="searchStatusChart"></canvas>
+                    </div>
+                    
+                    <ul class="mt-4 space-y-3">
+                        <li class="flex justify-between text-sm text-gray-700"><span>Successful Searches</span> <span class="font-bold text-green-600">85%</span></li>
+                        <li class="flex justify-between text-sm text-gray-700"><span>Zero Result Searches</span> <span class="font-bold text-red-600">15%</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="p-6 rounded-lg mb-8 border border-gray-200"> 
+                <div class="flex justify-between items-center mb-4"> 
+                    <h3 class="text-lg font-semibold text-gray-800">Top Performing Search Queries</h3> 
+                    <a href="#" class="text-sm text-indigo-600 font-medium hover:text-indigo-800">View all</a> 
+                </div> 
+                <div class="overflow-x-auto"> 
+                    <table class="min-w-full divide-y divide-gray-200"> 
+                        <thead class="bg-gray-50"> 
+                            <tr> 
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Query </th> 
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Searches </th> 
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Clicks </th> 
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Click Through Rate (CTR) </th> 
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Zero Results </th> 
+                            </tr> 
+                        </thead> 
+                        <tbody class="bg-white divide-y divide-gray-200"> 
+                            <tr> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-600"> How to reset password </td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">150</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">130</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">86%</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">0</td> 
+                            </tr> 
+                            <tr> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-600"> Integration with Slack </td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">120</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">95</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">79%</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">0</td> 
+                            </tr> 
+                             <tr> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-600"> Billing invoice download </td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">90</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">60</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">66%</td> 
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600">5</td> 
+                            </tr> 
+                        </tbody> 
+                    </table> 
+                </div> 
+            </div>
+        </div>
                                 <!-- Reader -->
                       <div x-show="currentPage === 'Reader'" class="w-full">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
                 <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
-                    <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
                 </div>
             </div>
                                 <!-- Team Account -->
                       <div x-show="currentPage === 'Team accounts'" class="w-full">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
                 <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
-                    <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
                 </div>
             </div>
                                 <!-- Feedback -->
                       <div x-show="currentPage === 'Feedback'" class="w-full">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
                 <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
-                    <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
                 </div>
             </div>
                                 <!-- Link Status -->
@@ -532,8 +915,6 @@
                       <div x-show="currentPage === 'Page not found'" class="w-full">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4" x-text="currentPage"></h2>
                 <div class="p-6 bg-white border border-dashed border-gray-300 rounded-lg">
-                    <p class="text-gray-500">Selected Page: <span class="font-semibold text-indigo-600" x-text="currentPage"></span></p>
-                    <p class="mt-2 text-sm text-gray-400">या पेजसाठी कंटेंट अजून तयार केलेला नाहीये. ही एक **डेमो पेज** आहे.</p>
                 </div>
             </div>
                                      <!-- Ticket Deflector -->
@@ -544,7 +925,7 @@
 
         </main></div>
         
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -642,5 +1023,135 @@
 
             new Chart(ctx, config);
         });
+
+        const searchCtx = document.getElementById('searchTrendChart');
+
+    if (searchCtx) {
+        const searchData = {
+            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            datasets: [
+                {
+                    label: 'Total Searches',
+                    data: [220, 310, 290, 350, 420, 480, 500],
+                    borderColor: 'rgb(79, 70, 229)',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Zero Result Rate (%)',
+                    data: [8, 5, 6, 4, 3, 2, 2.5],
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    borderDash: [5, 5],
+                    yAxisID: 'y1'
+                }
+            ]
+        };
+
+        const searchConfig = {
+            type: 'line',
+            data: searchData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#6b7280', 
+                        }
+                    },
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Search Volume',
+                            color: '#4f46e5'
+                        },
+                        ticks: { color: '#6b7280' },
+                        grid: { color: '#e5e7eb', drawBorder: false },
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Zero Result Rate (%)',
+                            color: '#ef4444'
+                        },
+                        grid: { drawOnChartArea: false }, 
+                        min: 0,
+                        max: 10,
+                        ticks: { color: '#6b7280' },
+                    },
+                    x: {
+                        ticks: { color: '#6b7280' },
+                        grid: { display: false, drawBorder: true }
+                    }
+                }
+            }
+        };
+
+        new Chart(searchCtx, searchConfig);
+    }
+    
+   const statusCtx = document.getElementById('searchStatusChart');
+
+    if (statusCtx) {
+        const statusData = {
+            labels: ['Successful Searches', 'Zero Result Searches'],
+            datasets: [{
+                data: [85, 15],
+                backgroundColor: [
+                    'rgb(124, 58, 237)', 
+                    'rgb(196, 181, 253)' 
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const statusConfig = {
+            type: 'doughnut',
+            data: statusData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.formattedValue + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(statusCtx, statusConfig);
+    
+    }
+
+    
     </script>
 @endsection

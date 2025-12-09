@@ -805,10 +805,8 @@
                             datasets: [
                                 { label: 'All', data: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 23, 21, 20, 18, 17, 16, 14, 12, 10, 8, 6, 4], borderColor: 'purple', fill: false, tension: 0.4,pointRadius: 0 },
                                 { label: 'Answered', data: [8, 10, 9, 12, 11, 14, 12, 15, 17, 16, 22, 19, 25, 27, 26, 24, 22, 18, 16, 13, 14, 12, 10, 8, 6, 5, 4], borderColor: 'green', fill: false, tension: 0.4,pointRadius: 0 },
-                                { label: 'Unanswered', data: [1, 4, 8, 9, 11, 13, 15, 18, 21, 23, 25, 27, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 7, 6, 5, 4, 3], borderColor: '#ef4444', fill: false, tension: 0.4,pointRadius: 0 },
-                                { label: 'Likes', data: [3, 4, 3, 5, 4, 6, 5, 7, 8, 7, 10, 9, 12, 13, 12, 11, 10, 8, 7, 6, 7, 6, 5, 4, 3, 3, 2], borderColor: '#f97316', fill: false, tension: 0.4,pointRadius: 0 },
-                                { label: 'Dislikes', data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], borderColor: '#facc15', fill: false, tension: 0.4,pointRadius: 0 },
-                                { label: 'Conversations', data: [4, 5, 4, 6, 5, 7, 6, 8, 9, 8, 12, 10, 14, 15, 14, 13, 12, 10, 9, 8, 9, 7, 6, 5, 4, 3, 3], borderColor: '#06b6d4', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Unanswered', data: [1, 4, 8, 9, 11, 13, 15, 18, 21, 23, 25, 27, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 7, 6, 5, 4, 3], borderColor: 'red', fill: false, tension: 0.4,pointRadius: 0 },
+                                { label: 'Likes', data: [3, 4, 3, 5, 4, 6, 5, 7, 8, 7, 10, 9, 12, 13, 12, 11, 10, 8, 7, 6, 7, 6, 5, 4, 3, 3, 2], borderColor: 'yellow', fill: false, tension: 0.4,pointRadius: 0 },
                             ]
                         },
                         options: {

@@ -67,7 +67,7 @@
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                 :class="activePath === '/' || activePath === '/dashboard'
                                         ? 'text-purple-600' 
-                                        : 'text-gray-900 group-hover:text-gray-900'" 
+                                        : 'text-gray-900 group-hover:text-gray-900'"
                                 class="size-7 text-lg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

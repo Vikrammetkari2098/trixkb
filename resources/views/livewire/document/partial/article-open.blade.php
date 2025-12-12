@@ -55,6 +55,7 @@
         </button>
     </div>
 
+
     <main class="pt-20 pb-16 px-4 sm:px-8 max-w-6xl mx-auto">
 
         <h1 class="text-4xl font-semibold mb-2">New Article</h1>

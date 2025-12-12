@@ -18,6 +18,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@iconify/tailwind": "^1.2.0",
         "alpinejs": "^3.14.9",
         "flyonui": "^2.1.0",
         "sortablejs": "^1.15.6",

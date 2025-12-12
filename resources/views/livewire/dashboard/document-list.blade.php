@@ -2,9 +2,9 @@
 
 <div x-data="{ showCreateModal: false }">
 
-    <div  class="bg-white rounded-xl shadow-soft p-5 md:p-6 mb-6">
+    <div  class="bg-white rounded-xl shadow-soft md:p-6 mb-6">
         <div
-            class="bg-white rounded-xl shadow-soft p-5 md:p-6 mb-6""
+            class="bg-white rounded-xl shadow-soft md:p-6 mb-6""
             x-data="{ activeTab: 'recent', modalOpen: false }"
         >
             <!-- Header (Documents Title and Search) -->

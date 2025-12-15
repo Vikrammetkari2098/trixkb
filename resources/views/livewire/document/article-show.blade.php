@@ -74,7 +74,7 @@
         </aside>
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-h-screen">
+        <div class="flex-1 flex flex-col min-h-screen bg-white">
            <div class="join justify-end flex">
             <!-- Main Button -->
             <button x-on:click="$modalOpen('modal-create')" class="font-medium flex items-center btn btn-primary text-white px-4 py-2 rounded-l-lg hover:bg-indigo-700 transition duration-150">
@@ -133,9 +133,13 @@
                 </ul>
             </div>
         </div>
-            <!-- Article Content Section - Only shown when tableArticleId is set -->
-            <div x-show="tableArticleId" x-transition class="flex-1">
-                <!-- Livewire Component for Article Content -->
+           <!-- Article Content Section -->
+            <div
+                x-cloak
+                x-show="tableArticleId !== null"
+                x-transition
+                class="flex-1"
+            >
                 <livewire:document.partial.article-open />
             </div>
 
@@ -144,171 +148,237 @@
                 <!-- Breadcrumb -->
                 <div class="text-sm text-gray-500 mb-2" x-text="activeSelection.path"></div>
 
-
-
                 <!-- Header -->
                 <h1 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                     <i class="far fa-star text-yellow-500 mr-2"></i>
                     <span x-text="activeSelection.type === 'article' ? activeSelection.articleData.title : activeSelection.name"></span>
                 </h1>
-                 <!-- Bulk Action Toolbar -->
-                <div
-                    x-show="selectedRows.length > 0"
-                    x-transition:enter="transition ease-out duration-200"
-                    x-transition:enter-start="opacity-0 -translate-y-2"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-150"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 -translate-y-2"
-                    class="flex items-center space-x-4 text-sm text-gray-700 py-2 px-2 border-b border-gray-200 bg-gray-50 rounded-md shadow-sm"
-                >
-                    <span class="font-medium" x-text="selectedRows.length + ' selected'"></span>
 
-                    <!-- Hide Button -->
-                    <button class="flex items-center space-x-1 hover:text-indigo-600">
+                <!-- Bulk Action Toolbar -->
+              <div
+                    x-show="selectedRows.length > 0"
+                    x-transition:enter="transition-all ease-out duration-300"
+                    x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition-all ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
+                    class="
+                        sticky top-0 z-20
+                        bg-white
+                        rounded-xl
+                        shadow-sm
+                        px-4 py-3
+                        flex flex-wrap items-center gap-4
+                        text-sm text-gray-700
+                    "
+                >
+                    <!-- Selected Count -->
+                    <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
+
+                    <!-- Hide -->
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
                         <i class="fas fa-eye-slash text-xs"></i>
-                        <span>Hide</span>
+                        <span class="hidden sm:inline">Hide</span>
                     </button>
 
-                    <!-- Delete Button -->
+                    <!-- Delete -->
                     <button
-                        x-data
                         @click="$dispatch('open-delete-dialog')"
-                        class="flex items-center space-x-1 hover:text-red-600"
+                        class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
                     >
                         <i class="fas fa-trash text-xs"></i>
-                        <span>Delete</span>
+                        <span class="hidden sm:inline">Delete</span>
                     </button>
 
                     <!-- Unpublish -->
-                    <button class="flex items-center space-x-1 hover:text-indigo-600">
-                        <i class="fas fa-ban text-xs"></i><span>Unpublish</span>
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                        <i class="fas fa-ban text-xs"></i>
+                        <span class="hidden sm:inline">Unpublish</span>
                     </button>
 
                     <!-- Move -->
-                    <button class="flex items-center space-x-1 hover:text-indigo-600">
-                        <i class="fas fa-arrows-alt text-xs"></i><span>Move</span>
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                        <i class="fas fa-arrows-alt text-xs"></i>
+                        <span class="hidden sm:inline">Move</span>
                     </button>
 
-                    <!-- Add to starred -->
-                    <button class="flex items-center space-x-1 hover:text-yellow-600">
-                        <i class="far fa-star text-xs"></i><span>Star</span>
+                    <!-- Star -->
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
+                        <i class="far fa-star text-xs"></i>
+                        <span class="hidden sm:inline">Star</span>
                     </button>
 
-                    <!-- Add labels -->
-                    <button class="flex items-center space-x-1 hover:text-indigo-600">
-                        <i class="far fa-bookmark text-xs"></i><span>Labels</span>
+                    <!-- Labels -->
+                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                        <i class="far fa-bookmark text-xs"></i>
+                        <span class="hidden sm:inline">Labels</span>
                     </button>
                 </div>
-                <!-- Table -->
-                <div class="border border-gray-200 rounded-lg overflow-hidden">
-                    <table class="w-full">
-                        <thead class="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th class="py-3 px-4 text-left"><input type="checkbox"
-                                    @change="toggleAll($event)"
-                                    :checked="selectedRows.length === 3 && 3 > 0">
-                                </th>
-                                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Title</th>
-                                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Status</th>
-                                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Tags</th>
-                                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Updated on</th>
-                                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Labels</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Static data rows -->
-                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 1}">
-                                <td class="py-3 px-4">
-                                    <input type="checkbox" value="1"
-                                        @change="toggleRow(1, $event.target.checked)"
-                                        :checked="selectedRows.includes(1)">
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button @click="openArticleFromTable({id: 1, title: 'New Article'})"
-                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
-                                        <span>New Article</span>
-                                    </button>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">Draft</td>
-                                <td class="py-3 px-4">
-                                    <div class="flex items-center">
-                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
-                                            Draft...
-                                        </span>
-                                        <span class="text-indigo-600 text-xs">
-                                            +0
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
-                                <td class="py-3 px-4"></td>
-                            </tr>
 
-                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 2}">
-                                <td class="py-3 px-4">
-                                    <input type="checkbox" value="2"
-                                        @change="toggleRow(2, $event.target.checked)"
-                                        :checked="selectedRows.includes(2)">
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button @click="openArticleFromTable({id: 2, title: 'Product Installation Steps'})"
-                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
-                                        <span>Product Installation Steps</span>
-                                    </button>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">Draft</td>
-                                <td class="py-3 px-4">
-                                    <div class="flex items-center">
-                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
-                                            Installation...
-                                        </span>
-                                        <span class="text-indigo-600 text-xs">
-                                            +1
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
-                                <td class="py-3 px-4"></td>
-                            </tr>
+                <div class="bg-white min-h-screen antialiased p-6">
 
-                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 3}">
-                                <td class="py-3 px-4">
-                                    <input type="checkbox" value="3"
-                                        @change="toggleRow(3, $event.target.checked)"
-                                        :checked="selectedRows.includes(3)">
-                                </td>
-                                <td class="py-3 px-4">
-                                    <button @click="openArticleFromTable({id: 3, title: 'Initial Setup Guide'})"
-                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
-                                        <span>Initial Setup Guide</span>
-                                    </button>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">Draft</td>
-                                <td class="py-3 px-4">
-                                    <div class="flex items-center">
-                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
-                                            Setup...
-                                        </span>
-                                        <span class="text-indigo-600 text-xs">
-                                            +1
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
-                                <td class="py-3 px-4"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- Filters -->
+                    {{--  <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0">
 
-                    <!-- Table Footer -->
-                    <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 text-sm text-gray-600">
-                        <span>1 - 3 of 3 items</span>
+                       <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                            <!-- Search -->
+                            <input
+                                type="text"
+                                placeholder="Search articles..."
+                                wire:model.debounce.300ms="search"
+                                class="px-3 py-1 rounded-lg border border-gray-300
+                                    focus:outline-none focus:ring-1 focus:ring-purple-500"
+                            >
+
+                            <!-- Quantity -->
+                            <div class="dropdown relative inline-flex rounded px-3 py-1">
+                                <button type="button"
+                                    class="dropdown-toggle btn btn-primary flex items-center justify-between w-full">
+                                    {{ $quantity }}
+                                    <span class="icon-[tabler--chevron-down] size-4 ml-2"></span>
+                                </button>
+
+                                <ul class="dropdown-menu hidden min-w-60 mt-1">
+                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 5)">5</a></li>
+                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 10)">10</a></li>
+                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 25)">25</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>--}}
+
+                    <!-- Articles Table -->
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                           <thead class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">
+                                        <input
+                                            type="checkbox"
+                                            @change="toggleAll($event)"
+                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        >
+                                    </th>
+                                    <th class="px-4 py-3 text-left">Sr. no.</th>
+
+                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('title')">
+                                        Title
+                                    </th>
+
+                                    <!-- NEW -->
+                                    <th class="px-4 py-3 text-left">Tags</th>
+                                    <th class="px-4 py-3 text-left">Labels</th>
+
+                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('status')">
+                                        Status
+                                    </th>
+
+                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('updated_at')">
+                                        Updated At
+                                    </th>
+                                </tr>
+                            </thead>
+
+                           <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                                @forelse($rows as $index => $article)
+                                <tr
+                                    wire:click.stop
+                                    class="hover:bg-gray-50 transition duration-150
+                                    {{ $articleId === $article->id ? 'bg-indigo-50' : '' }}"
+                                >
+                                    <!-- Checkbox -->
+                                    <td class="px-6 py-3">
+                                        <input
+                                            type="checkbox"
+                                            x-model="selectedRows"
+                                            value="{{ $article->id }}"
+                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            @click.stop
+                                        >
+                                    </td>
+
+                                    <!-- Index -->
+                                    <td class="px-6 py-3 text-gray-500">
+                                        {{ $rows->firstItem() + $index }}
+                                    </td>
+
+                                    <!-- Title -->
+                                    <td class="py-3 px-4">
+                                        <button
+                                            type="button"
+                                            @click="openArticleFromTable({
+                                                id: {{ $article->id }},
+                                                title: '{{ addslashes($article->title) }}'
+                                            })"
+                                            class="text-indigo-600 hover:text-indigo-800 flex items-center"
+                                        >
+                                            <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
+                                            <span>{{ $article->title }}</span>
+                                        </button>
+                                    </td>
+
+                                    <!-- TAGS (STATIC) -->
+                                    <td class="px-4 py-3">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
+                                                Product
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
+                                                Docs
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <!-- LABELS (STATIC) -->
+                                    <td class="px-4 py-3">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700">
+                                                Important
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700">
+                                                Internal
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="px-4 py-3 text-gray-600">
+                                        {{ ucfirst($article->status) }}
+                                    </td>
+
+                                    <!-- Updated -->
+                                    <td class="px-4 py-3 text-gray-500">
+                                        {{ $article->updated_at->format('Y-m-d H:i') }}
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="8" class="py-6 text-center text-gray-500">
+                                        No articles found
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+
+                        </table>
+
+                        <!-- Pagination -->
+                        <div class="p-4">
+                            {{ $rows->links() }}
+                        </div>
                     </div>
                 </div>
+                <style>
+                    [class*="icon-"] {
+                        display: inline-block;
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        background-color: currentColor;
+                        mask-repeat: no-repeat;
+                        mask-size: cover;
+                    }
+                </style>
             </div>
         </div>
     </div>
@@ -319,20 +389,14 @@
                 selectedRows: [],
                 tableArticleId: null, // Tracks which article is opened from table
 
-                toggleRow(id, checked) {
-                    if (checked) {
-                        if (!this.selectedRows.includes(id)) {
-                            this.selectedRows.push(id);
-                        }
-                    } else {
-                        this.selectedRows = this.selectedRows.filter(rowId => rowId !== id);
-                    }
-                },
-
                 toggleAll(event) {
                     const checked = event.target.checked;
-                    // Updated to match the static data - 3 articles
-                    this.selectedRows = checked ? [1, 2, 3] : [];
+                    if (checked) {
+                        // Get all article IDs from the current page
+                        this.selectedRows = @json($rows->pluck('id')->toArray());
+                    } else {
+                        this.selectedRows = [];
+                    }
                 },
 
                 navItems: [

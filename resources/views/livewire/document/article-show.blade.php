@@ -3,6 +3,7 @@
     <div class="bg-white flex flex-1 rounded-xl shadow-md border border-gray-200 flex flex-1 p-6 space-y-6">
         <!-- Sidebar -->
         <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+
             <div class="flex space-x-2">
                 <button class="p-2 text-gray-500 hover:bg-gray-100 rounded"><i class="fas fa-list-check"></i></button>
                 <button class="p-2 text-gray-500 hover:bg-gray-100 rounded"><i class="far fa-clock"></i></button>
@@ -83,7 +84,7 @@
             <!-- Dropdown Split -->
             <div class="dropdown relative inline-flex">
                 <button id="dropdown-article" type="button" class="dropdown-toggle btn btn-square btn-primary join-item" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+                    <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
                 </button>
 
                 <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-article">
@@ -206,7 +207,7 @@
                             <tr>
                                 <th class="py-3 px-4 text-left"><input type="checkbox"
                                     @change="toggleAll($event)"
-                                    :checked="selectedRows.length === activeSelection.articles.length && activeSelection.articles.length > 0">
+                                    :checked="selectedRows.length === 3 && 3 > 0">
                                 </th>
                                 <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Title</th>
                                 <th class="py-3 px-4 text-left text-sm font-medium text-gray-700">Status</th>
@@ -216,169 +217,201 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template x-for="article in activeSelection.articles" :key="article.id">
-                                <tr :class="{'bg-indigo-50': isArticleActive(article)}" class="hover:bg-gray-50">
-                                    <td class="py-3 px-4"><input type="checkbox"
-                                        :value="article.id"
-                                        @change="toggleRow(article.id, $event.target.checked)"
-                                        :checked="selectedRows.includes(article.id)">
-                                    </td>
-                                    <td class="py-3 px-4">
-                                        <button @click="openArticleFromTable(article)"
-                                            class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                            <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
-                                            <span x-text="article.title"></span>
-                                        </button>
-                                    </td>
-                                    <td class="py-3 px-4 text-gray-600" x-text="article.status"></td>
-                                    <td class="py-3 px-4">
-                                        <div x-show="article.tags.length > 0" class="flex items-center">
-                                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
-                                                <span x-text="article.tags[0]"></span>...
-                                            </span>
-                                            <span x-show="article.tags.length > 1"
-                                                  class="text-indigo-600 text-xs">
-                                                  +<span x-text="article.tags.length - 1"></span>
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 px-4 text-gray-600" x-text="article.updated"></td>
-                                    <td class="py-3 px-4"></td>
-                                </tr>
-                            </template>
+                            <!-- Static data rows -->
+                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 1}">
+                                <td class="py-3 px-4">
+                                    <input type="checkbox" value="1"
+                                        @change="toggleRow(1, $event.target.checked)"
+                                        :checked="selectedRows.includes(1)">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button @click="openArticleFromTable({id: 1, title: 'New Article'})"
+                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
+                                        <span>New Article</span>
+                                    </button>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">Draft</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
+                                            Draft...
+                                        </span>
+                                        <span class="text-indigo-600 text-xs">
+                                            +0
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
+                                <td class="py-3 px-4"></td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 2}">
+                                <td class="py-3 px-4">
+                                    <input type="checkbox" value="2"
+                                        @change="toggleRow(2, $event.target.checked)"
+                                        :checked="selectedRows.includes(2)">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button @click="openArticleFromTable({id: 2, title: 'Product Installation Steps'})"
+                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
+                                        <span>Product Installation Steps</span>
+                                    </button>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">Draft</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
+                                            Installation...
+                                        </span>
+                                        <span class="text-indigo-600 text-xs">
+                                            +1
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
+                                <td class="py-3 px-4"></td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50" :class="{'bg-indigo-50': tableArticleId === 3}">
+                                <td class="py-3 px-4">
+                                    <input type="checkbox" value="3"
+                                        @change="toggleRow(3, $event.target.checked)"
+                                        :checked="selectedRows.includes(3)">
+                                </td>
+                                <td class="py-3 px-4">
+                                    <button @click="openArticleFromTable({id: 3, title: 'Initial Setup Guide'})"
+                                        class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
+                                        <span>Initial Setup Guide</span>
+                                    </button>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">Draft</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">
+                                            Setup...
+                                        </span>
+                                        <span class="text-indigo-600 text-xs">
+                                            +1
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">This Tuesday</td>
+                                <td class="py-3 px-4"></td>
+                            </tr>
                         </tbody>
                     </table>
 
                     <!-- Table Footer -->
                     <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 text-sm text-gray-600">
-                        <span x-text="activeSelection.articles ? '1 - ' + activeSelection.articles.length + ' of ' + activeSelection.articles.length + ' items' : '0 items'"></span>
+                        <span>1 - 3 of 3 items</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('flyLayout', () => ({
-            selectedRows: [],
-            tableArticleId: null, // Tracks which article is opened from table
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('flyLayout', () => ({
+                selectedRows: [],
+                tableArticleId: null, // Tracks which article is opened from table
 
-            toggleRow(id, checked) {
-                if (checked) {
-                    if (!this.selectedRows.includes(id)) {
-                        this.selectedRows.push(id);
+                toggleRow(id, checked) {
+                    if (checked) {
+                        if (!this.selectedRows.includes(id)) {
+                            this.selectedRows.push(id);
+                        }
+                    } else {
+                        this.selectedRows = this.selectedRows.filter(rowId => rowId !== id);
                     }
-                } else {
-                    this.selectedRows = this.selectedRows.filter(rowId => rowId !== id);
-                }
-            },
-
-            toggleAll(event) {
-                const checked = event.target.checked;
-                this.selectedRows = checked ? this.activeSelection.articles.map(a => a.id) : [];
-            },
-
-            navItems: [
-                {
-                    type: 'category',
-                    name: 'Getting started guides',
-                    icon: 'far fa-folder',
-                    path: '/getting-started-guides',
-                    isOpen: true,
-                    articles: [
-                        { id: 1, title: 'New Article', status: 'Draft', tags: ['Draft'], updated: 'This Tuesday' },
-                        { id: 2, title: 'Product Installation Steps', status: 'Draft', tags: ['Installation', 'Guide'], updated: 'This Tuesday' },
-                        { id: 3, title: 'Initial Setup Guide', status: 'Draft', tags: ['Setup', 'Guide'], updated: 'This Tuesday' },
-                    ]
                 },
-                {
-                    type: 'category',
-                    name: 'FAQs',
-                    icon: 'far fa-folder',
-                    path: '/faqs',
-                    isOpen: false,
-                    articles: [
-                        { id: 4, title: 'Common Questions', status: 'Published', tags: ['FAQ'], updated: 'Yesterday' },
-                    ]
+
+                toggleAll(event) {
+                    const checked = event.target.checked;
+                    // Updated to match the static data - 3 articles
+                    this.selectedRows = checked ? [1, 2, 3] : [];
                 },
-                {
-                    type: 'category',
-                    name: 'Blog',
-                    icon: 'far fa-folder',
-                    path: '/blog',
-                    isOpen: false,
-                    articles: [
-                        { id: 5, title: 'Top 10 AI Tools for KM in 2025', status: 'Draft', tags: ['KM', 'AI', '2025'], updated: '17 hours ago' },
-                    ]
-                }
-            ],
 
-            activeSelection: {
-                type: 'article',
-                name: 'New Article',
-                path: '/getting-started-guides',
-                articleData: null,
-                articles: []
-            },
+                navItems: [
+                    {
+                        type: 'category',
+                        name: 'Getting started guides',
+                        icon: 'far fa-folder',
+                        path: '/getting-started-guides',
+                        isOpen: true,
+                        articles: [
+                            { id: 1, title: 'New Article', status: 'Draft', tags: ['Draft'], updated: 'This Tuesday' },
+                            { id: 2, title: 'Product Installation Steps', status: 'Draft', tags: ['Installation', 'Guide'], updated: 'This Tuesday' },
+                            { id: 3, title: 'Initial Setup Guide', status: 'Draft', tags: ['Setup', 'Guide'], updated: 'This Tuesday' },
+                        ]
+                    },
+                    {
+                        type: 'category',
+                        name: 'FAQs',
+                        icon: 'far fa-folder',
+                        path: '/faqs',
+                        isOpen: false,
+                        articles: [
+                            { id: 4, title: 'Common Questions', status: 'Published', tags: ['FAQ'], updated: 'Yesterday' },
+                        ]
+                    },
+                    {
+                        type: 'category',
+                        name: 'Blog',
+                        icon: 'far fa-folder',
+                        path: '/blog',
+                        isOpen: false,
+                        articles: [
+                            { id: 5, title: 'Top 10 AI Tools for KM in 2025', status: 'Draft', tags: ['KM', 'AI', '2025'], updated: '17 hours ago' },
+                        ]
+                    }
+                ],
 
-            init() {
-                // Set initial active item
-                const firstCategory = this.navItems[0];
-                this.setActiveArticle(firstCategory.articles[0], firstCategory);
-            },
-
-            toggleCategory(category) {
-                category.isOpen = !category.isOpen;
-                if (category.isOpen) {
-                    this.setActiveCategory(category);
-                    // Clear any opened article from table
-                    this.tableArticleId = null;
-                }
-            },
-
-            setActiveCategory(category) {
-                this.activeSelection = {
-                    type: 'category',
-                    name: category.name,
-                    path: category.path,
-                    articleData: null,
-                    articles: category.articles
-                };
-                // Clear opened article from table
-                this.tableArticleId = null;
-            },
-
-            // This is for sidebar article clicks - only updates selection, doesn't open article page
-            setActiveArticle(article, category) {
-                // Close all categories except the active one
-                this.navItems.forEach(cat => {
-                    cat.isOpen = cat.name === category.name;
-                });
-
-                this.activeSelection = {
+                activeSelection: {
                     type: 'article',
-                    name: article.title,
-                    path: category.path,
-                    articleData: article,
-                    articles: category.articles
-                };
+                    name: 'New Article',
+                    path: '/getting-started-guides',
+                    articleData: null,
+                    articles: []
+                },
 
-                // Clear any opened article from table
-                this.tableArticleId = null;
-            },
+                init() {
+                    // Set initial active item
+                    const firstCategory = this.navItems[0];
+                    this.setActiveArticle(firstCategory.articles[0], firstCategory);
+                },
 
-            // This is for table article title clicks - opens the article page
-            openArticleFromTable(article) {
-                // Set the article ID to show the Livewire component
-                this.tableArticleId = article.id;
+                toggleCategory(category) {
+                    category.isOpen = !category.isOpen;
+                    if (category.isOpen) {
+                        this.setActiveCategory(category);
+                        // Clear any opened article from table
+                        this.tableArticleId = null;
+                    }
+                },
 
-                // Also update the active selection for highlighting
-                const category = this.navItems.find(cat =>
-                    cat.articles.some(a => a.id === article.id)
-                );
+                setActiveCategory(category) {
+                    this.activeSelection = {
+                        type: 'category',
+                        name: category.name,
+                        path: category.path,
+                        articleData: null,
+                        articles: category.articles
+                    };
+                    // Clear opened article from table
+                    this.tableArticleId = null;
+                },
 
-                if (category) {
+                // This is for sidebar article clicks - only updates selection, doesn't open article page
+                setActiveArticle(article, category) {
+                    // Close all categories except the active one
+                    this.navItems.forEach(cat => {
+                        cat.isOpen = cat.name === category.name;
+                    });
+
                     this.activeSelection = {
                         type: 'article',
                         name: article.title,
@@ -386,19 +419,42 @@
                         articleData: article,
                         articles: category.articles
                     };
+
+                    // Clear any opened article from table
+                    this.tableArticleId = null;
+                },
+
+                // This is for table article title clicks - opens the article page
+                openArticleFromTable(article) {
+                    // Set the article ID to show the Livewire component
+                    this.tableArticleId = article.id;
+
+                    // Also update the active selection for highlighting
+                    const category = this.navItems.find(cat =>
+                        cat.articles.some(a => a.id === article.id)
+                    );
+
+                    if (category) {
+                        this.activeSelection = {
+                            type: 'article',
+                            name: article.title,
+                            path: category.path,
+                            articleData: article,
+                            articles: category.articles
+                        };
+                    }
+                },
+
+                isCategoryActive(category) {
+                    return this.activeSelection.type === 'category' &&
+                        this.activeSelection.name === category.name;
+                },
+
+                isArticleActive(article) {
+                    return this.activeSelection.type === 'article' &&
+                        this.activeSelection.articleData?.id === article.id;
                 }
-            },
-
-            isCategoryActive(category) {
-                return this.activeSelection.type === 'category' &&
-                       this.activeSelection.name === category.name;
-            },
-
-            isArticleActive(article) {
-                return this.activeSelection.type === 'article' &&
-                       this.activeSelection.articleData?.id === article.id;
-            }
-        }));
-    });
-</script>
+            }));
+        });
+    </script>
 </div>

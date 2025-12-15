@@ -69,7 +69,7 @@ class ArticleCreate extends Component
         $this->slug = Str::slug($value);
     }
 
-    public function save()
+   public function save()
     {
         $data = $this->validate();
 
@@ -93,10 +93,18 @@ class ArticleCreate extends Component
             $article->tags()->sync($data['tags']);
         }
 
+        // ✅ success toast
         $this->toast()
             ->success('Success', 'Article created successfully')
             ->send();
 
+        // ✅ refresh article table
+        $this->dispatch('refresh-articles-list');
+
+        // ✅ close modal (THIS WAS THE BUG)
+        $this->dispatch('close-modal', id: 'modal-create');
+
+        // ✅ reset form
         $this->reset([
             'title',
             'slug',
@@ -108,9 +116,8 @@ class ArticleCreate extends Component
             'editor_id',
             'tags',
         ]);
-
-        $this->dispatch('close');
     }
+
 
     public function render()
     {

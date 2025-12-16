@@ -12,7 +12,6 @@
             </div>
             <div class="p-4">
                 <a href="{{ route('api.docs') }}"
-                     class="flex items-center justify-between p-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
                     <span class="flex items-center">
                         <i class="fas fa-building mr-3 text-gray-500"></i>
                         Site builder

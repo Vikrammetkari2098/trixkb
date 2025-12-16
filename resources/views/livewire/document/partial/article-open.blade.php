@@ -1,5 +1,6 @@
 <div class="bg-white min-h-screen text-gray-800" x-data="{}">
-    <!-- TOP BAR -->
+
+
     <div class="flex items-center justify-between px-6 py-3 border-b">
         <!-- LEFT SIDE - Preview section with icons -->
         <div class="flex items-center space-x-4 text-gray-900">
@@ -54,62 +55,76 @@
             <span class="text-lg font-bold  tracking-widest">T</span>
         </button>
     </div>
+   <main class="pt-10 pb-16 px-4 sm:px-8 max-w-4xl mx-auto">
+    <h1 class="text-4xl font-semibold mb-6">New Article</h1>
 
+    <div 
+        x-data="{ 
+            initEditor() {
+                const editor = new window.EditorJS({
+                    holder: this.$refs.editor,
+                    placeholder: 'Write here...',
+                    inlineToolbar: true,
+                    tools: {
+                        header: { 
+                            class: window.Header, 
+                            inlineToolbar: true,
+                            config: {
+                                placeholder: 'Enter a heading',
+                                levels: [1, 2, 3, 4],
+                                defaultLevel: 2
+                            }
+                        },
+                        paragraph: { class: window.Paragraph, inlineToolbar: true },
+                        list: { class: window.NestedList, inlineToolbar: true },
+                        checklist: { class: window.Checklist, inlineToolbar: true },
+                        quote: { class: window.Quote, inlineToolbar: true },
+                        table: { class: window.Table, inlineToolbar: true },
+                        warning: { class: window.Warning, inlineToolbar: true },
+                        marker: { class: window.Marker, inlineToolbar: true },
+                        code: { class: window.CodeTool },
+                        raw: { class: window.RawTool },
+                        underline: window.Underline,
+                        toggle: window.ToggleBlock,
+                        alert: window.Alert,
+                        image: window.ImageTool
+                    }
+                });
+            }
+        }" 
+        x-init="setTimeout(() => initEditor(), 500)"
+        wire:ignore
+    >
+        <div x-ref="editor" class="prose max-w-none border rounded-lg p-4 bg-white min-h-[400px]"></div>
+    </div>
+</main>
 
-    <main class="pt-20 pb-16 px-4 sm:px-8 max-w-6xl mx-auto">
+<style>
+    [class*="icon-"] {
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+        background-color: transparent !important;
+    }
 
-        <h1 class="text-4xl font-semibold mb-2">New Article</h1>
+    .ce-popover__item-icon svg, 
+    .ce-toolbar__plus svg, 
+    .ce-toolbox__button svg,
+    .ce-toolbar__settings-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+        fill: #374151 !important;
+        display: block !important;
+        background: none !important;
+    }
 
-        <p class="text-gray-500 mb-6">Press '/' for commands</p>
+    .ce-popover__item-icon, .ce-toolbar__plus, .ce-toolbox__button {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
 
-        <div class="flex items-center space-x-3 mb-24">
-            <div class="flex items-center bg-white rounded-md p-1 border border-gray-200 shadow-sm text-gray-500">
-                <span class="text-sm font-medium text-pink-500 px-3 py-1 flex items-center cursor-pointer">
-                    Quick insert
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </span>
-
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500" viewBox="0 0 20 20" fill="currentColor"><path d="M5.586 15H4a1 1 0 01-1-1v-2.586A1 1 0 013.293 10.293l5.586-5.586a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414l-5.586 5.586A1 1 0 015.586 15zM7 13v-3.586l3.586-3.586 2 2L9.586 13H7z" /></svg>
-                </button>
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                </button>
-                <div class="w-px h-6 bg-gray-300 mx-1"></div>
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </button>
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </button>
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                </button>
-
-                <div class="w-px h-6 bg-gray-300 mx-1"></div>
-
-                <button class="hover:bg-gray-100 p-1.5 rounded-sm flex items-center">
-                    <span class="text-sm">More</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="flex flex-col items-center justify-center h-[50vh]">
-            <div class="space-y-4">
-                <button class="bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-8 rounded-full shadow-xl transition duration-150 ease-in-out transform hover:scale-105 text-base">
-                    Start writing with Eddy AI
-                </button>
-
-                <button class="block w-auto ml-12 text-center text-gray-900 hover:text-gray-900 py-3 px-7 rounded-full bg-gray-100 transition duration-150 ease-in-out text-sm">
-                    Pick a template
-                </button>
-
-                <button class="w-auto ml-11 text-center text-gray-900 hover:text-gray-900 py-3 px-6 rounded-full bg-gray-100 transition duration-150 ease-in-out text-sm">
-                    Import document
-                </button>
-            </div>
-        </div>
-
-    </main>
+    h1.ce-header { font-size: 2.25rem; font-weight: 700; line-height: 2.5rem; }
+    h2.ce-header { font-size: 1.875rem; font-weight: 700; line-height: 2.25rem; }
+    h3.ce-header { font-size: 1.5rem; font-weight: 600; line-height: 2rem; }
+    h4.ce-header { font-size: 1.25rem; font-weight: 600; line-height: 1.75rem; }
+</style>
 </div>

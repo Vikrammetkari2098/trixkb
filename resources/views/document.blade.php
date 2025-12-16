@@ -7,7 +7,7 @@
         </p>
         <livewire:document.article-create />
     </x-modal>
-     <livewire:document.article-delete />
+     
         <div>
             <livewire:document.article-show/>
         </div>

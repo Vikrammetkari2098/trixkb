@@ -154,7 +154,37 @@
                     <span x-text="activeSelection.type === 'article' ? activeSelection.articleData.title : activeSelection.name"></span>
                 </h1>
 
-                <!-- Bulk Action Toolbar -->
+            <div class="bg-white min-h-screen antialiased p-6">
+
+                           <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
+
+                                <!-- LEFT : Quantity -->
+                                <div x-data="{open:false}" class="relative inline-block">
+                                    <button @click="open=!open" class="btn btn-primary flex items-center gap-1">
+                                        {{ $quantity }}
+                                        <span class="icon-[tabler--chevron-down] size-4"></span>
+                                    </button>
+
+                                    <ul x-show="open" @click.outside="open=false"
+                                        class="absolute left-0 mt-1 min-w-24 bg-white border rounded shadow">
+                                        <li><button wire:click="setQuantity(5)" @click="open=false" class="dropdown-item">5</button></li>
+                                        <li><button wire:click="setQuantity(10)" @click="open=false" class="dropdown-item">10</button></li>
+                                        <li><button wire:click="setQuantity(25)" @click="open=false" class="dropdown-item">25</button></li>
+                                    </ul>
+                                </div>
+
+                                <!-- RIGHT : Search -->
+                                <input
+                                    type="text"
+                                    placeholder="Search articles..."
+                                    wire:model.debounce.300ms="search"
+                                    class="px-3 py-1 rounded-lg border border-gray-300
+                                        focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                >
+
+                            </div>
+
+                         <!-- Bulk Action Toolbar -->
               <div
                     x-show="selectedRows.length > 0"
                     x-transition:enter="transition-all ease-out duration-300"
@@ -168,7 +198,7 @@
                         bg-white
                         rounded-xl
                         shadow-sm
-                        px-4 py-3
+                        px-4 py-3 
                         flex flex-wrap items-center gap-4
                         text-sm text-gray-700
                     "
@@ -215,43 +245,13 @@
                         <span class="hidden sm:inline">Labels</span>
                     </button>
                 </div>
-
-                <div class="bg-white min-h-screen antialiased p-6">
-
-                    <!-- Filters -->
-                    {{--  <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-2 md:space-y-0">
-
-                       <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                            <!-- Search -->
-                            <input
-                                type="text"
-                                placeholder="Search articles..."
-                                wire:model.debounce.300ms="search"
-                                class="px-3 py-1 rounded-lg border border-gray-300
-                                    focus:outline-none focus:ring-1 focus:ring-purple-500"
-                            >
-
-                            <!-- Quantity -->
-                            <div class="dropdown relative inline-flex rounded px-3 py-1">
-                                <button type="button"
-                                    class="dropdown-toggle btn btn-primary flex items-center justify-between w-full">
-                                    {{ $quantity }}
-                                    <span class="icon-[tabler--chevron-down] size-4 ml-2"></span>
-                                </button>
-
-                                <ul class="dropdown-menu hidden min-w-60 mt-1">
-                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 5)">5</a></li>
-                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 10)">10</a></li>
-                                    <li><a href="#" class="dropdown-item" wire:click.prevent="$set('quantity', 25)">25</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>--}}
+                        
+                        
 
                     <!-- Articles Table -->
                     <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200">
-                           <thead class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wider">
+                           <thead class="bg-gray-50 text-gray-500  text-xs tracking-wider">
                                 <tr>
                                     <th class="px-6 py-3 text-left">
                                         <input
@@ -363,11 +363,13 @@
 
                         </table>
 
-                        <!-- Pagination -->
-                        <div class="p-4">
+                       <!-- Pagination -->
+                        <div class="p-4 relative z-30">
                             {{ $rows->links() }}
                         </div>
+
                     </div>
+                    
                 </div>
                 <style>
                     [class*="icon-"] {

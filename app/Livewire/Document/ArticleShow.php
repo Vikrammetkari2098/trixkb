@@ -23,18 +23,24 @@ class ArticleShow extends Component
     public ?int $articleId = null;
     public ?Article $article = null;
 
+    public array $selectedRows = []; 
     protected $paginationTheme = 'tailwind';
+
+    protected $queryString = ['search', 'quantity', 'sort']; 
+
     #[On('refresh-articles-list')]
     public function refreshList(): void
     {
         $this->resetPage();
     }
 
+    #[On('loadData-articles')]
+    public function loadData(): void
+    {
+        $this->resetPage();
+    }
 
-    /* -------------------------
-     | Sorting
-     |--------------------------*/
-    public function sortBy($column): void
+    public function sortBy(string $column): void
     {
         if ($this->sort['column'] === $column) {
             $this->sort['direction'] =
@@ -47,9 +53,21 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-    /* -------------------------
-     | Computed rows
-     |--------------------------*/
+  
+    public function openArticle(int $id): void
+    {
+        $this->articleId = $id;
+        $this->article   = Article::find($id);
+    }
+    public function toggleAll($checked): void
+    {
+        if ($checked) {
+            $this->selectedRows = $this->rows->pluck('id')->toArray();
+        } else {
+            $this->selectedRows = [];
+        }
+    }
+
     public function getRowsProperty()
     {
         return Article::query()
@@ -61,9 +79,6 @@ class ArticleShow extends Component
             ->paginate($this->quantity);
     }
 
-    /* -------------------------
-     | Table headers
-     |--------------------------*/
     public function getHeadersProperty(): array
     {
         return [
@@ -71,21 +86,6 @@ class ArticleShow extends Component
             ['index' => 'status', 'label' => 'Status', 'sortable' => true],
             ['index' => 'updated_at', 'label' => 'Updated On', 'sortable' => true],
         ];
-    }
-
-    /* -------------------------
-     | Row click
-     |--------------------------*/
-    public function openArticle(int $id): void
-    {
-        $this->articleId = $id;
-        $this->article   = Article::find($id);
-    }
-
-    #[On('loadData-articles')]
-    public function loadData(): void
-    {
-        $this->resetPage();
     }
 
     public function render()

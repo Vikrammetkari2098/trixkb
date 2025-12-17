@@ -34,11 +34,45 @@ class ArticleCreate extends Component
         'type' => 'index'
     ];
     public $showCategoryModal = false;
+    public $tagSearch = '';
+
 
     // Data for selects
     public $allTags;
     public $users;
     public $categories;
+    public function updatedTagSearch($value)
+{
+    $this->tagSearch = trim($value);
+}
+    public function createTag()
+    {
+        if ($this->tagSearch === '') {
+            return;
+        }
+
+        // Check if tag exists (case-insensitive)
+        $tag = Tag::whereRaw('LOWER(name) = ?', [strtolower($this->tagSearch)])
+            ->first();
+
+        if (!$tag) {
+            $tag = Tag::create([
+                'name' => $this->tagSearch,
+                'slug' => Str::slug($this->tagSearch),
+            ]);
+
+            // Reload tag list
+            $this->allTags = Tag::orderBy('name')->get();
+        }
+
+        // Select tag
+        if (!in_array($tag->id, $this->tags)) {
+            $this->tags[] = $tag->id;
+        }
+
+        // Clear search text
+        $this->tagSearch = '';
+    }
 
     protected $rules = [
         'title'        => 'required|string|max:255',
@@ -57,10 +91,9 @@ class ArticleCreate extends Component
     {
         return [
             'newCategory.name' => 'required|string|min:3|max:255|unique:categories,category_name',
-            'newCategory.location' => 'required|string',
-            'newCategory.type' => 'required|string|in:folder,index,page,github',
         ];
     }
+
 
     public function mount()
     {
@@ -93,36 +126,26 @@ class ArticleCreate extends Component
     public function createCategory()
     {
         $this->validate($this->rulesForCategory());
-
-        // Find the highest sort_order to place new category at the end
         $maxSortOrder = Category::max('sort_order') ?? 0;
 
         $category = Category::create([
-            'category_name' => $this->newCategory['name'],
-            'category_slug' => Str::slug($this->newCategory['name']),
-            'location' => $this->newCategory['location'],
-            'type' => $this->newCategory['type'],
+            'category_name'   => $this->newCategory['name'],
+            'slug'            => Str::slug($this->newCategory['name']),
+            'parent_id'       => null,
             'category_status' => 1,
-            'sort_order' => $maxSortOrder + 1,
+            'sort_order'      => $maxSortOrder + 1,
         ]);
 
-        // Reset the form
         $this->resetNewCategoryForm();
 
-        // Close the modal
         $this->showCategoryModal = false;
-
-        // Refresh categories list
         $this->loadCategories();
-
-        // Select the newly created category
         $this->category_id = $category->category_id;
-
-        // Show success message
         $this->toast()
             ->success('Success', 'Category created successfully!')
             ->send();
     }
+
 
     public function resetNewCategoryForm()
     {
@@ -156,19 +179,12 @@ class ArticleCreate extends Component
         if (!empty($data['tags'])) {
             $article->tags()->sync($data['tags']);
         }
-
-        // ✅ success toast
         $this->toast()
             ->success('Success', 'Article created successfully')
             ->send();
 
-        // ✅ refresh article table
         $this->dispatch('refresh-articles-list');
-
-        // ✅ close modal (THIS WAS THE BUG)
         $this->dispatch('close-modal', id: 'modal-create');
-
-        // ✅ reset form
         $this->reset([
             'title',
             'slug',

@@ -11,13 +11,15 @@ class Tag extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    public $timestamps = false;
+
     public function pages()
     {
         return $this->morphedByMany(Page::class, 'taggable');
     }
+
     public function articles()
     {
         return $this->belongsToMany(Article::class, 'article_tag');
     }
-
 }

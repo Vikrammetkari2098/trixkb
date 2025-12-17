@@ -16,13 +16,13 @@
             </div>
 
             <!-- Slug -->
-            <div class="sm:col-span-2">
+            {{--  <div class="sm:col-span-2">
                 <x-input
                     label="Slug (optional)"
                     id="slug"
                     wire:model.defer="slug"
                 />
-            </div>
+            </div>--}}
 
             <!-- Category with Add Button -->
             <div class="sm:col-span-2">
@@ -38,79 +38,77 @@
                     <button
                         type="button"
                         wire:click="$set('showCategoryModal', true)"
-                        class="flex-shrink-0 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                        class="btn btn-soft btn-primary waves waves-primary"
                     >
                         + Add
                     </button>
+
                 </div>
                 <p class="mt-1 text-xs text-gray-500">Can't find your category? Click "Add" to create a new one.</p>
             </div>
 
-            <!-- Tags -->
-            <div class="sm:col-span-2">
-                <label class="block text-sm font-medium mb-1">Tags</label>
-                <select
-                    wire:model.defer="tags"
-                    multiple
-                    class="w-full px-3 py-2 border rounded-md"
-                >
-                    @foreach ($allTags as $tag)
-                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <div class="sm:col-span-2 mt-4">
+                <details class="group">
+                    <summary class="flex items-center font-medium cursor-pointer list-none text-gray-700">
+                        <span class="transition group-open:rotate-180 mr-2">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24" class="w-4 h-4">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                        <span>Advanced</span>
+                    </summary>
 
-            <!-- Status -->
-            <div>
-                <x-select.styled
-                    label="Status"
-                    :options="[
-                        ['label' => 'Draft', 'value' => 'draft'],
-                        ['label' => 'In Review', 'value' => 'in_review'],
-                        ['label' => 'Published', 'value' => 'published'],
-                    ]"
-                    select="label:label|value:value"
-                    wire:model.defer="status"
-                    id="status"
-                />
-            </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 transition-all duration-300">
 
-            <!-- Published At -->
-            <div>
-                <x-input
-                    type="datetime-local"
-                    label="Published At"
-                    id="published_at"
-                    wire:model.defer="published_at"
-                />
-            </div>
+                        <div class="md:col-span-2 space-y-2">
+                            <x-select.styled
+                                label="Tags"
+                                :options="$allTags->map(fn($tag) => ['label' => $tag->name, 'value' => $tag->id])->toArray()"
+                                select="label:label|value:value"
+                                wire:model="tags"
+                                multiple
+                            />
+                            <input
+                                type="text"
+                                wire:model.defer="tagSearch"
+                                wire:keydown.enter.prevent="createTag"
+                                placeholder="Type tag and press Enter to create"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-gray-400"
+                            />
+                        </div>
 
-            <!-- Author -->
-            <div>
-                <x-select.styled
-                    label="Author *"
-                    :options="$users->map(fn($user) => [
-                        'label' => $user->name,
-                        'value' => $user->id
-                    ])->toArray()"
-                    select="label:label|value:value"
-                    wire:model.defer="author_id"
-                    id="author"
-                />
-            </div>
+                        <x-select.styled
+                            label="Status"
+                            :options="[
+                                ['label' => 'Draft', 'value' => 'draft'],
+                                ['label' => 'In Review', 'value' => 'in_review'],
+                                ['label' => 'Published', 'value' => 'published'],
+                            ]"
+                            select="label:label|value:value"
+                            wire:model.defer="status"
+                        />
 
-            <!-- Editor -->
-            <div>
-                <x-select.styled
-                    label="Editor (optional)"
-                    :options="$users->map(fn($user) => [
-                        'label' => $user->name,
-                        'value' => $user->id
-                    ])->toArray()"
-                    select="label:label|value:value"
-                    wire:model.defer="editor_id"
-                    id="editor"
-                />
+                        <x-input
+                            type="datetime-local"
+                            label="Published At"
+                            wire:model.defer="published_at"
+                        />
+
+                        <x-select.styled
+                            label="Author *"
+                            :options="$users->map(fn($user) => ['label' => $user->name, 'value' => $user->id])->toArray()"
+                            select="label:label|value:value"
+                            wire:model.defer="author_id"
+                        />
+
+                        <x-select.styled
+                            label="Editor (optional)"
+                            :options="$users->map(fn($user) => ['label' => $user->name, 'value' => $user->id])->toArray()"
+                            select="label:label|value:value"
+                            wire:model.defer="editor_id"
+                        />
+                    </div>
+                </details>
             </div>
 
             <!-- Featured -->
@@ -124,7 +122,7 @@
             </div>
 
             <!-- Content -->
-            <div class="sm:col-span-2">
+             <div class="sm:col-span-2">
                 <label class="block font-medium">Content *</label>
                 <textarea
                     wire:model.defer="content"
@@ -225,9 +223,6 @@
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <label class="block text-sm font-medium text-gray-600">Category Type</label>
-                            <a href="#" class="text-sm text-blue-500 hover:underline hover:text-blue-600 transition-colors duration-200">
-                                Learn more
-                            </a>
                         </div>
 
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">

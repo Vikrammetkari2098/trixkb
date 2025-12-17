@@ -27,6 +27,14 @@ class ArticleCreate extends Component
     public $editor_id;
     public $tags = [];
 
+    // New Category Modal fields
+    public $newCategory = [
+        'name' => '',
+        'location' => 'getting_started',
+        'type' => 'index'
+    ];
+    public $showCategoryModal = false;
+
     // Data for selects
     public $allTags;
     public $users;
@@ -35,7 +43,7 @@ class ArticleCreate extends Component
     protected $rules = [
         'title'        => 'required|string|max:255',
         'content'      => 'required|string',
-        'category_id' => 'required|integer|exists:categories,category_id',
+        'category_id'  => 'required|integer|exists:categories,category_id',
         'status'       => 'required|in:draft,in_review,published',
         'is_featured'  => 'boolean',
         'published_at' => 'nullable|date',
@@ -45,23 +53,36 @@ class ArticleCreate extends Component
         'tags.*'       => 'exists:tags,id',
     ];
 
+    protected function rulesForCategory()
+    {
+        return [
+            'newCategory.name' => 'required|string|min:3|max:255|unique:categories,category_name',
+            'newCategory.location' => 'required|string',
+            'newCategory.type' => 'required|string|in:folder,index,page,github',
+        ];
+    }
+
     public function mount()
     {
         $this->allTags = Tag::orderBy('name')->get();
         $this->users = User::select('id', 'name')->get();
-        $this->categories = Category::where('category_status', 1)
-        ->orderBy('sort_order')
-        ->get()
-        ->map(function ($cat) {
-            return [
-                'label' => (string) $cat->category_name,
-                'value' => (int) $cat->category_id,
-            ];
-        })
-        ->values()
-        ->toArray();
-
+        $this->loadCategories();
         $this->author_id = auth()->id();
+    }
+
+    public function loadCategories()
+    {
+        $this->categories = Category::where('category_status', 1)
+            ->orderBy('sort_order')
+            ->get()
+            ->map(function ($cat) {
+                return [
+                    'label' => (string) $cat->category_name,
+                    'value' => (int) $cat->category_id,
+                ];
+            })
+            ->values()
+            ->toArray();
     }
 
     public function updatedTitle($value)
@@ -69,7 +90,50 @@ class ArticleCreate extends Component
         $this->slug = Str::slug($value);
     }
 
-   public function save()
+    public function createCategory()
+    {
+        $this->validate($this->rulesForCategory());
+
+        // Find the highest sort_order to place new category at the end
+        $maxSortOrder = Category::max('sort_order') ?? 0;
+
+        $category = Category::create([
+            'category_name' => $this->newCategory['name'],
+            'category_slug' => Str::slug($this->newCategory['name']),
+            'location' => $this->newCategory['location'],
+            'type' => $this->newCategory['type'],
+            'category_status' => 1,
+            'sort_order' => $maxSortOrder + 1,
+        ]);
+
+        // Reset the form
+        $this->resetNewCategoryForm();
+
+        // Close the modal
+        $this->showCategoryModal = false;
+
+        // Refresh categories list
+        $this->loadCategories();
+
+        // Select the newly created category
+        $this->category_id = $category->category_id;
+
+        // Show success message
+        $this->toast()
+            ->success('Success', 'Category created successfully!')
+            ->send();
+    }
+
+    public function resetNewCategoryForm()
+    {
+        $this->newCategory = [
+            'name' => '',
+            'location' => 'getting_started',
+            'type' => 'index'
+        ];
+    }
+
+    public function save()
     {
         $data = $this->validate();
 
@@ -117,7 +181,6 @@ class ArticleCreate extends Component
             'tags',
         ]);
     }
-
 
     public function render()
     {

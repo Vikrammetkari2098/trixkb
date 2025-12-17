@@ -11,6 +11,7 @@ use TallStackUi\Traits\Interactions;
 class ArticleShow extends Component
 {
     use Interactions, WithPagination;
+    protected $listeners = ['refresh-articles-list' => '$refresh'];
 
     public ?int $quantity = 5;
     public string $search = '';

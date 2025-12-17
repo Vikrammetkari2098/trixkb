@@ -493,6 +493,10 @@
                 openArticleFromTable(article) {
                     // Set the article ID to show the Livewire component
                     this.tableArticleId = article.id;
+                    this.$dispatch('openArticle', { id: article.id });
+                    window.dispatchEvent(new CustomEvent('load-article-title', { 
+        detail: { title: article.title } 
+    }));
 
                     // Also update the active selection for highlighting
                     const category = this.navItems.find(cat =>

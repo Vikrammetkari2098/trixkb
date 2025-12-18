@@ -4,7 +4,7 @@ namespace App\Livewire\Document;
 
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
-use App\Models\Article;
+use App\Models\ArticleVersion;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Category;
@@ -160,7 +160,7 @@ class ArticleCreate extends Component
     {
         $data = $this->validate();
 
-        $article = Article::create([
+        $article = ArticleVersion::create([
             'title'        => $data['title'],
             'slug'         => $this->slug ?: Str::slug($data['title']),
             'content'      => $data['content'],

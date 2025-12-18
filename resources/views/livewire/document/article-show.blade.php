@@ -180,7 +180,7 @@
                                 </div>
 
                                 <!-- RIGHT : Search -->
-                              <div x-data="{ search: @entangle('search').live }">
+                            <div x-data="{ search: @entangle('search').live }">
                                 <input
                                     type="text"
                                     x-model="search"
@@ -190,189 +190,213 @@
                                 >
                                 </div>
                         </div>
-                            <!-- Bulk Action Toolbar -->
-                        <div
-                            x-show="selectedRows.length > 0"
-                            x-transition:enter="transition-all ease-out duration-300"
-                            x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
-                            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                            x-transition:leave="transition-all ease-in duration-200"
-                            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                            x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
-                            class="
-                                sticky top-0 z-20
-                                bg-white
-                                rounded-xl
-                                shadow-sm
-                                px-4 py-3
-                                flex flex-wrap items-center gap-4
-                                text-sm text-gray-700
-                            "
+                       <div
+                            x-data="{
+                                selectedRows: [],
+
+                                toggleAll(event) {
+                                    if (event.target.checked) {
+                                        this.selectedRows = [...document.querySelectorAll('.row-checkbox')]
+                                            .map(cb => cb.value);
+                                    } else {
+                                        this.selectedRows = [];
+                                    }
+                                }
+                            }"
                         >
-                            <!-- Selected Count -->
-                            <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
-                            <!-- Hide -->
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                                <i class="fas fa-eye-slash text-xs"></i>
-                                <span class="hidden sm:inline">Hide</span>
-                            </button>
-
-                            <!-- Delete -->
-                            <button
-                                @click="$dispatch('open-delete-dialog')"
-                                class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
+                            <!-- Bulk Action Toolbar -->
+                            <div
+                                x-show="selectedRows.length > 0"
+                                x-transition:enter="transition-all ease-out duration-300"
+                                x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                x-transition:leave="transition-all ease-in duration-200"
+                                x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                                x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
+                                class="
+                                    sticky top-0 z-20
+                                    bg-white
+                                    rounded-xl
+                                    shadow-sm
+                                    px-4 py-3
+                                    flex flex-wrap items-center gap-4
+                                    text-sm text-gray-700
+                                "
                             >
-                                <i class="fas fa-trash text-xs"></i>
-                                <span class="hidden sm:inline">Delete</span>
-                            </button>
+                                <!-- Selected Count -->
+                                <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
-                            <!-- Unpublish -->
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                                <i class="fas fa-ban text-xs"></i>
-                                <span class="hidden sm:inline">Unpublish</span>
-                            </button>
+                                <!-- Hide -->
+                                <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                    <i class="fas fa-eye-slash text-xs"></i>
+                                    <span class="hidden sm:inline">Hide</span>
+                                </button>
 
-                            <!-- Move -->
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                                <i class="fas fa-arrows-alt text-xs"></i>
-                                <span class="hidden sm:inline">Move</span>
-                            </button>
-
-                            <!-- Star -->
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
-                                <i class="far fa-star text-xs"></i>
-                                <span class="hidden sm:inline">Star</span>
-                            </button>
-
-                            <!-- Labels -->
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                                <i class="far fa-bookmark text-xs"></i>
-                                <span class="hidden sm:inline">Labels</span>
-                            </button>
-                        </div>
-
-                    <!-- Articles Table -->
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-                        <table class="min-w-full divide-y divide-gray-200">
-                           <thead class="bg-gray-50 text-gray-500  text-xs tracking-wider">
-                                <tr>
-                                    <th class="px-6 py-3 text-left">
-                                        <input
-                                            type="checkbox"
-                                            @change="toggleAll($event)"
-                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                        >
-                                    </th>
-                                    <th class="px-4 py-3 text-left">Sr. no.</th>
-
-                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('title')">
-                                        Title
-                                    </th>
-
-                                    <!-- NEW -->
-                                    <th class="px-4 py-3 text-left">Tags</th>
-                                    <th class="px-4 py-3 text-left">Labels</th>
-
-                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('status')">
-                                        Status
-                                    </th>
-
-                                    <th class="px-4 py-3 text-left cursor-pointer" wire:click="sortBy('updated_at')">
-                                        Updated At
-                                    </th>
-                                </tr>
-                            </thead>
-
-                           <tbody class="bg-white divide-y divide-gray-200 text-sm">
-                                @forelse($rows as $index => $article)
-                                <tr
-                                    wire:click.stop
-                                    class="hover:bg-gray-50 transition duration-150
-                                    {{ $articleId === $article->id ? 'bg-indigo-50' : '' }}"
+                                <!-- Delete -->
+                                <button
+                                @click="$dispatch('open-delete-dialog', selectedRows)"
+                                    class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
                                 >
-                                    <!-- Checkbox -->
-                                    <td class="px-6 py-3">
-                                        <input
-                                            type="checkbox"
-                                            x-model="selectedRows"
-                                            value="{{ $article->id }}"
-                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                            @click.stop
-                                        >
-                                    </td>
+                                    <i class="fas fa-trash text-xs"></i>
+                                    <span>Delete</span>
+                                </button>
 
-                                    <!-- Index -->
-                                    <td class="px-6 py-3 text-gray-500">
-                                        {{ $rows->firstItem() + $index }}
-                                    </td>
+                                <!-- Unpublish -->
+                                <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                    <i class="fas fa-ban text-xs"></i>
+                                    <span class="hidden sm:inline">Unpublish</span>
+                                </button>
 
-                                    <!-- Title -->
-                                    <td class="py-3 px-4">
-                                        <button
-                                            type="button"
-                                            @click="openArticleFromTable({
-                                                id: {{ $article->id }},
-                                                title: '{{ addslashes($article->title) }}'
-                                            })"
-                                            class="text-indigo-600 hover:text-indigo-800 flex items-center"
-                                        >
-                                            <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
-                                            <span>{{ $article->title }}</span>
-                                        </button>
-                                    </td>
+                                <!-- Move -->
+                                <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                    <i class="fas fa-arrows-alt text-xs"></i>
+                                    <span class="hidden sm:inline">Move</span>
+                                </button>
 
-                                    <!-- TAGS (STATIC) -->
-                                    <td class="px-4 py-3">
-                                        <div class="flex flex-wrap gap-1">
-                                            <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
-                                                Product
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
-                                                Docs
-                                            </span>
-                                        </div>
-                                    </td>
+                                <!-- Star -->
+                                <button class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
+                                    <i class="far fa-star text-xs"></i>
+                                    <span class="hidden sm:inline">Star</span>
+                                </button>
 
-                                    <!-- LABELS (STATIC) -->
-                                    <td class="px-4 py-3">
-                                        <div class="flex flex-wrap gap-1">
-                                            <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700">
-                                                Important
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700">
-                                                Internal
-                                            </span>
-                                        </div>
-                                    </td>
+                                <!-- Labels -->
+                                <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                    <i class="far fa-bookmark text-xs"></i>
+                                    <span class="hidden sm:inline">Labels</span>
+                                </button>
+                            </div>
 
-                                    <!-- Status -->
-                                    <td class="px-4 py-3 text-gray-600">
-                                        {{ ucfirst($article->status) }}
-                                    </td>
+                            <!-- Articles Table -->
+                            <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50 text-gray-500 text-xs tracking-wider">
+                                        <tr>
+                                            <!-- Select All -->
+                                            <th class="px-6 py-3 text-left">
+                                                <input
+                                                    type="checkbox"
+                                                    @change="toggleAll($event)"
+                                                    class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                >
+                                            </th>
 
-                                    <!-- Updated -->
-                                    <td class="px-4 py-3 text-gray-500">
-                                        {{ $article->updated_at->format('Y-m-d H:i') }}
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="8" class="py-6 text-center text-gray-500">
-                                        No articles found
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
+                                            <th class="px-4 py-3 text-left">Sr. no.</th>
 
-                        </table>
+                                            <th
+                                                class="px-4 py-3 text-left cursor-pointer"
+                                                wire:click="sortBy('title')"
+                                            >
+                                                Title
+                                            </th>
 
-                       <!-- Pagination -->
-                        <div class="p-4 relative z-30">
-                            {{ $rows->links() }}
+                                            <th class="px-4 py-3 text-left">Tags</th>
+                                            <th class="px-4 py-3 text-left">Labels</th>
+
+                                            <th
+                                                class="px-4 py-3 text-left cursor-pointer"
+                                                wire:click="sortBy('status')"
+                                            >
+                                                Status
+                                            </th>
+
+                                            <th
+                                                class="px-4 py-3 text-left cursor-pointer"
+                                                wire:click="sortBy('updated_at')"
+                                            >
+                                                Updated At
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                                        @forelse($rows as $index => $article)
+                                            <tr
+                                                wire:click.stop
+                                                class="hover:bg-gray-50 transition duration-150
+                                                {{ $articleId === $article->id ? 'bg-indigo-50' : '' }}"
+                                            >
+                                                <!-- Checkbox -->
+                                                <td class="px-6 py-3">
+                                                    <input
+                                                        type="checkbox"
+                                                        x-model="selectedRows"
+                                                        value="{{ $article->id }}"
+                                                        class="row-checkbox"
+                                                    >
+
+                                                </td>
+
+                                                <!-- Index -->
+                                                <td class="px-6 py-3 text-gray-500">
+                                                    {{ $rows->firstItem() + $index }}
+                                                </td>
+
+                                                <!-- Title -->
+                                                <td class="py-3 px-4">
+                                                    <button
+                                                        type="button"
+                                                        @click="openArticleFromTable({
+                                                            id: {{ $article->id }},
+                                                            title: '{{ addslashes($article->title) }}'
+                                                        })"
+                                                        class="text-indigo-600 hover:text-indigo-800 flex items-center"
+                                                    >
+                                                        <i class="fas fa-clipboard text-yellow-500 mr-2"></i>
+                                                        <span>{{ $article->title }}</span>
+                                                    </button>
+                                                </td>
+
+                                                <!-- Tags -->
+                                                <td class="px-4 py-3">
+                                                    <div class="flex flex-wrap gap-1">
+                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
+                                                            Product
+                                                        </span>
+                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
+                                                            Docs
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Labels -->
+                                                <td class="px-4 py-3">
+                                                    <div class="flex flex-wrap gap-1">
+                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700">
+                                                            Important
+                                                        </span>
+                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700">
+                                                            Internal
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Status -->
+                                                <td class="px-4 py-3 text-gray-600">
+                                                    {{ ucfirst($article->status) }}
+                                                </td>
+
+                                                <!-- Updated -->
+                                                <td class="px-4 py-3 text-gray-500">
+                                                    {{ $article->updated_at->format('Y-m-d H:i') }}
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="py-6 text-center text-gray-500">
+                                                    No articles found
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+
+                                <!-- Pagination -->
+                                <div class="p-4 relative z-30">
+                                    {{ $rows->links() }}
+                                </div>
+                            </div>
                         </div>
-
-                    </div>
 
                 </div>
                 <style>

@@ -18,7 +18,9 @@ use App\Http\Controllers\DriveController;
 use App\Http\Controllers\SettingsController;
 
 use App\Http\Controllers\UserArticle;
-Route::get('/user-articles', [UserArticle::class, 'index'])
+
+use App\Http\Controllers\OpenSiteController;
+Route::get('/user-articles', [OpenSiteController::class, 'index'])
     ->name('userarticles.index');
 
 

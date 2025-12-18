@@ -1,29 +1,36 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ArticleVersion extends Model
 {
+    use HasFactory;
+
     protected $table = 'article_versions';
 
     protected $fillable = [
-        'category_id',
+        'author_id',
         'title',
         'slug',
         'content',
-        'article_id',
-        'version_number',
+        'cover_image',
         'status',
-        'is_featured',
-        'author_id',
-        'editor_id',
-        'views',
-        'likes',
         'published_at',
+        'read_time',
+        'likes_count',
+        'comments_count',
     ];
-    public function tags()
+
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
+    // Author relation
+    public function author()
     {
-        return $this->belongsToMany(Tag::class, 'article_tag');
+        return $this->belongsTo(User::class, 'author_id');
     }
 }

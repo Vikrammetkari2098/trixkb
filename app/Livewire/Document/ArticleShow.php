@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Document;
 
-use App\Models\Article;
+use App\Models\ArticleVersion;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -69,7 +69,7 @@ class ArticleShow extends Component
     public function openArticle(int $id): void
     {
         $this->articleId = $id;
-        $this->article   = Article::find($id);
+        $this->article   = ArticleVersion::find($id);
     }
     public function toggleAll($checked): void
     {
@@ -82,7 +82,7 @@ class ArticleShow extends Component
 
     public function getRowsProperty()
     {
-        return Article::query()
+        return ArticleVersion::query()
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', "%{$this->search}%")
                       ->orWhere('slug', 'like', "%{$this->search}%");

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    protected $table = 'articles';
+    protected $table = 'article';
 
     protected $fillable = [
         'category_id',
@@ -16,12 +16,6 @@ class Article extends Model
         'is_featured',
         'author_id',
         'editor_id',
-        'views',
-        'likes',
         'published_at',
     ];
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'article_tag');
-    }
 }

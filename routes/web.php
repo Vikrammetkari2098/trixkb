@@ -16,6 +16,7 @@ use App\Http\Controllers\KnowledgePulseController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\DriveController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\EditorMediaController;
 
 use App\Http\Controllers\UserArticle;
 Route::get('/user-articles', [UserArticle::class, 'index'])
@@ -55,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/widget', [WidgetController::class, 'index'])->name('widget');
     Route::get('/drive', [DriveController::class, 'index'])->name('drive');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::post('/editor-upload', [EditorMediaController::class, 'upload'])->name('editor.upload');
+    Route::get('/editor-fetch-link', [EditorMediaController::class, 'fetchLink'])->name('editor.fetch-link');
 
 });
 

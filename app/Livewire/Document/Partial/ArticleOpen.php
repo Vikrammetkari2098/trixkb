@@ -50,7 +50,7 @@ class ArticleOpen extends Component
         });
 
         $this->dispatch('refresh-articles-list');
-
+        
         $this->toast()->success('Success', 'Article updated successfully')->send();
 
     } catch (\Exception $e) {

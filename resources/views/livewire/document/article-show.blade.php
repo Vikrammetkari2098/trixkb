@@ -76,12 +76,12 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-h-screen bg-white">
            <div class="join justify-end flex">
-            <!-- Main Button -->
+                <!-- Main Button -->
             <button x-on:click="$modalOpen('modal-create')" class="font-medium flex items-center btn btn-primary text-white px-4 py-2 rounded-l-lg hover:bg-indigo-700 transition duration-150">
                 <span class="icon-[tabler--plus] size-4 mr-2"></span>
                 Create Article
             </button>
-            <!-- Dropdown Split -->
+                <!-- Dropdown Split -->
             <div class="dropdown relative inline-flex">
                 <button id="dropdown-article" type="button" class="dropdown-toggle btn btn-square btn-primary join-item" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                     <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
@@ -142,7 +142,7 @@
             >
                 <livewire:document.partial.article-open />
             </div>
-
+            <livewire:document.article-delete />
             <!-- Table View Section - Shown by default or when tableArticleId is null -->
             <div x-show="!tableArticleId" x-transition class="flex-1 overflow-y-auto p-6 bg-white">
                 <!-- Breadcrumb -->
@@ -154,99 +154,104 @@
                     <span x-text="activeSelection.type === 'article' ? activeSelection.articleData.title : activeSelection.name"></span>
                 </h1>
 
-            <div class="bg-white min-h-screen antialiased p-6">
+                <div class="bg-white min-h-screen antialiased p-6">
 
-                           <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
+                        <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
 
-                                <!-- LEFT : Quantity -->
-                                <div x-data="{open:false}" class="relative inline-block">
-                                    <button @click="open=!open" class="btn btn-primary flex items-center gap-1">
+                               <!-- LEFT : Quantity -->
+                                <div x-data="{ open: false }" class="relative inline-block">
+                                    <!-- Button -->
+                                    <button @click="open = !open" class="btn btn-outline flex items-center gap-1 border border-gray-300 text-gray-700">
                                         {{ $quantity }}
-                                        <span class="icon-[tabler--chevron-down] size-4"></span>
+                                        <span :class="{ 'rotate-180': open }" class="icon-[tabler--chevron-down] size-4 transition-transform duration-200"></span>
                                     </button>
 
-                                    <ul x-show="open" @click.outside="open=false"
-                                        class="absolute left-0 mt-1 min-w-24 bg-white border rounded shadow">
-                                        <li><button wire:click="setQuantity(5)" @click="open=false" class="dropdown-item">5</button></li>
-                                        <li><button wire:click="setQuantity(10)" @click="open=false" class="dropdown-item">10</button></li>
-                                        <li><button wire:click="setQuantity(25)" @click="open=false" class="dropdown-item">25</button></li>
+                                    <!-- Dropdown Menu -->
+                                    <ul x-show="open" @click.outside="open = false"
+                                        x-transition
+                                        class="absolute left-0 mt-1 w-24 bg-white border border-gray-300 rounded shadow z-50">
+                                        @foreach ([5, 10, 25] as $q)
+                                            <li>
+                                                <button wire:click="setQuantity({{ $q }})" @click="open = false" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700">
+                                                    {{ $q }}
+                                                </button>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
 
                                 <!-- RIGHT : Search -->
+                              <div x-data="{ search: @entangle('search').live }">
                                 <input
                                     type="text"
+                                    x-model="search"
                                     placeholder="Search articles..."
-                                    wire:model.debounce.300ms="search"
                                     class="px-3 py-1 rounded-lg border border-gray-300
                                         focus:outline-none focus:ring-1 focus:ring-purple-500"
                                 >
+                                </div>
+                        </div>
+                            <!-- Bulk Action Toolbar -->
+                        <div
+                            x-show="selectedRows.length > 0"
+                            x-transition:enter="transition-all ease-out duration-300"
+                            x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                            x-transition:leave="transition-all ease-in duration-200"
+                            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                            x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
+                            class="
+                                sticky top-0 z-20
+                                bg-white
+                                rounded-xl
+                                shadow-sm
+                                px-4 py-3
+                                flex flex-wrap items-center gap-4
+                                text-sm text-gray-700
+                            "
+                        >
+                            <!-- Selected Count -->
+                            <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
-                            </div>
+                            <!-- Hide -->
+                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                <i class="fas fa-eye-slash text-xs"></i>
+                                <span class="hidden sm:inline">Hide</span>
+                            </button>
 
-                         <!-- Bulk Action Toolbar -->
-              <div
-                    x-show="selectedRows.length > 0"
-                    x-transition:enter="transition-all ease-out duration-300"
-                    x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
-                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave="transition-all ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                    x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
-                    class="
-                        sticky top-0 z-20
-                        bg-white
-                        rounded-xl
-                        shadow-sm
-                        px-4 py-3 
-                        flex flex-wrap items-center gap-4
-                        text-sm text-gray-700
-                    "
-                >
-                    <!-- Selected Count -->
-                    <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
+                            <!-- Delete -->
+                            <button
+                                @click="$dispatch('open-delete-dialog')"
+                                class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
+                            >
+                                <i class="fas fa-trash text-xs"></i>
+                                <span class="hidden sm:inline">Delete</span>
+                            </button>
 
-                    <!-- Hide -->
-                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                        <i class="fas fa-eye-slash text-xs"></i>
-                        <span class="hidden sm:inline">Hide</span>
-                    </button>
+                            <!-- Unpublish -->
+                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                <i class="fas fa-ban text-xs"></i>
+                                <span class="hidden sm:inline">Unpublish</span>
+                            </button>
 
-                    <!-- Delete -->
-                    <button
-                        @click="$dispatch('open-delete-dialog')"
-                        class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
-                    >
-                        <i class="fas fa-trash text-xs"></i>
-                        <span class="hidden sm:inline">Delete</span>
-                    </button>
+                            <!-- Move -->
+                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                <i class="fas fa-arrows-alt text-xs"></i>
+                                <span class="hidden sm:inline">Move</span>
+                            </button>
 
-                    <!-- Unpublish -->
-                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                        <i class="fas fa-ban text-xs"></i>
-                        <span class="hidden sm:inline">Unpublish</span>
-                    </button>
+                            <!-- Star -->
+                            <button class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
+                                <i class="far fa-star text-xs"></i>
+                                <span class="hidden sm:inline">Star</span>
+                            </button>
 
-                    <!-- Move -->
-                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                        <i class="fas fa-arrows-alt text-xs"></i>
-                        <span class="hidden sm:inline">Move</span>
-                    </button>
-
-                    <!-- Star -->
-                    <button class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
-                        <i class="far fa-star text-xs"></i>
-                        <span class="hidden sm:inline">Star</span>
-                    </button>
-
-                    <!-- Labels -->
-                    <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                        <i class="far fa-bookmark text-xs"></i>
-                        <span class="hidden sm:inline">Labels</span>
-                    </button>
-                </div>
-                        
-                        
+                            <!-- Labels -->
+                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                <i class="far fa-bookmark text-xs"></i>
+                                <span class="hidden sm:inline">Labels</span>
+                            </button>
+                        </div>
 
                     <!-- Articles Table -->
                     <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
@@ -369,7 +374,7 @@
                         </div>
 
                     </div>
-                    
+
                 </div>
                 <style>
                     [class*="icon-"] {
@@ -494,6 +499,10 @@
                 openArticleFromTable(article) {
                     // Set the article ID to show the Livewire component
                     this.tableArticleId = article.id;
+                    this.$dispatch('openArticle', { id: article.id });
+                    window.dispatchEvent(new CustomEvent('load-article-title', {
+        detail: { title: article.title }
+    }));
 
                     // Also update the active selection for highlighting
                     const category = this.navItems.find(cat =>

@@ -11,6 +11,7 @@ use TallStackUi\Traits\Interactions;
 class ArticleShow extends Component
 {
     use Interactions, WithPagination;
+    protected $listeners = ['refresh-articles-list' => '$refresh'];
 
     public ?int $quantity = 5;
     public string $search = '';
@@ -23,10 +24,10 @@ class ArticleShow extends Component
     public ?int $articleId = null;
     public ?Article $article = null;
 
-    public array $selectedRows = []; 
+    public array $selectedRows = [];
     protected $paginationTheme = 'tailwind';
 
-    protected $queryString = ['search', 'quantity', 'sort']; 
+    protected $queryString = ['search', 'quantity', 'sort'];
 
     #[On('refresh-articles-list')]
     public function refreshList(): void
@@ -53,7 +54,18 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-  
+
+    public function setQuantity(int $value): void
+    {
+        $this->quantity = $value;
+        $this->resetPage();
+    }
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+
     public function openArticle(int $id): void
     {
         $this->articleId = $id;

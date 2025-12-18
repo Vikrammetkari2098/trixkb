@@ -1,121 +1,5 @@
-<div x-data="{ mobileMenuOpen: false }">
-    
-    <header class="shadow-sm bg-white">
-        <div class="mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 text-2xl font-bold text-purple-600">DOCUMENT360</div>
-                
-                <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
-                    <a href="#" class="text-gray-600 hover:text-primary">Features</a>
-                    <a href="#" class="text-gray-600 hover:text-primary">Pricing</a>
-                    <a href="#" class="text-gray-600 hover:text-primary">Book a demo</a>
-                    <a href="#" class="text-white bg-primary py-2 px-4 rounded-md shadow-lg hover:bg-opacity-90 transition">Sign up</a>
-                    <a href="#" class="text-gray-600 hover:text-primary">Glossary</a>
-                    <button class="text-gray-600 hover:text-primary"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM12 18a2 2 0 11-4 0h4z"></path></svg></button>
-                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xs">JW</div>
-                </nav>
-                
-                <button @click="mobileMenuOpen = true" class="md:hidden text-gray-600 hover:text-primary p-2 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </div>
-
-        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden border-t border-gray-100 py-2">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Features</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Pricing</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Book a demo</a>
-            <a href="#" class="block mx-4 my-2 text-center text-white bg-primary py-2 px-4 rounded-md shadow-lg">Sign up</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Glossary</a>
-        </div>
-    </header>
-
-    <section class="text-center py-16 sm:py-24" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
-        <div class="mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-white mb-4 whitespace-nowrap">
-                Welcome to Project project landing page
-            </h1>
-            <p class="mt-4 text-sm text-white">
-                Comprehensive documentation to help your users get started with Project project.
-            </p>
-            <div class="mt-8">
-                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-purple">
-                    Documentation
-                </a>
-            </div>
-
-            <div class="mt-12 mx-auto" x-data="{ search: '' }">
-                <div class="max-w-xl mx-auto relative flex items-center bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:border-primary transition">
-                    <span class="pl-4 text-gray-400">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                    </span>
-                    <input type="search" placeholder="Search" x-model="search" class="w-full py-3 pl-2 pr-2 text-lg text-gray-800 focus:outline-none" aria-label="Search documentation">
-                    <div class="bg-white text-gray-900 text-xs font-mono py-1 px-2 mr-2 rounded whitespace-nowrap border border-gray-300">
-                        CTRL + K
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 sm:py-20 bg-white">
-        <div class="mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-900">Modules</h2>
-
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6">
-                    <div class="inline-block p-4 bg-secondary rounded-xl">
-                        <svg class="w-10 h-10 text-orange-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13zM7 13a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mt-4 text-xl font-semibold text-gray-900">Documentation</h3>
-                    <p class="mt-2 text-gray-500 text-sm">
-                        Create and manage knowledge base articles with powerful out-of-the-box features.
-                    </p>
-                </div>
-
-                <div class="p-6">
-                    <div class="inline-block p-4 bg-secondary rounded-xl">
-                        <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7z"></path><path fill-rule="evenodd" d="M11 6a1 1 0 011 1v1l.786.643a1 1 0 01.35 1.118l-1.35 3.15a1 1 0 01-1.892.203l-1.074-2.148a1 1 0 00-.918-.592H7a1 1 0 01-1-1V7a1 1 0 011-1h4zM4 14v1a1 1 0 001 1h10a1 1 0 001-1v-1H4z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mt-4 text-xl font-semibold text-gray-900">Category Manager</h3>
-                    <p class="mt-2 text-gray-500 text-sm">
-                        Maintain your documentation effectively in a clean hierarchy based structure.
-                    </p>
-                </div>
-
-                <div class="p-6">
-                    <div class="inline-block p-4 bg-secondary rounded-xl">
-                        <svg class="w-10 h-10 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9 5a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mt-4 text-xl font-semibold text-gray-900">Editor</h3>
-                    <p class="mt-2 text-gray-500 text-sm">
-                        Handpicked features that will shift your writers' focus towards content than or formatting.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="bg-black relative py-16" style="background-image: linear-gradient(158deg, #4a058bff 25%, #b56df8ff 35%, #6a1eb1ff 30%);">
-        <div class="mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 class="text-3xl font-bold tracking-tight text-white">
-                Discover how can we help your Business
-            </h2>
-            <p class="mt-3 text-xl text-indigo-100">
-                30 days trial. Simple and Easy Setup.
-            </p>
-            <div class="mt-8 flex justify-center space-x-4">
-                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-primary transition">
-                    BOOK A DEMO
-                </a>
-                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-primary transition">
-                    FREE TRIAL
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 sm:py-20 bg-white">
+<div>
+<section class="py-16 sm:py-20 bg-white">
         <div class=" mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900">Quick Links</h2>
 
@@ -304,4 +188,7 @@
             .hero-heading { font-size: 3rem; }
         }
     </style>
-</div>
+    <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    </div>

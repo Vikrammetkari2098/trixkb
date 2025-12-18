@@ -1,9 +1,6 @@
-@extends('layouts.app')
-@section('content')
 
 
-
-<body class="bg-gray-50 text-gray-800 min-h-screen">
+<div class="bg-gray-50 text-gray-800 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -361,5 +358,6 @@
             });
         });
     </script>
-</body>
-@endsection
+</div>
+    </div>
+                

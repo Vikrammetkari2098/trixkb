@@ -18,11 +18,7 @@ use App\Http\Controllers\DriveController;
 use App\Http\Controllers\SettingsController;
 
 use App\Http\Controllers\UserArticle;
-
-use App\Http\Controllers\OpenSiteController;
-Route::get('/user-articles', [OpenSiteController::class, 'index'])
-    ->name('userarticles.index');
-
+require __DIR__ . '/user.php';
 
 Route::get('/reset-password', [ResetPasswordController::class, 'index'])->name('password.reset');
 Route::get('/forgot-password', ForgotPasswordForm::class)->name('password.request');

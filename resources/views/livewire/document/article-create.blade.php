@@ -5,6 +5,7 @@
         @csrf
 
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+
             <!-- Title -->
             <div class="sm:col-span-2">
                 <x-input
@@ -14,15 +15,6 @@
                     invalidate
                 />
             </div>
-
-            <!-- Slug -->
-            {{--  <div class="sm:col-span-2">
-                <x-input
-                    label="Slug (optional)"
-                    id="slug"
-                    wire:model.defer="slug"
-                />
-            </div>--}}
 
             <!-- Category with Add Button -->
             <div class="sm:col-span-2">
@@ -42,41 +34,89 @@
                     >
                         + Add
                     </button>
-
                 </div>
-                <p class="mt-1 text-xs text-gray-500">Can't find your category? Click "Add" to create a new one.</p>
+                <p class="mt-1 text-xs text-gray-500">
+                    Can't find your category? Click "Add" to create a new one.
+                </p>
             </div>
 
+            <!-- Advanced Section -->
             <div class="sm:col-span-2 mt-4">
-                <details class="group">
-                    <summary class="flex items-center font-medium cursor-pointer list-none text-gray-700">
-                        <span class="transition group-open:rotate-180 mr-2">
-                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24" class="w-4 h-4">
-                                <path d="M6 9l6 6 6-6"></path>
+                <div x-data="{ open: false }" class="sm:col-span-2 mt-4">
+                    <!-- Header -->
+                    <button
+                        type="button"
+                        @click="open = !open"
+                        class="flex items-center font-medium text-gray-700"
+                    >
+                        <span
+                            class="transition-transform mr-2"
+                            :class="{ 'rotate-180': open }"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"></path>
                             </svg>
                         </span>
-                        <span>Advanced</span>
-                    </summary>
+                        Advanced
+                    </button>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 transition-all duration-300">
+                    <!-- Content -->
+                    <div
+                        x-show="open"
+                        x-transition
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6"
+                    >
+                        <!-- Tags -->
+                       <!-- Tags -->
+                            <div
+                                class="w-full"
+                                wire:ignore
+                                x-data
+                                x-init="
+                                    new TomSelect($refs.tags, {
+                                        plugins: ['remove_button'],
+                                        create: true,
+                                        persist: false,
+                                        placeholder: 'Search or create tags',
+                                        valueField: 'value',
+                                        labelField: 'text',
+                                        searchField: 'text',
 
-                        <div class="md:col-span-2 space-y-2">
-                            <x-select.styled
-                                label="Tags"
-                                :options="$allTags->map(fn($tag) => ['label' => $tag->name, 'value' => $tag->id])->toArray()"
-                                select="label:label|value:value"
-                                wire:model="tags"
-                                multiple
-                            />
-                            <input
-                                type="text"
-                                wire:model.defer="tagSearch"
-                                wire:keydown.enter.prevent="createTag"
-                                placeholder="Type tag and press Enter to create"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-gray-400"
-                            />
-                        </div>
+                                        load(query, callback) {
+                                            if (!query.length) return callback();
+                                            $wire.call('searchTags', query).then(callback);
+                                        },
 
+                                        onChange(values) {
+                                            $wire.set('tags', values);
+                                        }
+                                    });
+                                "
+                            >
+                                <!-- TallStack-style label -->
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Tags
+                                </label>
+
+                                <!-- TallStack-style wrapper -->
+                                <div class="relative">
+                                    <select
+                                        x-ref="tags"
+                                        multiple
+                                        class="
+                                            block w-full rounded-md border-gray-300
+                                            focus:border-blue-500 focus:ring-blue-500
+                                            min-h-[38px]
+                                        "
+                                    ></select>
+                                </div>
+
+                                @error('tags')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                        <!-- Status -->
                         <x-select.styled
                             label="Status"
                             :options="[
@@ -88,46 +128,15 @@
                             wire:model.defer="status"
                         />
 
-                        <x-input
-                            type="datetime-local"
-                            label="Published At"
-                            wire:model.defer="published_at"
-                        />
-
+                        <!-- Author -->
                         <x-select.styled
                             label="Author *"
                             :options="$users->map(fn($user) => ['label' => $user->name, 'value' => $user->id])->toArray()"
                             select="label:label|value:value"
                             wire:model.defer="author_id"
                         />
-
-                        <x-select.styled
-                            label="Editor (optional)"
-                            :options="$users->map(fn($user) => ['label' => $user->name, 'value' => $user->id])->toArray()"
-                            select="label:label|value:value"
-                            wire:model.defer="editor_id"
-                        />
                     </div>
-                </details>
-            </div>
-
-            <!-- Featured -->
-            <div class="sm:col-span-2 flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    wire:model.defer="is_featured"
-                    class="rounded border-gray-300"
-                />
-                <span class="text-sm">Featured</span>
-            </div>
-
-            <!-- Content -->
-             <div class="sm:col-span-2">
-                <label class="block font-medium">Content *</label>
-                <textarea
-                    wire:model.defer="content"
-                    class="w-full h-60 border rounded-md p-3 mt-2"
-                ></textarea>
+                </div>
             </div>
         </div>
 
@@ -141,7 +150,6 @@
 
     <!-- Add Category Modal -->
     <div x-cloak>
-        <!-- Modal Backdrop -->
         <div
             x-show="$wire.showCategoryModal"
             x-transition:enter="ease-out duration-300"
@@ -154,7 +162,6 @@
             x-on:keydown.escape.window="$wire.set('showCategoryModal', false)"
             style="display: none;"
         >
-            <!-- Modal Content -->
             <div
                 x-show="$wire.showCategoryModal"
                 x-transition:enter="ease-out duration-300"
@@ -166,7 +173,6 @@
                 x-on:click.away="$wire.set('showCategoryModal', false)"
                 class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden"
             >
-                <!-- Modal Header -->
                 <div class="flex items-center justify-between p-4 border-b border-gray-100">
                     <h3 class="text-lg font-bold text-gray-800">Create New Category</h3>
                     <button
@@ -179,7 +185,6 @@
                     </button>
                 </div>
 
-                <!-- Modal Body -->
                 <div class="p-5 space-y-6">
                     <!-- Category Name -->
                     <div>
@@ -200,107 +205,32 @@
                     <!-- Location -->
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-1">Location</label>
-                        <div class="relative">
-                            <select
-                                wire:model.defer="newCategory.location"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
-                            >
-                                <option value="getting_started">Getting Started</option>
-                                <option value="documentation">Documentation</option>
-                                <option value="advanced">Advanced</option>
-                                <option value="tutorials">Tutorials</option>
-                                <option value="api">API Reference</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </div>
+                        <select
+                            wire:model.defer="newCategory.location"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="getting_started">Getting Started</option>
+                            <option value="documentation">Documentation</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="tutorials">Tutorials</option>
+                            <option value="api">API Reference</option>
+                        </select>
                     </div>
 
                     <!-- Category Type -->
                     <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <label class="block text-sm font-medium text-gray-600">Category Type</label>
-                        </div>
-
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Category Type</label>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <!-- Folder Type -->
-                            <button
-                                type="button"
-                                wire:click="$set('newCategory.type', 'folder')"
-                                :class="$wire.newCategory.type === 'folder'
-                                    ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50'
-                                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'"
-                                class="flex flex-col items-center p-3 border rounded-lg transition-all duration-200"
-                            >
-                                <div :class="$wire.newCategory.type === 'folder' ? 'bg-blue-100' : 'bg-gray-50'" class="p-2 rounded-md mb-1">
-                                    <svg class="w-6 h-6" :class="$wire.newCategory.type === 'folder' ? 'text-blue-600' : 'text-gray-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-medium" :class="$wire.newCategory.type === 'folder' ? 'text-blue-600' : 'text-gray-500'">
-                                    Folder
-                                </span>
-                            </button>
-
-                            <!-- Index Type -->
-                            <button
-                                type="button"
-                                wire:click="$set('newCategory.type', 'index')"
-                                :class="$wire.newCategory.type === 'index'
-                                    ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50'
-                                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'"
-                                class="flex flex-col items-center p-3 border rounded-lg transition-all duration-200"
-                            >
-                                <div :class="$wire.newCategory.type === 'index' ? 'bg-blue-100' : 'bg-gray-50'" class="p-2 rounded-md mb-1">
-                                    <svg class="w-6 h-6" :class="$wire.newCategory.type === 'index' ? 'text-blue-600' : 'text-gray-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-medium" :class="$wire.newCategory.type === 'index' ? 'text-blue-600' : 'text-gray-500'">
-                                    Index
-                                </span>
-                            </button>
-
-                            <!-- Page Type -->
-                            <button
-                                type="button"
-                                wire:click="$set('newCategory.type', 'page')"
-                                :class="$wire.newCategory.type === 'page'
-                                    ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50'
-                                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'"
-                                class="flex flex-col items-center p-3 border rounded-lg transition-all duration-200"
-                            >
-                                <div :class="$wire.newCategory.type === 'page' ? 'bg-blue-100' : 'bg-gray-50'" class="p-2 rounded-md mb-1">
-                                    <svg class="w-6 h-6" :class="$wire.newCategory.type === 'page' ? 'text-blue-600' : 'text-gray-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-medium" :class="$wire.newCategory.type === 'page' ? 'text-blue-600' : 'text-gray-500'">
-                                    Page
-                                </span>
-                            </button>
-
-                            <!-- GitHub Type -->
-                            <button
-                                type="button"
-                                wire:click="$set('newCategory.type', 'github')"
-                                :class="$wire.newCategory.type === 'github'
-                                    ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50'
-                                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'"
-                                class="flex flex-col items-center p-3 border rounded-lg transition-all duration-200"
-                            >
-                                <div :class="$wire.newCategory.type === 'github' ? 'bg-blue-100' : 'bg-gray-50'" class="p-2 rounded-md mb-1">
-                                    <svg class="w-6 h-6" :class="$wire.newCategory.type === 'github' ? 'text-blue-600' : 'text-gray-400'" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-xs font-medium" :class="$wire.newCategory.type === 'github' ? 'text-blue-600' : 'text-gray-500'">
-                                    GitHub
-                                </span>
-                            </button>
+                            @foreach(['folder','index','page','github'] as $type)
+                                <button
+                                    type="button"
+                                    wire:click="$set('newCategory.type', '{{ $type }}')"
+                                    :class="$wire.newCategory.type === '{{ $type }}' ? 'border-blue-600 ring-2 ring-blue-200 bg-blue-50' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'"
+                                    class="flex flex-col items-center p-3 border rounded-lg transition-all duration-200"
+                                >
+                                    <span class="text-xs font-medium">{{ ucfirst($type) }}</span>
+                                </button>
+                            @endforeach
                         </div>
                         @error('newCategory.type')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -308,12 +238,11 @@
                     </div>
                 </div>
 
-                <!-- Modal Footer -->
                 <div class="flex justify-end gap-3 p-4 bg-gray-50 border-t border-gray-100">
                     <button
                         type="button"
                         wire:click="$set('showCategoryModal', false)"
-                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                     >
                         Cancel
                     </button>
@@ -322,7 +251,7 @@
                         wire:click="createCategory"
                         :disabled="!$wire.newCategory.name.trim()"
                         :class="!$wire.newCategory.name.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'"
-                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md"
                     >
                         Create Category
                     </button>

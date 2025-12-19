@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class ArticleVersion extends Model
 {
     use HasFactory;
@@ -26,6 +27,9 @@ class ArticleVersion extends Model
         'views',
         'likes',
         'published_at',
+        'read_time',
+        'likes_count',
+        'comments_count',
     ];
 
     protected $casts = [

@@ -150,12 +150,14 @@
             </div>
         </div>
         <button
-            @click="$dispatch('open-side')"
-            class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300"
-        >
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            <span>OPEN SITE</span>
-        </button>
+                onclick="window.location.href='{{ route('articles.index') }}'"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300"
+            >
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>OPEN SITE</span>
+            </button>
+
+
         <div class="flex items-center space-x-3 sm:space-x-4">
 
             <i class="fas fa-question-circle text-xl text-gray-300 cursor-pointer hover:text-white transition duration-200 hidden md:block" title="Help Documentation"></i>

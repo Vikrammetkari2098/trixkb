@@ -1,36 +1,32 @@
 <div class="bg-white min-h-screen text-gray-800" 
-     x-data="{ 
-        isSaving: false,
-        {{-- १. थेट Livewire च्या $title ला जोडा --}}
-        get activeTitle() { return @this.title },
-        set activeTitle(val) { @this.title = val },
+      x-data="{ 
+         isSaving: false,
+         get activeTitle() { return @this.title },
+         set activeTitle(val) { @this.title = val },
 
-        init() {
-            {{-- २. टेबलवरून नाव आल्यावर Livewire ला अपडेट करा --}}
-            window.addEventListener('load-article-title', (e) => {
-                @this.set('title', e.detail.title);
-            });
-        },
+         init() {
+             window.addEventListener('load-article-title', (e) => {
+                 @this.set('title', e.detail.title);
+                 @this.set('content', e.detail.content);
+             });
+         },
 
-        async handleManualSave() {
-            if (!window.editorInstance) return;
-            this.isSaving = true;
-            try {
-                const outputData = await window.editorInstance.save();
-                {{-- ३. डेटा सेव्ह करा आणि इव्हेंटद्वारे लिस्ट रिफ्रेश करा --}}
-                await $wire.save(outputData);
-                
-                {{-- ४. लिस्टला सांगा की नाव बदललंय (रिफ्रेश न करता) --}}
-                window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
-                    detail: { id: @this.articleId, title: @this.title } 
-                }));
-            } catch (error) {
-                console.error('Save failed:', error);
-            } finally {
-                setTimeout(() => { this.isSaving = false; }, 1000);
-            }
-        }
-     }">
+         async handleManualSave() {
+             if (!window.editorInstance || this.isSaving) return;
+             this.isSaving = true;
+             try {
+                 const outputData = await window.editorInstance.save();
+                 await $wire.save(outputData);
+                 window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
+                     detail: { id: @this.articleId, title: @this.title } 
+                 }));
+             } catch (error) {
+                 console.error('Save failed:', error);
+             } finally {
+                 setTimeout(() => { this.isSaving = false; }, 1000);
+             }
+         }
+      }">
             
     <div class="flex items-center justify-between px-6 py-3 border-b sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-4 text-gray-900">
@@ -70,23 +66,33 @@
             <div class="flex-1 w-full lg:max-w-4xl">
                 <div class="mb-6">
                     <input type="text" 
-                    x-model="activeTitle"
-                    @input.debounce.500ms="$wire.set('title', activeTitle)"
-                    class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300" 
-                    placeholder="Add title">
+                        x-model="activeTitle"
+                        @input.debounce.500ms="$wire.set('title', activeTitle)"
+                        class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300" 
+                        placeholder="Add title">
                 </div>
                 
                 <div x-data="{ 
-                        initEditor() {
+                        initEditor(initialData) {
+                            const staticArticleData = {
+                               blocks: [
+                                    {
+                                        id: 'welcome_01',
+                                        type: 'paragraph',
+                                        data: {
+                                            text: 'welcome editor'
+                                        }
+                                    }
+                                ]
+                            };
+                            if (window.editorInstance && typeof window.editorInstance.destroy === 'function') {
+                                window.editorInstance.destroy();
+                            }
                             window.editorInstance = new window.EditorJS({
                                 holder: this.$refs.editor,
                                 placeholder: 'Write here...',
                                 inlineToolbar: true,
-                                data: @json($content ?? []),
-                                onChange: () => {
-                                    clearTimeout(window.saveTimer);
-                                    window.saveTimer = setTimeout(() => { $data.handleManualSave(); }, 5000);
-                                },
+                                data: staticArticleData,
                                 tools: {
                                     header: { class: window.Header, inlineToolbar: true, config: { levels: [1, 2, 3, 4], defaultLevel: 2 } },
                                     paragraph: { class: window.Paragraph, inlineToolbar: true },
@@ -96,18 +102,82 @@
                                     table: { class: window.Table, inlineToolbar: true },
                                     warning: { class: window.Warning, inlineToolbar: true },
                                     marker: { class: window.Marker, inlineToolbar: true },
-                                    code: { class: window.CodeTool },
-                                    raw: { class: window.RawTool },
                                     underline: window.Underline,
                                     toggle: window.ToggleBlock,
                                     alert: window.Alert,
-                                    image: window.ImageTool
+                                    raw: window.RawTool,
+                                    embed: {
+                                        class: window.Embed,
+                                        inlineToolbar: true,
+                                        config: {
+                                            services: { youtube: true, vimeo: true, instagram: true, facebook: true, twitter: true }
+                                        }
+                                    },
+                                    image: {
+                                        class: window.ImageTool,
+                                        config: {
+                                            uploader: {
+                                                async uploadByFile(file) {
+                                                    return new Promise((resolve, reject) => {
+                                                        @this.upload('editorImage', file, async () => {
+                                                            try {
+                                                                const url = await @this.saveEditorImage();
+                                                                if (url) {
+                                                                    resolve({ success: 1, file: { url: url } });
+                                                                } else {
+                                                                    reject('Save failed');
+                                                                }
+                                                            } catch (e) {
+                                                                reject(e);
+                                                            }
+                                                        }, () => {
+                                                            reject('Upload failed');
+                                                        });
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    },
+                                    attaches: {
+                                        class: window.AttachesTool,
+                                        config: {
+                                            types: 'application/pdf, text/plain, text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                            uploader: {
+                                                async uploadByFile(file) {
+                                                    return new Promise((resolve, reject) => {
+                                                        @this.upload('editorImage', file, (uploadedFilename) => {
+                                                            @this.saveEditorImage().then(url => {
+                                                                url ? resolve({ success: 1, file: { url: url, name: file.name, size: file.size } }) : reject('Save failed');
+                                                            });
+                                                        }, () => reject('Upload failed'));
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    },
+                                    linkTool: {
+                                        class: window.LinkTool,
+                                        config: {
+                                            // रूट ऐवजी थेट एका मॅन्युअल फंक्शनचा वापर (जर बॅकएंडला विचारायचे असेल तर)
+                                            uploader: {
+                                                async fetchData(url) {
+                                                    // बॅकएंडला (Livewire) डेटा फेच करण्यासाठी कॉल करा
+                                                    return @this.fetchLinkMetadata(url).then(result => {
+                                                        return {
+                                                            success: 1,
+                                                            meta: result
+                                                        };
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    },
                                 }
                             });
                         }
                     }" 
                     x-init="setTimeout(() => initEditor(), 500)"
-                    x-on:article-loaded.window="window.editorInstance.render($event.detail.content)"
+                    x-on:article-loaded.window="initEditor($event.detail.content)"
                     wire:ignore>
                     <div x-ref="editor" class="prose max-w-none rounded-lg p-4 bg-white min-h-[400px]"></div>
                 </div>

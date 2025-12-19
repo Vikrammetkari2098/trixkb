@@ -16,6 +16,7 @@ use App\Http\Controllers\KnowledgePulseController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\DriveController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\EditorMediaController;
 
 use App\Http\Controllers\UserArticle;
 require __DIR__ . '/user.php';

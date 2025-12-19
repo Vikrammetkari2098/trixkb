@@ -56,8 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/widget', [WidgetController::class, 'index'])->name('widget');
     Route::get('/drive', [DriveController::class, 'index'])->name('drive');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-    Route::post('/editor-upload', [EditorMediaController::class, 'upload'])->name('editor.upload');
-    Route::get('/editor-fetch-link', [EditorMediaController::class, 'fetchLink'])->name('editor.fetch-link');
 
 });
 

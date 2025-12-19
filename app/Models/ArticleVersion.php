@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleVersion extends Model
 {
-    protected $table = 'article_versions';
+    protected $table = 'article_version';
 
     protected $fillable = [
         'category_id',

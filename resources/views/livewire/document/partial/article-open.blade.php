@@ -1,31 +1,32 @@
 <div class="bg-white min-h-screen text-gray-800" 
-     x-data="{ 
-        isSaving: false,
-        get activeTitle() { return @this.title },
-        set activeTitle(val) { @this.title = val },
+      x-data="{ 
+         isSaving: false,
+         get activeTitle() { return @this.title },
+         set activeTitle(val) { @this.title = val },
 
-        init() {
-            window.addEventListener('load-article-title', (e) => {
-                @this.set('title', e.detail.title);
-            });
-        },
+         init() {
+             window.addEventListener('load-article-title', (e) => {
+                 @this.set('title', e.detail.title);
+                 @this.set('content', e.detail.content);
+             });
+         },
 
-        async handleManualSave() {
-            if (!window.editorInstance || this.isSaving) return;
-            this.isSaving = true;
-            try {
-                const outputData = await window.editorInstance.save();
-                await $wire.save(outputData);
-                window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
-                    detail: { id: @this.articleId, title: @this.title } 
-                }));
-            } catch (error) {
-                console.error('Save failed:', error);
-            } finally {
-                setTimeout(() => { this.isSaving = false; }, 1000);
-            }
-        }
-     }">
+         async handleManualSave() {
+             if (!window.editorInstance || this.isSaving) return;
+             this.isSaving = true;
+             try {
+                 const outputData = await window.editorInstance.save();
+                 await $wire.save(outputData);
+                 window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
+                     detail: { id: @this.articleId, title: @this.title } 
+                 }));
+             } catch (error) {
+                 console.error('Save failed:', error);
+             } finally {
+                 setTimeout(() => { this.isSaving = false; }, 1000);
+             }
+         }
+      }">
             
     <div class="flex items-center justify-between px-6 py-3 border-b sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-4 text-gray-900">
@@ -73,6 +74,17 @@
                 
                 <div x-data="{ 
                         initEditor(initialData) {
+                            const staticArticleData = {
+                               blocks: [
+                                    {
+                                        id: 'welcome_01',
+                                        type: 'paragraph',
+                                        data: {
+                                            text: 'welcome editor'
+                                        }
+                                    }
+                                ]
+                            };
                             if (window.editorInstance && typeof window.editorInstance.destroy === 'function') {
                                 window.editorInstance.destroy();
                             }
@@ -80,7 +92,7 @@
                                 holder: this.$refs.editor,
                                 placeholder: 'Write here...',
                                 inlineToolbar: true,
-                                data: initialData || @json($content ?? []),
+                                data: staticArticleData,
                                 tools: {
                                     header: { class: window.Header, inlineToolbar: true, config: { levels: [1, 2, 3, 4], defaultLevel: 2 } },
                                     paragraph: { class: window.Paragraph, inlineToolbar: true },
@@ -93,30 +105,73 @@
                                     underline: window.Underline,
                                     toggle: window.ToggleBlock,
                                     alert: window.Alert,
+                                    raw: window.RawTool,
+                                    embed: {
+                                        class: window.Embed,
+                                        inlineToolbar: true,
+                                        config: {
+                                            services: { youtube: true, vimeo: true, instagram: true, facebook: true, twitter: true }
+                                        }
+                                    },
                                     image: {
                                         class: window.ImageTool,
                                         config: {
-                                            endpoints: { byFile: '{{ route("editor.upload") }}' },
-                                            additionalRequestHeaders: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                                            uploader: {
+                                                async uploadByFile(file) {
+                                                    return new Promise((resolve, reject) => {
+                                                        @this.upload('editorImage', file, async () => {
+                                                            try {
+                                                                const url = await @this.saveEditorImage();
+                                                                if (url) {
+                                                                    resolve({ success: 1, file: { url: url } });
+                                                                } else {
+                                                                    reject('Save failed');
+                                                                }
+                                                            } catch (e) {
+                                                                reject(e);
+                                                            }
+                                                        }, () => {
+                                                            reject('Upload failed');
+                                                        });
+                                                    });
+                                                }
+                                            }
                                         }
                                     },
                                     attaches: {
                                         class: window.AttachesTool,
                                         config: {
-                                            endpoint: '{{ route("editor.upload") }}',
-                                            additionalRequestHeaders: {
-                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                            },
                                             types: 'application/pdf, text/plain, text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                            errorMessage: 'Only PDF, TXT, CSV and Excel files are allowed.'
+                                            uploader: {
+                                                async uploadByFile(file) {
+                                                    return new Promise((resolve, reject) => {
+                                                        @this.upload('editorImage', file, (uploadedFilename) => {
+                                                            @this.saveEditorImage().then(url => {
+                                                                url ? resolve({ success: 1, file: { url: url, name: file.name, size: file.size } }) : reject('Save failed');
+                                                            });
+                                                        }, () => reject('Upload failed'));
+                                                    });
+                                                }
+                                            }
                                         }
                                     },
                                     linkTool: {
                                         class: window.LinkTool,
                                         config: {
-                                            endpoint: '{{ route("editor.fetch-link") }}'
+                                            // रूट ऐवजी थेट एका मॅन्युअल फंक्शनचा वापर (जर बॅकएंडला विचारायचे असेल तर)
+                                            uploader: {
+                                                async fetchData(url) {
+                                                    // बॅकएंडला (Livewire) डेटा फेच करण्यासाठी कॉल करा
+                                                    return @this.fetchLinkMetadata(url).then(result => {
+                                                        return {
+                                                            success: 1,
+                                                            meta: result
+                                                        };
+                                                    });
+                                                }
+                                            }
                                         }
-                                    }
+                                    },
                                 }
                             });
                         }

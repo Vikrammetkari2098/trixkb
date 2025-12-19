@@ -338,7 +338,8 @@
                                                         type="button"
                                                         @click="openArticleFromTable({
                                                             id: {{ $article->id }},
-                                                            title: '{{ addslashes($article->title) }}'
+                                                            title: '{{ addslashes($article->title) }}',
+                                                            content: '{{ addslashes($article->content) }}'
                                                         })"
                                                         class="text-indigo-600 hover:text-indigo-800 flex items-center"
                                                     >
@@ -523,9 +524,11 @@
                     // Set the article ID to show the Livewire component
                     this.tableArticleId = article.id;
                     this.$dispatch('openArticle', { id: article.id });
-                    window.dispatchEvent(new CustomEvent('load-article-title', {
-        detail: { title: article.title }
-    }));
+                    window.dispatchEvent(new CustomEvent('load-article-title', 
+                        {
+                            detail: { title: article.title, content: article.content }
+                        }
+                    ));
 
                     // Also update the active selection for highlighting
                     const category = this.navItems.find(cat =>

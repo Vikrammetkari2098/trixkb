@@ -2,22 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 
 class ArticleVersion extends Model
 {
     use HasFactory;
 
-    protected $table = 'article_versions';
+    protected $table = 'article_version';
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = true;
 
     protected $fillable = [
-        'author_id',
+        'article_id',
+        'editor_id',
         'title',
         'slug',
         'content',
-        'cover_image',
         'status',
+        'is_featured',
+        'views',
+        'likes',
         'published_at',
         'read_time',
         'likes_count',
@@ -25,12 +33,25 @@ class ArticleVersion extends Model
     ];
 
     protected $casts = [
-        'published_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    // Author relation
-    public function author()
+    // Relationships
+
+    public function article()
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(Article::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tag', 'article_version_id', 'tag_id')
+                    ->withTimestamps();
+    }
+
+    public function editor()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

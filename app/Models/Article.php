@@ -22,6 +22,7 @@ class Article extends Model
         'status',
         'is_featured',
         'current_version_id',
+        'article_image',
     ];
 
     protected $casts = [
@@ -58,22 +59,32 @@ class Article extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function author()
-    {
-        return $this->belongsTo(User::class, 'author_id');
-    }
-
     public function currentVersion()
     {
         return $this->belongsTo(ArticleVersion::class, 'current_version_id');
     }
     public function versions()
     {
-        return $this->hasMany(ArticleVersion::class);
+        return $this->hasMany(\App\Models\ArticleVersion::class);
+    }
+
+    public function latestVersion()
+    {
+        return $this->hasOne(ArticleVersion::class)->latestOfMany();
     }
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
+     public function labels()
+    {
+        return $this->belongsToMany(Label::class, 'article_label');
+    }
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'author_id');
+    }
+
+
 }

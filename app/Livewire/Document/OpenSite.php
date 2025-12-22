@@ -4,7 +4,7 @@ namespace App\Livewire\Document\Partial;
 
 use Livewire\Component;
 
-class DocOpenSite extends Component
+class OpenSite extends Component
 {
     protected $listeners = ['openDocSide' => 'open'];
 

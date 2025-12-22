@@ -272,8 +272,19 @@ class User extends Authenticatable
     {
         return request()->ip();
     }
-     public function articles()
+
+
+
+
+
+
+
+
+
+
+    public function articles()
     {
-        return $this->hasMany(ArticleVersion::class, 'author_id');
+        return $this->hasMany(\App\Models\Article::class, 'author_id');
     }
+
 }

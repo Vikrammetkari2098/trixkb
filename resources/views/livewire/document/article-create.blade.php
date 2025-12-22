@@ -16,6 +16,39 @@
                 />
             </div>
 
+            <!-- Article Image -->
+            <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Article Image
+                </label>
+
+                <input
+                    type="file"
+                    wire:model="article_image"
+                    accept="image/*"
+                    class="block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-md file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100"
+                />
+
+                <!-- Preview -->
+                @if ($article_image)
+                    <div class="mt-3">
+                        <img
+                            src="{{ $article_image->temporaryUrl() }}"
+                            class="h-40 rounded-lg object-cover border"
+                        />
+                    </div>
+                @endif
+
+                @error('article_image')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Category with Add Button -->
             <div class="sm:col-span-2">
                 <div class="flex items-end gap-2">
@@ -66,7 +99,6 @@
                         x-transition
                         class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6"
                     >
-                        <!-- Tags -->
                        <!-- Tags -->
                             <div
                                 class="w-full"
@@ -112,6 +144,52 @@
                                 </div>
 
                                 @error('tags')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        <!-- Labels -->
+                            <div
+                                class="w-full"
+                                wire:ignore
+                                x-data
+                                x-init="
+                                    new TomSelect($refs.labels, {
+                                        plugins: ['remove_button'],
+                                        create: true,
+                                        persist: false,
+                                        placeholder: 'Search or create labels',
+                                        valueField: 'value',
+                                        labelField: 'text',
+                                        searchField: 'text',
+
+                                        load(query, callback) {
+                                            if (!query.length) return callback();
+                                            $wire.call('searchLabels', query).then(callback);
+                                        },
+
+                                        onChange(values) {
+                                            $wire.set('labels', values);
+                                        }
+                                    });
+                                "
+                            >
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Labels
+                                </label>
+
+                                <div class="relative">
+                                    <select
+                                        x-ref="labels"
+                                        multiple
+                                        class="
+                                            block w-full rounded-md border-gray-300
+                                            focus:border-blue-500 focus:ring-blue-500
+                                            min-h-[38px]
+                                        "
+                                    ></select>
+                                </div>
+
+                                @error('labels')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>

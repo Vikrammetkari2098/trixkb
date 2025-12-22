@@ -31,13 +31,14 @@ class ArticleVersion extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+         'content' => 'array',
     ];
 
     // Relationships
 
     public function article()
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(\App\Models\Article::class);
     }
 
     public function tags()

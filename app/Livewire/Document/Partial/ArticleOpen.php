@@ -4,6 +4,7 @@ namespace App\Livewire\Document\Partial;
 
 use Livewire\Component;
 use App\Models\Article;
+use App\Models\ArticleVersion;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use TallStackUi\Traits\Interactions;
@@ -23,8 +24,11 @@ class ArticleOpen extends Component
         'title' => 'required|string|max:255',
     ];
 
+    /* ---------------------------------
+     | Load article + version content
+     |---------------------------------*/
     #[On('openArticle')]
-    public function loadArticleData($id)
+    public function loadArticleData(int $id): void
     {
         $article = Article::find($id);
         if ($article) {
@@ -37,6 +41,16 @@ class ArticleOpen extends Component
                 'content' => $this->content
             ]);
         }
+
+        $this->articleId = $article->id;
+        $this->title     = $article->title;
+        $this->content   = $article->currentVersion?->content ?? [];
+
+        // Send data to EditorJS
+        $this->dispatch('article-loaded', [
+            'title'   => $this->title,
+            'content' => $this->content,
+        ]);
     }
 
     public function save($editorData)

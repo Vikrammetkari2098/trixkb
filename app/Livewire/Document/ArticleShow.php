@@ -54,7 +54,6 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-
     public function setQuantity(int $value): void
     {
         $this->quantity = $value;
@@ -82,10 +81,10 @@ class ArticleShow extends Component
 
     public function getRowsProperty()
     {
-        return Article::query()
+        return Article::with(['tags', 'labels'])
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', "%{$this->search}%")
-                      ->orWhere('slug', 'like', "%{$this->search}%");
+                    ->orWhere('slug', 'like', "%{$this->search}%");
             })
             ->orderBy($this->sort['column'], $this->sort['direction'])
             ->paginate($this->quantity);

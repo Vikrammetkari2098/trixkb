@@ -14,7 +14,7 @@ class ArticleList extends Component
     protected $paginationTheme = 'tailwind';
 
     // UI state
-    public int $quantity = 6;
+    public int $quantity = 3;
     public string $search = '';
     public string $filter = 'recent';
 

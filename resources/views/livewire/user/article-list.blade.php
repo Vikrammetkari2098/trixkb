@@ -21,7 +21,7 @@
             <!-- Articles List -->
         <div class="space-y-6">
             @foreach($articles as $version)
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                 <div wire:key="article-{{ $version->id }}" class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
                     <div class="flex items-start gap-4">
 
                         <!-- Cover image -->
@@ -38,10 +38,19 @@
                         <div class="flex-1">
                             <!-- Author + date -->
                             <div class="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                                @php
+                                    $avatars = [
+                                        'https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png',
+
+                                    ];
+                                    $randomAvatar = $avatars[array_rand($avatars)];
+                                @endphp
+
                                 <img
-                                    src="{{ optional($version->article->author)->avatar ?? 'https://via.placeholder.com/30' }}"
+                                    src="{{ optional($version->article->author)->avatar ?: $randomAvatar }}"
                                     class="w-6 h-6 rounded-full"
-                                >
+                                />
+
 
                                 <span class="font-semibold">
                                     {{ optional($version->article->author)->name ?? 'Unknown Author' }}
@@ -50,7 +59,7 @@
                                 <span class="text-gray-400">•</span>
 
                                 <span>
-                                    published on {{ optional($version->published_at)->format('d M. Y') }}
+                                       published on 01 Jan. 2025
                                 </span>
                             </div>
 
@@ -97,17 +106,9 @@
                 </div>
             @endforeach
             <!-- Pagination -->
-            <div class="flex items-center justify-between mt-[6.5rem]">
-                    <p class="text-sm text-gray-600">
-                        Showing <span class="font-medium">{{ $articles->firstItem() }}</span> to
-                        <span class="font-medium">{{ $articles->lastItem() }}</span> of
-                        <span class="font-medium">{{ $articles->total() }}</span> results
-                    </p>
-
-                    <nav class="inline-flex items-center rounded-lg border border-gray-300 bg-white shadow-sm overflow-hidden">
-                        {{ $articles->links() }}
-                    </nav>
-                </div>
+             <div class="flex items-end justify-between mt-8">
+                {{ $articles->links() }}
+            </div>
             </div>
         </div>
 

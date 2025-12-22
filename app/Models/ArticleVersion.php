@@ -12,10 +12,6 @@ class ArticleVersion extends Model
 
     protected $table = 'article_version';
 
-    protected $primaryKey = 'id';
-
-    public $incrementing = true;
-
     protected $fillable = [
         'article_id',
         'editor_id',

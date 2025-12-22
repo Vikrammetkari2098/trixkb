@@ -44,8 +44,27 @@
 
                 {{-- Sidebar --}}
                 <aside id="with-navbar-sidebar"
+                :class="{
+                        'translate-x-0 w-64': sidebarOpen,
+                        '-translate-x-full sm:translate-x-0 w-24': !sidebarOpen
+                    }"
                     class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg
                 w-24 sticky top-[45px] h-185 overflow-visible z-20">
+
+
+                {{-- New: Toggle Button (The "Arrow") --}}
+                    <div class="w-full px-2 mb-2">
+                        <button @click="sidebarOpen = !sidebarOpen"
+                                class="p-2 rounded-lg text-gray-500  w-full flex transition-colors duration-200"
+                            :class="{ 'justify-between': sidebarOpen, 'justify-center': !sidebarOpen }">
+                            <span x-show="sidebarOpen" x-transition class="ml-3 whitespace-nowrap flex items-center">
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#09325d" :class="{'hidden': sidebarOpen}">
+                            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                            </svg>
+                            <i class="fas fa-chevron-left text-xl text-[#09325d] transition-transform" x-show="sidebarOpen" :class="sidebarOpen ? 'rotate-0' : 'rotate-180'"></i>
+                      </button>
+                  </div>
 
                     <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
@@ -57,36 +76,39 @@
 
                             <a href="{{ route('dashboard') }}"
                             :class="activePath === '/' || activePath === '/dashboard'
-                                            ? 'bg-gray-100 text-white shadow-md'
+                                            ? 'bg-[#09325d] text-white shadow-md'
                                             : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                                    <svg viewBox="-0.5 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        fill="currentColor"
-                                        :class="activePath === '/' || activePath === '/dashboard'
-                                                ? 'text-purple-600'
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"fill="none" 
+                                        :class="activePath === '/' || activePath === '/dashboard' 
+                                                ? 'text-white' 
                                                 : 'text-gray-900 group-hover:text-gray-900'"
-                                        class="size-7 text-lg">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        class="size-7 text-lg"
+                                    >
                                         <g id="SVGRepo_iconCarrier">
-                                            <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g id="ui-gambling-website-lined-icnos-casinoshunter" transform="translate(-83.000000, -153.000000)" fill="currentColor" fill-rule="nonzero">
-                                                    <g id="square-filled" transform="translate(50.000000, 120.000000)">
-                                                        <path d="M35.0026185,49.8218969 C33.8966028,49.8218969 33,48.9673526 33,47.9132188 C33,47.386939 33.2279956,46.884013 33.6300945,46.5233194 L48.1274731,33.5187787 C48.8985814,32.8270738 50.1014129,32.8270738 50.8725211,33.5187787 L65.3698998,46.5233194 C66.1753004,47.2457855 66.2137066,48.4537391 65.4556825,49.2213594 C65.0772365,49.6045963 64.5495577,49.8218969 63.9973758,49.8218969 L63.5183266,49.8218969 L63.5183266,63.1826438 C63.5183266,65.2909114 61.7251209,67 59.5130896,67 L55.5039249,67 C53.8470706,67 52.5039249,65.6568542 52.5039249,64 L52.5039249,57.4566094 L52.5039249,57.4566094 C52.5039249,56.4443825 51.6743634,55.6094251 50.6488932,55.5523934 L50.5013064,55.5479313 L48.4986879,55.5479313 C47.4366417,55.5479313 46.5605898,56.3385791 46.5007511,57.3159457 L46.4960694,57.4566094 L46.4960694,64 C46.4960694,65.6568542 45.1529236,67 43.4960694,67 L39.4869047,67 L39.4869047,67 C37.2748734,67 35.4816677,65.2909114 35.4816677,63.1826438 L35.4816677,49.8218969 L35.0026185,49.8218969 Z M56.1065434,65.0913219 L59.5130896,65.0913219 L59.5130896,65.0913219 C60.6191052,65.0913219 61.5157081,64.2367776 61.5157081,63.1826438 L61.5157081,48.1132188 C61.5157081,48.0027618 61.6052511,47.9132188 61.7157081,47.9132188 L63.4748998,47.9132188 C63.5853567,47.9132188 63.6748998,47.8236757 63.6748998,47.7132188 C63.6748998,47.6564068 63.6507384,47.6022757 63.608448,47.5643401 L50.1677383,35.50766 C49.787807,35.1668514 49.2121872,35.1668514 48.832256,35.50766 L35.3915462,47.5643401 C35.3093228,47.6380967 35.3024591,47.7645436 35.3762158,47.846767 C35.4141514,47.8890574 35.4682825,47.9132188 35.5250945,47.9132188 L37.2842862,47.9132188 C37.3947431,47.9132188 37.4842862,48.0027618 37.4842862,48.1132188 L37.4842862,63.1826438 L37.4842862,63.1826438 C37.4842862,64.2367776 38.380889,65.0913219 39.4869047,65.0913219 L42.8934971,65.0913219 C43.7771225,65.0912443 44.4934543,64.3749472 44.4935747,63.4913219 L44.4938685,57.4290491 L44.4938685,57.4290491 L44.5002268,57.2331823 C44.6226127,55.2200264 46.3741379,53.6392531 48.4986879,53.6392531 L50.5302231,53.6396512 L50.73573,53.6457112 C52.8479684,53.7623562 54.5065434,55.4317194 54.5065434,57.4566094 L54.5065434,63.4913219 C54.5065434,64.3749775 55.2228878,65.0913219 56.1065434,65.0913219 Z" id="home"> </path>
-                                                    </g>
-                                                </g>
-                                            </g>
+                                            <path 
+                                                d="M21 18.8739V10.8663C21 9.88216 20.5726 8.95316 19.8418 8.34896L14.4558 3.89571C13.0113 2.70143 10.9887 2.70143 9.54424 3.89571L4.15818 8.34896C3.42742 8.95316 3 9.88216 3 10.8663V18.8739C3 20.0481 3.89543 21 5 21H7C8.10457 21 9 20.1046 9 19V15.6848C9 14.5106 9.89543 13.5587 11 13.5587H13C14.1046 13.5587 15 14.5106 15 15.6848V19C15 20.1046 15.8954 21 17 21H19C20.1046 21 21 20.0481 21 18.8739Z" 
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </g>
                                     </svg>
                                 </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath === '/' || activePath === '/dashboard'
                                                     ? 'text-white'
                                                     : 'text-gray-700'">
                                     Dashboard
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
+                                     Dashboard
                                 </span>
                             </a>
 
@@ -137,14 +159,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('docs') }}"
                             :class="activePath.includes('/docs')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                                     <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         :class="activePath.includes('/docs')
-                                                ? 'text-purple-600'
+                                                ? 'text-white'
                                                 : 'text-gray-900 group-hover:text-gray-900'"
                                         class="size-7 text-lg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -154,14 +176,18 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/docs') ? 'text-white' : 'text-gray-700'">
                                     Docs
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
-                                            opacity-0 invisible group-hover:opacity-100 group-hover:visible
-                                            whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Documentation
                                 </span>
                             </a>
@@ -171,14 +197,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('decision.tree') }}"
                             :class="activePath.includes('/decision-tree')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                                     <svg fill="currentColor" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                         :class="activePath.includes('/decision-tree')
-                                                ? 'text-purple-600'
+                                                ? 'text-white'
                                                 : 'text-gray-900 group-hover:text-gray-900'"
                                         class="size-7 text-lg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -190,14 +216,20 @@
                                     </svg>
                                 </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/decision-tree')
                                                 ? 'text-white'
                                                 : 'text-gray-700'">
-                                    Interactive Decision Tree
+                                    Decision Tree
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Interactive Decision Tree
@@ -209,14 +241,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('api.docs') }}"
                             :class="activePath.includes('/api-docs')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                             <div class="flex justify-center items-center w-12 h-12">
                                     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
                                         :class="activePath.includes('/api-docs')
-                                                ? 'text-purple-600'
+                                                ? 'text-white'
                                                 : 'text-gray-900 group-hover:text-gray-900'"
                                         class="size-7 text-lg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -228,12 +260,18 @@
                                     </svg>
                                 </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/api-docs') ? 'text-white' : 'text-gray-700'">
                                     API Documentation
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     API Documentation
@@ -251,14 +289,14 @@
 
                             <a href="{{ route('feedback.index') }}"
                             :class="activePath.includes('/feedback')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative group">
 
                                 <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                         :class="activePath.includes('/feedback')
-                                                ? 'text-purple-600'
+                                                ? 'text-white'
                                                 : 'text-gray-900 group-hover:text-gray-900'"
                                         class="size-7 text-lg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -269,6 +307,23 @@
                                         </g>
                                     </svg>
                                 </div>
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
+                                    :class="activePath.includes('/feedback')
+                                                ? 'text-white'
+                                                : 'text-gray-700'">
+                                    Feedback Manager
+                                </span>
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                            opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
+                                            z-50 top-1/2 -translate-y-1/2">
+                                    Feedback Manager
+                                </span>
                             </a>
 
                             {{-- Feedback Dropdown --}}
@@ -313,14 +368,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('analytics') }}"
                             :class="activePath.includes('/analytics')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             :class="activePath.includes('/analytics')
-                                                    ? 'text-purple-600'
+                                                    ? 'text-white'
                                                     : 'text-gray-900 group-hover:text-gray-900'"
                                             class="size-7 text-sm">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -331,12 +386,18 @@
                                         </svg>
                                     </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/analytics') ? 'text-white' : 'text-gray-700'">
                                     Analytics
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Analytics
@@ -348,26 +409,32 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('knowledge.pulse') }}"
                             :class="activePath.includes('/knowledge-pulse')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                         :class="activePath.includes('/knowledge-pulse')
-                                                ? 'text-purple-600'
+                                                ? 'text-white'
                                                 : 'text-gray-900 group-hover:text-gray-900'"
                                         class="size-7 text-lg">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
                                     </svg>
                                 </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/knowledge-pulse') ? 'text-white' : 'text-gray-700'">
                                     Knowledge Pulse
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Knowledge Pulse
@@ -379,14 +446,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('widget') }}"
                             :class="activePath.includes('/widget')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             :class="activePath.includes('/widget')
-                                                    ? 'fill-none stroke-purple-600'
+                                                    ? 'fill-none stroke-white'
                                                     : 'fill-none stroke-gray-900 group-hover:stroke-gray-800'"
                                             class="size-7 text-lg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -397,12 +464,18 @@
                                         </svg>
                                     </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                               <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/widget') ? 'text-white' : 'text-gray-700'">
                                     Widget
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Widget
@@ -414,14 +487,14 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('drive') }}"
                             :class="activePath.includes('/drive')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                                 <div class="flex justify-center items-center w-12 h-12 group">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                                     :class="activePath.includes('/drive')
-                                        ? 'text-purple-600'
+                                        ? 'text-white'
                                         : 'text-gray-900'"
                                     class="size-7 text-lg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -432,12 +505,18 @@
                                 </svg>
                             </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/drive') ? 'text-white' : 'text-gray-700'">
                                     Drive
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Drive
@@ -446,33 +525,50 @@
                         </li>
 
                         {{-- Settings --}}
-                        <li class="relative group w-full px-2 py-40">
+                        <li class="relative group w-full px-2 py-30">
                             <a href="{{ route('settings') }}"
                             :class="activePath.includes('/settings')
-                                        ? 'bg-gray-100 text-white shadow-md'
+                                        ? 'bg-[#09325d] text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
                             <div class="flex justify-center items-center w-12 h-12 flex-shrink-0">
-                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     :class="activePath.includes('/settings')
-                                            ? 'text-purple-600'
+                                            ? 'text-white'
                                             : 'text-gray-900 group-hover:text-gray-900'"
-                                    class="size-7 text-lg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    class="size-7 text-lg"
+                                >
                                     <g id="SVGRepo_iconCarrier">
-                                        <path d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z" fill="currentColor"></path>
+                                        <g id="style=linear">
+                                            <g id="setting">
+                                                <path 
+                                                    id="vector" 
+                                                    d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" 
+                                                    stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path 
+                                                    id="vector_2" 
+                                                    d="M2 12.88V11.12C2 10.08 2.85 9.22 3.9 9.22C5.71 9.22 6.45 7.94 5.54 6.37C5.02 5.47 5.33 4.3 6.24 3.78L7.97 2.79C8.76 2.32 9.78 2.6 10.25 3.39L10.36 3.58C11.26 5.15 12.74 5.15 13.65 3.58L13.76 3.39C14.23 2.6 15.25 2.32 16.04 2.79L17.77 3.78C18.68 4.3 18.99 5.47 18.47 6.37C17.56 7.94 18.3 9.22 20.11 9.22C21.15 9.22 22.01 10.07 22.01 11.12V12.88C22.01 13.92 21.16 14.78 20.11 14.78C18.3 14.78 17.56 16.06 18.47 17.63C18.99 18.54 18.68 19.7 17.77 20.22L16.04 21.21C15.25 21.68 14.23 21.4 13.76 20.61L13.65 20.42C12.75 18.85 11.27 18.85 10.36 20.42L10.25 20.61C9.78 21.4 8.76 21.68 7.97 21.21L6.24 20.22C5.33 19.7 5.02 18.53 5.54 17.63C6.45 16.06 5.71 14.78 3.9 14.78C2.85 14.78 2 13.92 2 12.88Z" 
+                                                    stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"
+                                                />
+                                            </g>
+                                        </g>
                                     </g>
                                 </svg>
                             </div>
 
-                                <span class="hidden ml-2 font-medium whitespace-nowrap"
+                                <span x-show="sidebarOpen"
+                                    x-transition:enter="transition ease-out duration-100 delay-50"
+                                    x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    class="ml-2 font-medium whitespace-nowrap"
                                     :class="activePath.includes('/settings') ? 'text-white' : 'text-gray-700'">
                                     Settings
                                 </span>
 
-                                <span class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                <span x-show="!sidebarOpen"
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Settings

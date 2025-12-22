@@ -3,7 +3,6 @@
     <div class="bg-white flex flex-1 rounded-xl shadow-md border border-gray-200 flex flex-1 p-6 space-y-6">
         <!-- Sidebar -->
         <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
-
             <div class="flex space-x-2">
                 <button class="p-2 text-gray-500 hover:bg-gray-100 rounded"><i class="fas fa-list-check"></i></button>
                 <button class="p-2 text-gray-500 hover:bg-gray-100 rounded"><i class="far fa-clock"></i></button>
@@ -351,30 +350,43 @@
                                                 <!-- Tags -->
                                                 <td class="px-4 py-3">
                                                     <div class="flex flex-wrap gap-1">
-                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
-                                                            Product
-                                                        </span>
-                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
-                                                            Docs
-                                                        </span>
+                                                        @forelse($article->tags as $tag)
+                                                            <span
+                                                                class="px-2 py-0.5 rounded-full text-xs
+                                                                bg-indigo-50 text-indigo-700"
+                                                            >
+                                                                {{ $tag->name }}
+                                                            </span>
+                                                        @empty
+                                                            <span class="text-xs text-gray-400 italic">
+                                                                No tags
+                                                            </span>
+                                                        @endforelse
                                                     </div>
                                                 </td>
 
-                                                <!-- Labels -->
+                                                <!-- Labels Column -->
                                                 <td class="px-4 py-3">
                                                     <div class="flex flex-wrap gap-1">
-                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700">
-                                                            Important
-                                                        </span>
-                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700">
-                                                            Internal
-                                                        </span>
+                                                        @forelse($article->labels as $label)
+                                                            <span
+                                                                class="px-2 py-0.5 rounded-full text-xs
+                                                                    bg-{{ $label->color ?? 'emerald' }}-50
+                                                                    text-{{ $label->color ?? 'emerald' }}-700"
+                                                            >
+                                                                {{ $label->name }}
+                                                            </span>
+                                                        @empty
+                                                            <span class="text-xs text-gray-400 italic">
+                                                                No labels
+                                                            </span>
+                                                        @endforelse
                                                     </div>
                                                 </td>
 
                                                 <!-- Status -->
                                                 <td class="px-4 py-3 text-gray-600">
-                                                    {{ ucfirst($article->status) }}
+                                                   {{ Str::headline($article->status) }}
                                                 </td>
 
                                                 <!-- Updated -->
@@ -521,12 +533,12 @@
 
                 // This is for table article title clicks - opens the article page
                 openArticleFromTable(article) {
-                    // Set the article ID to show the Livewire component
-                    this.tableArticleId = article.id;
-                    this.$dispatch('openArticle', { id: article.id });
-                    window.dispatchEvent(new CustomEvent('load-article-title', {
-        detail: { title: article.title }
-    }));
+                                // Set the article ID to show the Livewire component
+                                this.tableArticleId = article.id;
+                                this.$dispatch('openArticle', { id: article.id });
+                                window.dispatchEvent(new CustomEvent('load-article-title', {
+                    detail: { title: article.title }
+                }));
 
                     // Also update the active selection for highlighting
                     const category = this.navItems.find(cat =>

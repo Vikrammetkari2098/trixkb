@@ -1,5 +1,5 @@
-<div class="bg-white min-h-screen text-gray-800" 
-     x-data="{ 
+<div class="bg-white min-h-screen text-gray-800"
+     x-data="{
         isSaving: false,
         {{-- १. थेट Livewire च्या $title ला जोडा --}}
         get activeTitle() { return @this.title },
@@ -19,10 +19,10 @@
                 const outputData = await window.editorInstance.save();
                 {{-- ३. डेटा सेव्ह करा आणि इव्हेंटद्वारे लिस्ट रिफ्रेश करा --}}
                 await $wire.save(outputData);
-                
+
                 {{-- ४. लिस्टला सांगा की नाव बदललंय (रिफ्रेश न करता) --}}
-                window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
-                    detail: { id: @this.articleId, title: @this.title } 
+                window.dispatchEvent(new CustomEvent('article-updated-in-list', {
+                    detail: { id: @this.articleId, title: @this.title }
                 }));
             } catch (error) {
                 console.error('Save failed:', error);
@@ -31,7 +31,7 @@
             }
         }
      }">
-            
+
     <div class="flex items-center justify-between px-6 py-3 border-b sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-4 text-gray-900">
             <button class="flex items-center text-gray-600 hover:text-black transition mr-4" @click="tableArticleId = null">
@@ -45,7 +45,7 @@
             <svg class="h-5 w-5 cursor-pointer" fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M16.108 10.044c-3.313 0-6 2.687-6 6s2.687 6 6 6 6-2.686 6-6-2.686-6-6-6zM16.108 20.044c-2.206 0-4.046-1.838-4.046-4.044s1.794-4 4-4c2.206 0 4 1.794 4 4s-1.748 4.044-3.954 4.044zM31.99 15.768c-0.012-0.050-0.006-0.104-0.021-0.153-0.006-0.021-0.020-0.033-0.027-0.051-0.011-0.028-0.008-0.062-0.023-0.089-2.909-6.66-9.177-10.492-15.857-10.492s-13.074 3.826-15.984 10.486c-0.012 0.028-0.010 0.057-0.021 0.089-0.007 0.020-0.021 0.030-0.028 0.049-0.015 0.050-0.009 0.103-0.019 0.154-0.018 0.090-0.035 0.178-0.035 0.269s0.017 0.177 0.035 0.268c0.010 0.050 0.003 0.105 0.019 0.152 0.006 0.023 0.021 0.032 0.028 0.052 0.010 0.027 0.008 0.061 0.021 0.089 2.91 6.658 9.242 10.428 15.922 10.428s13.011-3.762 15.92-10.422c0.015-0.029 0.012-0.058 0.023-0.090 0.007-0.017 0.020-0.030 0.026-0.050 0.015-0.049 0.011-0.102 0.021-0.154 0.018-0.090 0.034-0.177 0.034-0.27 0-0.088-0.017-0.175-0.035-0.266zM16 25.019c-5.665 0-11.242-2.986-13.982-8.99 2.714-5.983 8.365-9.047 14.044-9.047 5.678 0 11.203 3.067 13.918 9.053-2.713 5.982-8.301 8.984-13.981 8.984z"></path></svg>
             <button class="text-gray-500 hover:text-gray-700 rounded-full transition" @click="$dispatch('open-preview')">Preview</button>
         </div>
-        
+
         <div class="flex items-center space-x-4">
             <button class="text-gray-500 hover:text-gray-700 transition">
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 10H16.01M12 10H12.01M8 10H8.01M7 16V21L12 16H20V4H4V16H7Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -56,7 +56,7 @@
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-gray-600 cursor-pointer">
                 <svg class="h-5 w-5" fill="#000000" viewBox="0 0 32 32"><path d="M16,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S17.654,13,16,13z"></path><path d="M6,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S7.654,13,6,13z"></path><path d="M26,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S27.654,13,26,13z"></path></svg>
             </div>
-            <button @click="handleManualSave()" 
+            <button @click="handleManualSave()"
                     :disabled="isSaving"
                     class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-1 px-3 rounded-lg shadow-md transition text-sm flex items-center disabled:opacity-50">
                 <span x-text="isSaving ? 'Saving...' : 'Save'"></span>
@@ -69,14 +69,14 @@
         <div class="flex flex-col lg:flex-row items-start gap-10">
             <div class="flex-1 w-full lg:max-w-4xl">
                 <div class="mb-6">
-                    <input type="text" 
+                    <input type="text"
                     x-model="activeTitle"
                     @input.debounce.500ms="$wire.set('title', activeTitle)"
-                    class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300" 
+                    class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300"
                     placeholder="Add title">
                 </div>
-                
-                <div x-data="{ 
+
+                <div x-data="{
                         initEditor() {
                             window.editorInstance = new window.EditorJS({
                                 holder: this.$refs.editor,
@@ -105,7 +105,7 @@
                                 }
                             });
                         }
-                    }" 
+                    }"
                     x-init="setTimeout(() => initEditor(), 500)"
                     x-on:article-loaded.window="window.editorInstance.render($event.detail.content)"
                     wire:ignore>
@@ -113,7 +113,7 @@
                 </div>
             </div>
 
-            <div class="w-full lg:w-1/3 flex flex-col items-center justify-start pt-40"> 
+            <div class="w-full lg:w-1/3 flex flex-col items-center justify-start pt-40">
                 <div class="space-y-4 sticky top-10">
                     <button class="relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition duration-300 ease-in-out transform hover:scale-110 rounded-full shadow-[0_0_20px_rgba(192,38,211,0.5)] overflow-hidden bg-gradient-to-r from-pink-500 via-purple-600 via-indigo-500 via-cyan-500 to-teal-400 bg-[length:400%_400%] animate-[gradient_4s_ease_infinite]">
                         <span class="absolute inset-0 bg-white opacity-10 hover:opacity-20 transition-opacity"></span>

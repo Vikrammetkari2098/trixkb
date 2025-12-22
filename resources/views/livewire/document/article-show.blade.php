@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li><a class="dropdown-item" href="#">Form Template</a></li>
-                        <li><a class="dropdown-item" href="#">Import Document</a></li>
+                        <li><a class="dropdown-item" href="#">Import Article</a></li>
                     </ul>
                 </li>
                 <li>

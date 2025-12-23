@@ -40,10 +40,10 @@
     <footer class="bg-white border-t border-gray-100 pt-10">
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-6 gap-8 text-sm">
-                
+
                 <div class="col-span-2 md:col-span-1">
                     <a href="#" class="text-xl font-semibold text-gray-800 mb-3 block">
-                        <span class="text-purple-700 font-bold">DOCUMENT360</span> 
+                        <span class="text-purple-700 font-bold">DOCUMENT360</span>
                     </a>
                     <p class="text-gray-500 text-sm leading-relaxed pr-8">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
@@ -72,7 +72,7 @@
                         <li><a href="#" class="hover:text-blue-600">Contact Us</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold text-gray-800 mb-4 uppercase">Top Features</h4>
                     <ul class="space-y-3 text-gray-600">
@@ -111,16 +111,16 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="pt-8 mb-8 flex flex-col items-end w-full"> 
-                
+
+            <div class="pt-8 mb-8 flex flex-col items-end w-full">
+
                 <div class="flex justify-end w-full">
                     <div class="w-1/2 border-t border-gray-300"></div>
                 </div>
 
                 <div class="flex space-x-8 mt-4 text-sm">
                     <h4 class="font-semibold text-gray-800 uppercase text-sm">Sales and Support</h4>
-                    
+
                     <div class="flex space-x-8 justify-end text-sm text-gray-600">
                         <span class="flex items-center">
                             <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.424 5.424l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
@@ -134,17 +134,17 @@
                 </div>
             </div>
 
-        </div> 
+        </div>
         <div class="w-full bg-gray-200 py-3 text-xs text-gray-700">
-            <div class="flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 lg:px-8"> 
-                
+            <div class="flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 lg:px-8">
+
                 <div class="flex flex-wrap space-x-4 mb-2 md:mb-0">
                     <a href="#" class="hover:text-gray-900">Terms of Services</a>
                     <a href="#" class="hover:text-gray-900">Privacy Policy</a>
                     <a href="#" class="hover:text-gray-900">GDPR</a>
                     <a href="#" class="hover:text-gray-900">Site Map</a>
                 </div>
-                
+
                 <div>
                     Copyright &copy; All Rights Reserved.
                 </div>
@@ -152,37 +152,37 @@
         </div>
     </footer>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        
+
                         sans: ['Poppins', 'sans-serif'],
                     },
                     colors: {
-                        'dark-gray': '#374151', 
-                        'custom-purple': '#6842a2', 
+                        'dark-gray': '#374151',
+                        'custom-purple': '#6842a2',
                     }
                 }
             }
         }
     </script>
     <style>
-       
+
         :root {
-            --color-primary: #5267ff; 
-            --color-secondary: #f0f4f7; 
-            --color-dark: #374151; 
+            --color-primary: #5267ff;
+            --color-secondary: #f0f4f7;
+            --color-dark: #374151;
         }
         .bg-primary { background-color: var(--color-primary); }
         .text-primary { color: var(--color-primary); }
         .border-primary { border-color: var(--color-primary); }
         .bg-secondary { background-color: var(--color-secondary); }
         .text-dark-gray { color: var(--color-dark); }
-       
+
         .hero-heading { font-size: 2.5rem; }
         @media (min-width: 640px) {
             .hero-heading { font-size: 3rem; }

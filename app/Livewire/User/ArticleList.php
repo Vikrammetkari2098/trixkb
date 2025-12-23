@@ -13,8 +13,10 @@ class ArticleList extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    // UI state
-    public int $quantity = 3;
+    /* -------------------------
+     | UI State
+     |--------------------------*/
+    public int $quantity = 4;
     public string $search = '';
     public string $filter = 'recent';
 
@@ -28,36 +30,48 @@ class ArticleList extends Component
     ];
 
     /* -------------------------
-     | Reactive hooks
+     | Pagination reset hooks
      |--------------------------*/
-    public function updatedSearch()
+    public function updatingSearch()
     {
         $this->resetPage();
     }
 
-    public function updatedFilter()
+    public function updatingFilter()
     {
         $this->resetPage();
     }
 
-    public function updatedQuantity()
+    public function updatingQuantity()
     {
         $this->resetPage();
     }
 
     /* -------------------------
-     | Filter & sorting
+     | Filters & sorting
      |--------------------------*/
     public function setFilter(string $filter): void
     {
         $this->filter = $filter;
-        $this->resetPage();
+        // DO NOT resetPage() here
     }
 
     public function sortBy(string $column): void
     {
-        $this->sort['column'] = $column;
-        $this->sort['direction'] = 'desc'; // always DESC
+        if (!in_array($column, ['created_at', 'views', 'likes'])) {
+            return;
+        }
+
+        if ($this->sort['column'] === $column) {
+            $this->sort['direction'] =
+                $this->sort['direction'] === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sort = [
+                'column'    => $column,
+                'direction' => 'desc',
+            ];
+        }
+
         $this->resetPage();
     }
 
@@ -66,35 +80,39 @@ class ArticleList extends Component
      |--------------------------*/
     public function getRowsProperty()
     {
-        $query = ArticleVersion::query()
+        return ArticleVersion::query()
             ->with([
                 'article.author',
-                'article.labels',
+                'article.category',
+                'article.tags',
             ])
-            ->where('status', 'published');
+            ->whereHas('article', fn ($q) =>
+                $q->where('status', 'published')
+            )
 
-        // 🔍 Search
-        if (!empty($this->search)) {
-            $query->whereHas('article', function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('slug', 'like', "%{$this->search}%");
-            });
-        }
+            /* 🔍 Search */
+            ->when($this->search, fn ($q) =>
+                $q->whereHas('article', fn ($qq) =>
+                    $qq->where('title', 'like', '%' . $this->search . '%')
+                       ->orWhere('slug', 'like', '%' . $this->search . '%')
+                )
+            )
 
-        // 🔽 Filters
-        if ($this->filter === 'popular') {
-            $query->orderByDesc('likes');
-        } elseif ($this->filter === 'trending') {
-            $query->orderByDesc('views');
-        } else {
-            // recent (default)
-            $query->orderBy(
-                $this->sort['column'],
-                $this->sort['direction']
-            );
-        }
+            /* 🔽 Filters */
+            ->when($this->filter === 'popular', fn ($q) =>
+                $q->orderByDesc('likes')
+            )
+            ->when($this->filter === 'trending', fn ($q) =>
+                $q->orderByDesc('views')
+            )
+            ->when($this->filter === 'recent', fn ($q) =>
+                $q->orderBy(
+                    $this->sort['column'],
+                    $this->sort['direction']
+                )
+            )
 
-        return $query->paginate($this->quantity);
+            ->paginate($this->quantity);
     }
 
     /* -------------------------
@@ -103,9 +121,8 @@ class ArticleList extends Component
     public function getTopAuthorsProperty()
     {
         return User::withCount([
-                'articles as articles_count' => function ($q) {
-                    $q->where('status', 'published');
-                }
+                'articles as articles_count' => fn ($q) =>
+                    $q->where('status', 'published')
             ])
             ->orderByDesc('articles_count')
             ->limit(5)

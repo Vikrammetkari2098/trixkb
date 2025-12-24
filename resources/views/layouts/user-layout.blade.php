@@ -24,21 +24,19 @@
 
     {{-- Enhanced Header --}}
     <header class="sticky top-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'">
-        <div class="mx-auto px-6 lg:px-8 max-w-7xl">
+        <div class="mx-auto px-6 lg:px-8 max-w-full">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0 text-2xl font-bold  bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">
                         DOCUMENT360
                     </div>
-                    <span class="hidden lg:block text-xs px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-medium">
-                        v2.5
-                    </span>
+                    
                 </div>
 
                 {{-- Enhanced Desktop Nav --}}
                 <nav
                     x-data="{ active: 'articles' }"
-                    class="hidden lg:flex items-center space-x-1 text-sm font-medium"
+                    class="hidden lg:flex items-center space-x-1 text-lg font-medium"
                 >
                     <a href="#" @click.prevent="active = 'features'"
                        :class="active === 'features' ?

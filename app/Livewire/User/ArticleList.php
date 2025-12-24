@@ -20,6 +20,10 @@ class ArticleList extends Component
     public string $search = '';
     public string $filter = 'recent';
 
+    // 🔽 Suggestions state
+    public array $suggestions = [];
+    public bool $showSuggestions = false;
+
     public array $sort = [
         'column'    => 'created_at',
         'direction' => 'desc',
@@ -30,19 +34,56 @@ class ArticleList extends Component
     ];
 
     /* -------------------------
+     | Search update (Suggestions logic ✅)
+     |--------------------------*/
+    public function updatedSearch(): void
+    {
+        // 2 characters पेक्षा कमी असतील तर suggestions hide
+        if (strlen($this->search) < 2) {
+            $this->suggestions = [];
+            $this->showSuggestions = false;
+            return;
+        }
+
+        // 🔍 Suggestions query
+        $this->suggestions = ArticleVersion::query()
+            ->whereHas('article', function ($q) {
+                $q->where('status', 'published')
+                  ->where('title', 'like', '%' . $this->search . '%');
+            })
+            ->with('article:id,title')
+            ->limit(5)
+            ->get()
+            ->pluck('article.title')
+            ->unique()
+            ->values()
+            ->toArray();
+
+        $this->showSuggestions = count($this->suggestions) > 0;
+
+        // pagination safe
+        $this->resetPage();
+    }
+
+    /* -------------------------
+     | Suggestion select
+     |--------------------------*/
+    public function selectSuggestion(string $value): void
+    {
+        $this->search = $value;
+        $this->showSuggestions = false;
+        $this->resetPage();
+    }
+
+    /* -------------------------
      | Pagination reset hooks
      |--------------------------*/
-    public function updatingSearch()
+    public function updatingFilter(): void
     {
         $this->resetPage();
     }
 
-    public function updatingFilter()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingQuantity()
+    public function updatingQuantity(): void
     {
         $this->resetPage();
     }
@@ -53,7 +94,6 @@ class ArticleList extends Component
     public function setFilter(string $filter): void
     {
         $this->filter = $filter;
-        // DO NOT resetPage() here
     }
 
     public function sortBy(string $column): void
@@ -76,7 +116,7 @@ class ArticleList extends Component
     }
 
     /* -------------------------
-     | Articles query
+     | Articles query (Search already embedded)
      |--------------------------*/
     public function getRowsProperty()
     {
@@ -90,8 +130,8 @@ class ArticleList extends Component
                 $q->where('status', 'published')
             )
 
-            /* 🔍 Search */
-            ->when($this->search, fn ($q) =>
+            /* 🔍 Main search (min 2 chars) */
+            ->when(strlen($this->search) >= 2, fn ($q) =>
                 $q->whereHas('article', fn ($qq) =>
                     $qq->where('title', 'like', '%' . $this->search . '%')
                        ->orWhere('slug', 'like', '%' . $this->search . '%')

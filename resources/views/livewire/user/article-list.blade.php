@@ -82,7 +82,7 @@
                                         src="{{ $version->article->article_image ? asset('storage/assets/article_image/' . basename($version->article->article_image)) : asset('images/default-article.jpg') }}"
                                         alt="{{ $version->article->title }}"
                                         class="w-full h-full object-cover"
-                                        onerror="this.src='{{ asset('images/default-article.jpg') }}'"
+s
                                     />
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                                     @if($version->article->is_featured)

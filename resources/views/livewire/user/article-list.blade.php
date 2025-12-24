@@ -1,5 +1,5 @@
-<div class="w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8">
+ <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Left Column - Articles -->
         <div class="lg:col-span-2">
             <!-- Header Section -->

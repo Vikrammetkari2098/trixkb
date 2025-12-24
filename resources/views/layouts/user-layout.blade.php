@@ -106,7 +106,8 @@
     </header>
 
     {{-- Enhanced Hero Section --}}
-    <section class="relative overflow-hidden py-10 sm:py-14" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
+    @if(request()->routeIs('articles.index') || request()->is('/') || request()->is('article-list'))
+    <section class="relative overflow-hidden py-20 sm:py-28" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full translate-y-48 -translate-x-48"></div>
@@ -176,6 +177,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <!-- {{-- Stats Section --}}
     <section class="py-12 bg-white">
@@ -202,11 +204,14 @@
     </section> -->
 
     {{-- Main Content --}}
-    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <main class="min-h-screen">
         <x-toast />
-        @yield('content')
+        @if(isset($slot))
+            {{ $slot }}
+        @else
+            @yield('content')
+        @endif
     </main>
-
     {{-- Enhanced Footer --}}
     <footer class="bg-gray-900 text-white">
         <!-- Quick Links Section -->
@@ -372,6 +377,9 @@
             class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 z-40 flex items-center justify-center">
         <i class="fas fa-arrow-up"></i>
     </button>
+
+<!-- External Resources -->
+
 
 <script>
     tailwind.config = {

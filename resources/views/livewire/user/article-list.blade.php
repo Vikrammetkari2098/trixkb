@@ -86,7 +86,7 @@
                     <div class="flex flex-col sm:flex-row gap-4 lg:gap-6">
                         <!-- Cover image -->
                         <div class="sm:w-32 lg:w-40 xl:w-48 flex-shrink-0">
-                            <a href="#" class="block">
+                            <a href="{{ route('article.detail', $version->article->slug) }}" class="block">
                                 <div class="relative overflow-hidden rounded-lg lg:rounded-xl aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-300">
                                     <img
                                         src="{{ $version->article->article_image ? asset('storage/assets/article_image/' . basename($version->article->article_image)) : asset('images/default-article.jpg') }}"
@@ -136,7 +136,7 @@
 
                             <!-- Title -->
                             <h3 class="text-lg lg:text-xl xl:text-2xl font-bold text-gray-900 mb-2 lg:mb-3 leading-tight group-hover:text-blue-600 transition-colors duration-200">
-                                <a href="#" class="hover:no-underline line-clamp-2">
+                                <a href="{{ route('article.detail', $version->article->slug) }}" class="hover:text-blue-600">
                                     {{ $version->article->title }}
                                 </a>
                             </h3>
@@ -217,7 +217,7 @@
                                     <button class="p-1.5 lg:p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all duration-200 group/bookmark">
                                         <i class="far fa-bookmark group-hover/bookmark:fa-solid text-sm lg:text-base"></i>
                                     </button>
-                                    <a href="#"
+                                    <a href="{{ route('article.detail', $version->article->slug) }}"
                                        class="px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 font-semibold text-sm lg:text-base rounded-lg hover:shadow-sm transition-all duration-200 flex items-center gap-1.5 lg:gap-2 group/readmore">
                                         Read
                                         <i class="fas fa-arrow-right text-xs lg:text-sm group-hover/readmore:translate-x-0.5 lg:group-hover/readmore:translate-x-1 transition-transform"></i>

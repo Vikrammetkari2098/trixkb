@@ -108,6 +108,7 @@
     </header>
 
     {{-- Enhanced Hero Section --}}
+    @if(request()->routeIs('articles.index') || request()->is('/') || request()->is('article-list'))
     <section class="relative overflow-hidden py-20 sm:py-28" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
@@ -178,6 +179,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <!-- {{-- Stats Section --}}
     <section class="py-12 bg-white">
@@ -204,11 +206,14 @@
     </section> -->
 
     {{-- Main Content --}}
-    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <main class="min-h-screen">
         <x-toast />
-        @yield('content')
+        @if(isset($slot))
+            {{ $slot }}
+        @else
+            @yield('content')
+        @endif
     </main>
-
     {{-- Enhanced Footer --}}
     <footer class="bg-gray-900 text-white">
         <!-- Quick Links Section -->
@@ -376,10 +381,7 @@
     </button>
 
 <!-- External Resources -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdn.tailwindcss.com"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 
 <script>
     tailwind.config = {

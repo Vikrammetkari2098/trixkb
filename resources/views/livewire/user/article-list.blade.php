@@ -55,16 +55,26 @@
 
             <!-- Search Bar (Optional - Add if needed) -->
             <div class="mb-6 lg:mb-8">
-                <div class="relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input
-                        wire:model.debounce.500ms="search"
-                        type="text"
-                        placeholder="Search articles..."
-                        class="w-full pl-12 pr-4 py-3 lg:py-3.5 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm lg:text-base"
-                    />
-                </div>
+            <div class="relative flex items-center">
+                <!-- Search Icon -->
+                <i class="fas fa-search absolute left-4 text-gray-400 pointer-events-none"></i>
+
+                <!-- Input -->
+                <input
+                    wire:model.defer="search"
+                    wire:keyup="resetPage"
+
+                    type="text"
+                    placeholder="Search articles..."
+                    class="w-full pl-12 pr-24 py-3 lg:py-3.5 bg-white border border-gray-300 rounded-xl
+                        focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
+                        text-sm lg:text-base"
+                />
+
+                
             </div>
+        </div>
+
 
             <!-- Articles List -->
             <div class="space-y-4 lg:space-y-6">
@@ -82,7 +92,6 @@
                                         src="{{ $version->article->article_image ? asset('storage/assets/article_image/' . basename($version->article->article_image)) : asset('images/default-article.jpg') }}"
                                         alt="{{ $version->article->title }}"
                                         class="w-full h-full object-cover"
-                                        onerror="this.src='{{ asset('images/default-article.jpg') }}'"
                                     />
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                                     @if($version->article->is_featured)
@@ -167,7 +176,7 @@
                             <!-- Tags -->
                             <div class="flex flex-wrap gap-1.5 lg:gap-2 mb-4 lg:mb-5">
                                 @foreach($version->article->tags->take(2) as $tag)
-                                <a href="{{ route('tags.show', $tag->slug) }}" class="px-2 lg:px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-md lg:rounded-lg transition-colors">
+                                <a href="#" class="px-2 lg:px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-md lg:rounded-lg transition-colors">
                                     #{{ $tag->name }}
                                 </a>
                                 @endforeach

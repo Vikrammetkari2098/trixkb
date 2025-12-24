@@ -24,21 +24,19 @@
 
     {{-- Enhanced Header --}}
     <header class="sticky top-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'">
-        <div class="mx-auto px-6 lg:px-8 max-w-7xl">
+        <div class="mx-auto px-6 lg:px-8 max-w-full">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0 text-2xl font-bold  bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">
                         DOCUMENT360
                     </div>
-                    <span class="hidden lg:block text-xs px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-medium">
-                        v2.5
-                    </span>
+                    
                 </div>
 
                 {{-- Enhanced Desktop Nav --}}
                 <nav
                     x-data="{ active: 'articles' }"
-                    class="hidden lg:flex items-center space-x-1 text-sm font-medium"
+                    class="hidden lg:flex items-center space-x-1 text-lg font-medium"
                 >
                     <a href="#" @click.prevent="active = 'features'"
                        :class="active === 'features' ?
@@ -108,7 +106,7 @@
     </header>
 
     {{-- Enhanced Hero Section --}}
-    <section class="relative overflow-hidden py-20 sm:py-28" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
+    <section class="relative overflow-hidden py-10 sm:py-14" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full translate-y-48 -translate-x-48"></div>
@@ -374,12 +372,6 @@
             class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 z-40 flex items-center justify-center">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-<!-- External Resources -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdn.tailwindcss.com"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <script>
     tailwind.config = {

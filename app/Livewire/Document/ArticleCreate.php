@@ -59,7 +59,32 @@ class ArticleCreate extends Component
         'labels.*'      => 'string|max:50',
         'article_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
     ];
-
+    protected function rulesForCategory()
+    {
+        return [
+            'newCategory.name' => 'required|string|min:3|max:255|unique:categories,category_name',
+        ];
+    }
+     public function searchLabels(string $query)
+    {
+        return Label::where('name', 'like', "%{$query}%")
+            ->limit(5)
+            ->get()
+            ->map(fn ($label) => [
+                'value' => $label->name,
+                'text'  => $label->name,
+            ]);
+    }
+    public function searchTags(string $query)
+    {
+        return Tag::where('name', 'like', "%{$query}%")
+            ->limit(5)
+            ->get()
+            ->map(fn ($tag) => [
+                'value' => $tag->name,
+                'text'  => $tag->name,
+            ]);
+    }
     /* =======================
      | Mount
      |=======================*/
@@ -89,7 +114,36 @@ class ArticleCreate extends Component
             ])
             ->toArray();
     }
+     public function createCategory()
+    {
+        $this->validate($this->rulesForCategory());
+        $maxSortOrder = Category::max('sort_order') ?? 0;
 
+        $category = Category::create([
+            'category_name'   => $this->newCategory['name'],
+            'slug'            => Str::slug($this->newCategory['name']),
+            'parent_id'       => null,
+            'category_status' => 1,
+            'sort_order'      => $maxSortOrder + 1,
+        ]);
+
+        $this->resetNewCategoryForm();
+
+        $this->showCategoryModal = false;
+        $this->loadCategories();
+        $this->category_id = $category->category_id;
+        $this->toast()
+            ->success('Success', 'Category created successfully!')
+            ->send();
+    }
+     public function resetNewCategoryForm()
+    {
+        $this->newCategory = [
+            'name' => '',
+            'location' => 'getting_started',
+            'type' => 'index'
+        ];
+    }
     /* =======================
      | Save Article (CMS Style)
      |=======================*/
@@ -109,7 +163,7 @@ class ArticleCreate extends Component
 
         DB::transaction(function () use ($data, $imagePath, $initialVersion) {
 
-            /* 1️⃣ Create Article (NO version number here) */
+            /*  Create Article (NO version number here) */
             $article = Article::create([
                 'title'         => $data['title'],
                 'slug'          => $this->slug,
@@ -121,7 +175,7 @@ class ArticleCreate extends Component
                 'current_version_id' => null, // temporary
             ]);
 
-            /* 2️⃣ Create First Version (1.0) */
+            /*  Create First Version (1.0) */
 
                 $initialVersion = '1.0'; // first version
 
@@ -137,12 +191,12 @@ class ArticleCreate extends Component
                     'is_current'  => true,
                 ]);
 
-            /* 3️⃣ Sync current_version_id */
+            /*  Sync current_version_id */
             $article->update([
                 'current_version_id' => $version->id,
             ]);
 
-            /* 4️⃣ Tags */
+            /* Tags */
             if (!empty($data['tags'])) {
                 $tagIds = collect($data['tags'])->map(function ($name) {
                     return Tag::firstOrCreate(
@@ -153,7 +207,7 @@ class ArticleCreate extends Component
                 $article->tags()->sync($tagIds);
             }
 
-            /* 5️⃣ Labels */
+            /* Labels */
             if (!empty($data['labels'])) {
                 $labelIds = collect($data['labels'])->map(function ($name) {
                     return Label::firstOrCreate(

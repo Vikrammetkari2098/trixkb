@@ -1,56 +1,55 @@
-<div
-    class="bg-white min-h-screen text-gray-800"
-    x-data="{
-        isSaving: false,
+    <div
+        class="bg-white min-h-screen text-gray-800"
+        x-data="{
+            isSaving: false,
 
-        get activeTitle() { return @this.title },
-        set activeTitle(val) { @this.title = val },
+            get activeTitle() { return @this.title },
+            set activeTitle(val) { @this.title = val },
 
-        init() {
-            window.addEventListener('load-article-title', (e) => {
-                @this.set('title', e.detail.title);
-                @this.set('content', e.detail.content);
-            });
-        },
+            init() {
+                window.addEventListener('load-article-title', (e) => {
+                    @this.set('title', e.detail.title);
+                    @this.set('content', e.detail.content);
+                });
+            },
 
-        // Manual save button
-        handleManualSave: async function () {
-            if (!window.editorInstance || this.isSaving) return;
+            // Manual save button
+            handleManualSave: async function () {
+                if (!window.editorInstance || this.isSaving) return;
 
-            this.isSaving = true;
+                this.isSaving = true;
 
-            try {
-                const outputData = await window.editorInstance.save();
-                await $wire.save(outputData);
+                try {
+                    const outputData = await window.editorInstance.save();
+                    await $wire.save(outputData);
 
-                window.dispatchEvent(new CustomEvent('article-updated-in-list', {
-                    detail: { id: @this.articleId, title: @this.title }
-                }));
-            } catch (error) {
-                console.error('Save failed:', error);
-            } finally {
-                setTimeout(() => { this.isSaving = false; }, 800);
+                    window.dispatchEvent(new CustomEvent('article-updated-in-list', {
+                        detail: { id: @this.articleId, title: @this.title }
+                    }));
+                } catch (error) {
+                    console.error('Save failed:', error);
+                } finally {
+                    setTimeout(() => { this.isSaving = false; }, 800);
+                }
+            },
+
+            //  AUTO SAVE WHEN STATUS IS SELECTED
+            handleStatusChange: async function (status) {
+                if (!window.editorInstance || this.isSaving) return;
+
+                this.isSaving = true;
+
+                try {
+                    const outputData = await window.editorInstance.save();
+                    await $wire.save(outputData, status);
+                } catch (error) {
+                    console.error('Status save failed:', error);
+                } finally {
+                    setTimeout(() => { this.isSaving = false; }, 800);
+                }
             }
-        },
-
-        // ✅ AUTO SAVE WHEN STATUS IS SELECTED
-        handleStatusChange: async function (status) {
-            if (!window.editorInstance || this.isSaving) return;
-
-            this.isSaving = true;
-
-            try {
-                const outputData = await window.editorInstance.save();
-                await $wire.save(outputData, status);
-            } catch (error) {
-                console.error('Status save failed:', error);
-            } finally {
-                setTimeout(() => { this.isSaving = false; }, 800);
-            }
-        }
-    }"
->
-
+        }"
+    >
 
     <div class="flex items-center justify-between px-6 py-3 border-b sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-4 text-gray-900">

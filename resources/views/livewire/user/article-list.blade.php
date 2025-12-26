@@ -1,5 +1,5 @@
-<div class="w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8">
+<div class="w-full m-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6  xl:gap-8">
         <!-- Left Column - Articles -->
         <div class="lg:col-span-2">
             <!-- Header Section -->
@@ -258,7 +258,7 @@
         </div>
 
         <!-- Right Column - Sidebar -->
-        <div class="lg:sticky lg:top-6 lg:self-start">
+      <div class="lg:sticky lg:top-6 lg:self-start mr-20">
             <!-- Top Authors Card -->
             <div class="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm mb-6 lg:mb-8">
                 <div class="flex items-center justify-between mb-4 lg:mb-6">

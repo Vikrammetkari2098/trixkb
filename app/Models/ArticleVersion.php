@@ -18,6 +18,7 @@ class ArticleVersion extends Model
         'title',
         'slug',
         'content',
+        'version',
         'status',
         'is_featured',
         'views',
@@ -25,7 +26,7 @@ class ArticleVersion extends Model
         'published_at',
         'read_time',
         'likes_count',
-        'comments_count',
+        'comments_count'
     ];
 
     protected $casts = [

@@ -1,33 +1,56 @@
-<div class="bg-white min-h-screen text-gray-800" 
-      x-data="{ 
-         isSaving: false,
-         get activeTitle() { return @this.title },
-         set activeTitle(val) { @this.title = val },
+    <div
+        class="bg-white min-h-screen text-gray-800"
+        x-data="{
+            isSaving: false,
 
-         init() {
-             window.addEventListener('load-article-title', (e) => {
-                 @this.set('title', e.detail.title);
-                 @this.set('content', e.detail.content);
-             });
-         },
+            get activeTitle() { return @this.title },
+            set activeTitle(val) { @this.title = val },
 
-         async handleManualSave() {
-             if (!window.editorInstance || this.isSaving) return;
-             this.isSaving = true;
-             try {
-                 const outputData = await window.editorInstance.save();
-                 await $wire.save(outputData);
-                 window.dispatchEvent(new CustomEvent('article-updated-in-list', { 
-                     detail: { id: @this.articleId, title: @this.title } 
-                 }));
-             } catch (error) {
-                 console.error('Save failed:', error);
-             } finally {
-                 setTimeout(() => { this.isSaving = false; }, 1000);
-             }
-         }
-      }">
-            
+            init() {
+                window.addEventListener('load-article-title', (e) => {
+                    @this.set('title', e.detail.title);
+                    @this.set('content', e.detail.content);
+                });
+            },
+
+            // Manual save button
+            handleManualSave: async function () {
+                if (!window.editorInstance || this.isSaving) return;
+
+                this.isSaving = true;
+
+                try {
+                    const outputData = await window.editorInstance.save();
+                    await $wire.save(outputData);
+
+                    window.dispatchEvent(new CustomEvent('article-updated-in-list', {
+                        detail: { id: @this.articleId, title: @this.title }
+                    }));
+                } catch (error) {
+                    console.error('Save failed:', error);
+                } finally {
+                    setTimeout(() => { this.isSaving = false; }, 800);
+                }
+            },
+
+            //  AUTO SAVE WHEN STATUS IS SELECTED
+            handleStatusChange: async function (status) {
+                if (!window.editorInstance || this.isSaving) return;
+
+                this.isSaving = true;
+
+                try {
+                    const outputData = await window.editorInstance.save();
+                    await $wire.save(outputData, status);
+                } catch (error) {
+                    console.error('Status save failed:', error);
+                } finally {
+                    setTimeout(() => { this.isSaving = false; }, 800);
+                }
+            }
+        }"
+    >
+
     <div class="flex items-center justify-between px-6 py-3 border-b sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-4 text-gray-900">
             <button class="flex items-center text-gray-600 hover:text-black transition mr-4" @click="tableArticleId = null">
@@ -65,14 +88,14 @@
         <div class="flex flex-col lg:flex-row items-start gap-10">
             <div class="flex-1 w-full lg:max-w-4xl">
                 <div class="mb-6">
-                    <input type="text" 
+                    <input type="text"
                         x-model="activeTitle"
                         @input.debounce.500ms="$wire.set('title', activeTitle)"
-                        class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300" 
+                        class="w-full text-4xl font-semibold bg-transparent border-none outline-none focus:ring-0 p-0 placeholder-gray-300"
                         placeholder="Add title">
                 </div>
-                
-                <div x-data="{ 
+
+                <div x-data="{
                         initEditor(initialData) {
                             const staticArticleData = {
                                blocks: [

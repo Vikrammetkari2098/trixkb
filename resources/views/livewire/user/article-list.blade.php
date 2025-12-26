@@ -1,5 +1,5 @@
-<div class="w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8">
+<div class="w-full m-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6  xl:gap-8">
         <!-- Left Column - Articles -->
         <div class="lg:col-span-2">
             <!-- Header Section -->
@@ -55,6 +55,23 @@
 
             <!-- Search Bar (Optional - Add if needed) -->
             <div class="mb-6 lg:mb-8">
+            <div class="relative flex items-center">
+                <!-- Search Icon -->
+                <i class="fas fa-search absolute left-4 text-gray-400 pointer-events-none"></i>
+
+                <!-- Input -->
+                <input
+                    wire:model.defer="search"
+                    wire:keyup="resetPage"
+
+                    type="text"
+                    placeholder="Search articles..."
+                    class="w-full pl-12 pr-24 py-3 lg:py-3.5 bg-white border border-gray-300 rounded-xl
+                        focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
+                        text-sm lg:text-base"
+                />
+
+
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     <input
@@ -249,7 +266,7 @@
         </div>
 
         <!-- Right Column - Sidebar -->
-        <div class="lg:sticky lg:top-6 lg:self-start">
+      <div class="lg:sticky lg:top-6 lg:self-start mr-20">
             <!-- Top Authors Card -->
             <div class="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm mb-6 lg:mt-10">
                 <div class="flex items-center justify-between mb-4 lg:mb-6">

@@ -7,7 +7,6 @@ use Livewire\WithFileUploads;
 use TallStackUi\Traits\Interactions;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 use App\Models\Article;
 use App\Models\ArticleVersion;
@@ -20,13 +19,15 @@ class ArticleCreate extends Component
 {
     use Interactions, WithFileUploads;
 
+    /* =======================
+     | Form Fields
+     |=======================*/
     public $title;
     public $slug;
     public $content;
     public $category_id;
     public $status = 'draft';
     public $is_featured = false;
-    public $published_at;
     public $author_id;
     public $tags = [];
     public $labels = [];
@@ -43,6 +44,9 @@ class ArticleCreate extends Component
 
     public $showCategoryModal = false;
 
+    /* =======================
+     | Validation
+     |=======================*/
     protected $rules = [
         'title'         => 'required|string|max:255',
         'category_id'   => 'required|exists:categories,category_id',
@@ -55,7 +59,35 @@ class ArticleCreate extends Component
         'labels.*'      => 'string|max:50',
         'article_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
     ];
-
+    protected function rulesForCategory()
+    {
+        return [
+            'newCategory.name' => 'required|string|min:3|max:255|unique:categories,category_name',
+        ];
+    }
+     public function searchLabels(string $query)
+    {
+        return Label::where('name', 'like', "%{$query}%")
+            ->limit(5)
+            ->get()
+            ->map(fn ($label) => [
+                'value' => $label->name,
+                'text'  => $label->name,
+            ]);
+    }
+    public function searchTags(string $query)
+    {
+        return Tag::where('name', 'like', "%{$query}%")
+            ->limit(5)
+            ->get()
+            ->map(fn ($tag) => [
+                'value' => $tag->name,
+                'text'  => $tag->name,
+            ]);
+    }
+    /* =======================
+     | Mount
+     |=======================*/
     public function mount()
     {
         $this->users = User::select('id', 'name')->get();
@@ -68,6 +100,9 @@ class ArticleCreate extends Component
         $this->slug = Str::slug($value);
     }
 
+    /* =======================
+     | Categories
+     |=======================*/
     public function loadCategories()
     {
         $this->categories = Category::where('category_status', 1)
@@ -79,74 +114,56 @@ class ArticleCreate extends Component
             ])
             ->toArray();
     }
-
-    public function searchTags(string $query)
-    {
-        return Tag::where('name', 'like', "%{$query}%")
-            ->limit(5)
-            ->get()
-            ->map(fn ($tag) => [
-                'value' => $tag->name,
-                'text'  => $tag->name,
-            ]);
-    }
-
-    public function searchLabels(string $query)
-    {
-        return Label::where('name', 'like', "%{$query}%")
-            ->limit(5)
-            ->get()
-            ->map(fn ($label) => [
-                'value' => $label->name,
-                'text'  => $label->name,
-            ]);
-    }
-
-    protected function rulesForCategory()
-    {
-        return [
-            'newCategory.name' => 'required|string|min:3|max:255|unique:categories,category_name',
-        ];
-    }
-
-    public function createCategory()
+     public function createCategory()
     {
         $this->validate($this->rulesForCategory());
+        $maxSortOrder = Category::max('sort_order') ?? 0;
 
         $category = Category::create([
             'category_name'   => $this->newCategory['name'],
             'slug'            => Str::slug($this->newCategory['name']),
+            'parent_id'       => null,
             'category_status' => 1,
-            'sort_order'      => (Category::max('sort_order') ?? 0) + 1,
+            'sort_order'      => $maxSortOrder + 1,
         ]);
 
-        $this->category_id = $category->category_id;
-        $this->reset('newCategory', 'showCategoryModal');
+        $this->resetNewCategoryForm();
+
+        $this->showCategoryModal = false;
         $this->loadCategories();
-
-        $this->toast()->success('Success', 'Category created successfully')->send();
+        $this->category_id = $category->category_id;
+        $this->toast()
+            ->success('Success', 'Category created successfully!')
+            ->send();
     }
-
+     public function resetNewCategoryForm()
+    {
+        $this->newCategory = [
+            'name' => '',
+            'location' => 'getting_started',
+            'type' => 'index'
+        ];
+    }
+    /* =======================
+     | Save Article (CMS Style)
+     |=======================*/
     public function save()
     {
         $data = $this->validate();
 
-        // ✅ Upload image BEFORE transaction
+        $initialVersion = '1.0';
+        $imagePath = null;
 
-
-       if ($this->article_image) {
+        // Upload image
+        if ($this->article_image) {
             $filename = time() . '_' . auth()->id() . '.' . $this->article_image->getClientOriginalExtension();
-
-            $this->article_image->storeAs(
-                'assets/article_image',
-                $filename,
-                'public'
-            );
+            $this->article_image->storeAs('assets/article_image', $filename, 'public');
             $imagePath = 'article_image/' . $filename;
         }
 
-        DB::transaction(function () use ($data, $imagePath) {
+        DB::transaction(function () use ($data, $imagePath, $initialVersion) {
 
+            /*  Create Article (NO version number here) */
             $article = Article::create([
                 'title'         => $data['title'],
                 'slug'          => $this->slug,
@@ -155,23 +172,31 @@ class ArticleCreate extends Component
                 'is_featured'   => $data['is_featured'],
                 'author_id'     => $data['author_id'],
                 'article_image' => $imagePath,
+                'current_version_id' => null, // temporary
             ]);
 
-            $version = ArticleVersion::create([
-                'article_id'  => $article->id,
-                'editor_id'   => auth()->id(),
-                'content'     => null,
-                'status'      => $data['status'],
-                'is_featured' => $data['is_featured'],
-                'views'       => 0,
-                'likes'       => 0,
-            ]);
+            /*  Create First Version (1.0) */
 
+                $initialVersion = '1.0'; // first version
+
+                $version = ArticleVersion::create([
+                    'article_id'  => $article->id,
+                    'editor_id'   => auth()->id(),
+                    'version'     => $initialVersion,
+                    'content'     => $this->content,
+                    'status'      => $data['status'],
+                    'is_featured' => $data['is_featured'],
+                    'views'       => 0,
+                    'likes'       => 0,
+                    'is_current'  => true,
+                ]);
+
+            /*  Sync current_version_id */
             $article->update([
                 'current_version_id' => $version->id,
             ]);
 
-            // Tags
+            /* Tags */
             if (!empty($data['tags'])) {
                 $tagIds = collect($data['tags'])->map(function ($name) {
                     return Tag::firstOrCreate(
@@ -182,7 +207,7 @@ class ArticleCreate extends Component
                 $article->tags()->sync($tagIds);
             }
 
-            // Labels
+            /* Labels */
             if (!empty($data['labels'])) {
                 $labelIds = collect($data['labels'])->map(function ($name) {
                     return Label::firstOrCreate(
@@ -194,7 +219,7 @@ class ArticleCreate extends Component
             }
         });
 
-        $this->toast()->success('Success', 'Article created successfully')->send();
+        $this->toast()->success('Success', 'Article created with version 1.0')->send();
 
         $this->dispatch('refresh-articles-list');
         $this->dispatch('close-modal', id: 'modal-create');

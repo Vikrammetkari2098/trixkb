@@ -6,7 +6,7 @@
             <div class="mb-6 lg:mb-8">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-2">Latest Articles</h1>
+                        <h1 class="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mt-10 mb-2">Latest Articles</h1>
                         <div class="flex flex-wrap items-center gap-2 lg:gap-3">
                             <span class="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                 {{ $articles->total() }}
@@ -55,26 +55,16 @@
 
             <!-- Search Bar (Optional - Add if needed) -->
             <div class="mb-6 lg:mb-8">
-            <div class="relative flex items-center">
-                <!-- Search Icon -->
-                <i class="fas fa-search absolute left-4 text-gray-400 pointer-events-none"></i>
-
-                <!-- Input -->
-                <input
-                    wire:model.defer="search"
-                    wire:keyup="resetPage"
-
-                    type="text"
-                    placeholder="Search articles..."
-                    class="w-full pl-12 pr-24 py-3 lg:py-3.5 bg-white border border-gray-300 rounded-xl
-                        focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
-                        text-sm lg:text-base"
-                />
-
-                
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input
+                        wire:model.debounce.500ms="search"
+                        type="text"
+                        placeholder="Search articles..."
+                        class="w-full pl-12 pr-4 py-3 lg:py-3.5 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm lg:text-base"
+                    />
+                </div>
             </div>
-        </div>
-
 
             <!-- Articles List -->
             <div class="space-y-4 lg:space-y-6">
@@ -92,6 +82,7 @@
                                         src="{{ $version->article->article_image ? asset('storage/assets/article_image/' . basename($version->article->article_image)) : asset('images/default-article.jpg') }}"
                                         alt="{{ $version->article->title }}"
                                         class="w-full h-full object-cover"
+                                        
                                     />
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                                     @if($version->article->is_featured)
@@ -176,7 +167,7 @@
                             <!-- Tags -->
                             <div class="flex flex-wrap gap-1.5 lg:gap-2 mb-4 lg:mb-5">
                                 @foreach($version->article->tags->take(2) as $tag)
-                                <a href="#" class="px-2 lg:px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-md lg:rounded-lg transition-colors">
+                                <a href="{{ route('tags.show', $tag->slug) }}" class="px-2 lg:px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-md lg:rounded-lg transition-colors">
                                     #{{ $tag->name }}
                                 </a>
                                 @endforeach
@@ -260,7 +251,7 @@
         <!-- Right Column - Sidebar -->
         <div class="lg:sticky lg:top-6 lg:self-start">
             <!-- Top Authors Card -->
-            <div class="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm mb-6 lg:mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm mb-6 lg:mt-10">
                 <div class="flex items-center justify-between mb-4 lg:mb-6">
                     <h2 class="text-lg lg:text-xl font-bold text-gray-900 flex items-center gap-2 lg:gap-3">
                         <div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">

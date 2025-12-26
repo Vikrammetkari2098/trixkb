@@ -1,5 +1,7 @@
- <div class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="px-8 lg:px-1 py-12">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+
         <!-- Left Column - Articles -->
         <div class="lg:col-span-2">
             <!-- Header Section -->
@@ -366,9 +368,5 @@
             </div>
         </div>
     </div>
-    <style>
-        .max-w-7xl {
-            max-width: 120rem;
-        }
-    </style>
+   
 </div>

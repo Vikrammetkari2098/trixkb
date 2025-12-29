@@ -30,7 +30,7 @@
                     <div class="flex-shrink-0 text-2xl font-bold  bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">
                         DOCUMENT360
                     </div>
-                    
+
                 </div>
 
                 {{-- Enhanced Desktop Nav --}}

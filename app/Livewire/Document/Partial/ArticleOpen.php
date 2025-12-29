@@ -7,31 +7,22 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use TallStackUi\Traits\Interactions;
-
 use App\Models\Article;
 use App\Models\ArticleVersion;
 
 class ArticleOpen extends Component
 {
     use Interactions, WithFileUploads;
-
-    /* ---------------- Properties ---------------- */
-
     public $articleId;
     public $title;
     public $content = [];
 
     public $editorImage;
 
-    /* ---------------- Validation ---------------- */
-
     protected $rules = [
         'title' => 'required|string|max:255',
     ];
 
-    /* ---------------------------------
-     | Load article + current version
-     |---------------------------------*/
     #[On('openArticle')]
     public function loadArticleData(int $id): void
     {
@@ -52,9 +43,6 @@ class ArticleOpen extends Component
         ]);
     }
 
-    /* ---------------------------------
-     | Save article + content
-     |---------------------------------*/
     public function save(array $editorData): void
     {
         $this->validate();
@@ -88,16 +76,12 @@ class ArticleOpen extends Component
         }
     }
 
-    /* ---------------------------------
-     | EditorJS image upload
-     |---------------------------------*/
     public function updatedEditorImage(): void
     {
         $this->validate([
             'editorImage' => 'image|max:10240', // 10MB
         ]);
     }
-
     public function saveEditorImage(): ?string
     {
         if (!$this->editorImage) {
@@ -109,9 +93,6 @@ class ArticleOpen extends Component
         return asset('storage/' . $path);
     }
 
-    /* ---------------------------------
-     | Render
-     |---------------------------------*/
     public function render()
     {
         return view('livewire.document.partial.article-open');

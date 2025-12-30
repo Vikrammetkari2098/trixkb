@@ -1,7 +1,10 @@
-<div class="w-full m-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6  xl:gap-8">
+ <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+
         <!-- Left Column - Articles -->
-        <div class="lg:col-span-2">
+       <div class="lg:col-span-2 space-y-8">
+
             <!-- Header Section -->
             <div class="mb-6 lg:mb-8">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -78,6 +81,10 @@
 
             <!-- Articles List -->
             <div class="space-y-4 lg:space-y-6">
+                            <!-- Loader Overlay -->
+                <div wire:loading wire:target="page" class="absolute inset-0 bg-white/50 flex items-center justify-center z-50">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"></div>
+                </div>
                 @forelse($articles as $version)
                 <div
                     wire:key="article-{{ $version->id }}"
@@ -253,9 +260,9 @@
         </div>
 
         <!-- Right Column - Sidebar -->
-      <div class="lg:sticky lg:top-6 lg:self-start mt-28 mr-25">
-            <!-- Top Authors Card -->
-            <div class="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm mb-6 lg:mb-8">
+     <div class="lg:sticky lg:top-6 lg:self-start mt-28">
+
+             <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-md">
                 <div class="flex items-center justify-between mb-4 lg:mb-6">
                     <h2 class="text-lg lg:text-xl font-bold text-gray-900 flex items-center gap-2 lg:gap-3">
                         <div class="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -361,7 +368,7 @@
             </div>
         </div>
     </div>
-    <style>
+   <style>
         .max-w-7xl {
             max-width: 120rem;
         }

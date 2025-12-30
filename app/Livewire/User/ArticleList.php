@@ -121,11 +121,12 @@ class ArticleList extends Component
     public function getRowsProperty()
     {
         return ArticleVersion::query()
-            ->with([
-                'article.author',
-                'article.category',
-                'article.tags',
-            ])
+        ->with([
+            'article' => function ($query) {
+                $query->with(['author', 'category', 'tags'])
+                      ->withCount(['likes', 'comments']);    
+            }
+        ])
             ->whereHas('article', fn ($q) =>
                 $q->where('status', 'published')
             )

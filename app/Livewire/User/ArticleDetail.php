@@ -43,7 +43,7 @@ class ArticleDetail extends Component
             $rawContent = $this->article->currentVersion->content;
             $this->articleContent = is_string($rawContent) ? json_decode($rawContent, true) : $rawContent;
 
-            $this->likeCount = $this->article->currentVersion->likes ?? 0;
+            $this->likeCount = ArticleLike::where('article_id', $this->article->id)->count();
         }
 
         if (Auth::check()) {
@@ -57,30 +57,33 @@ class ArticleDetail extends Component
 
     public function toggleLike()
     {
-        if (!Auth::check()) return redirect()->route('login');
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
 
         $userId = Auth::id();
         $articleId = $this->article->id;
-        $versionId = $this->article->version_id;
 
         if ($this->hasLiked) {
-            ArticleLike::where('article_id', $articleId)->where('user_id', $userId)->delete();
-            ArticleVersion::where('id', $versionId)->decrement('likes');
+            // UnLike Logic
+            ArticleLike::where('article_id', $articleId)
+                ->where('user_id', $userId)
+                ->delete();
             
             $this->hasLiked = false;
-            $this->likeCount--; 
         } else {
+            // Like Logic
             ArticleLike::create([
                 'article_id' => $articleId,
                 'user_id' => $userId,
                 'ip_address' => request()->ip(),
                 'created_at' => now()
             ]);
-            ArticleVersion::where('id', $versionId)->increment('likes');
-            
+
             $this->hasLiked = true;
-            $this->likeCount++;
         }
+
+        $this->likeCount = ArticleLike::where('article_id', $articleId)->count();
     }
 
     public function loadComments()
@@ -138,7 +141,7 @@ class ArticleDetail extends Component
         $this->showReplyForm = ($this->showReplyForm === $commentId) ? null : $commentId;
     }
 
-    // --- नवीन Edit/Delete फंक्शन्स ---
+    
 
     public function editComment($commentId)
     {

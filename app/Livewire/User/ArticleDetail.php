@@ -27,7 +27,7 @@ class ArticleDetail extends Component
 
     public $showAllComments = false;
 
-    // Edit/Delete साठई लागणारे नवीन व्हेरिएबल्स
+    
     public $editingCommentId = null;
     public $editingCommentText = '';
 

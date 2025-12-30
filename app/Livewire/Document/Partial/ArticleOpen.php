@@ -102,28 +102,41 @@ class ArticleOpen extends Component
 
         return asset('storage/' . $path);
     }
-    public function updateStatus(string $status): bool
+    
+   public function updateStatus(string $status): bool
 {
     $validStatuses = ['draft', 'in_review', 'published', 'archived'];
 
     if (!in_array($status, $validStatuses)) {
-        return false; // Invalid status
-    }
-
-    // Find current ArticleVersion
-    $articleVersion = ArticleVersion::find($this->articleId);
-
-    if (!$articleVersion) {
         return false;
     }
 
-    // Use the model's method to update status
-    $articleVersion->updateStatus($status);
+    // ✅ Article find kar (articleId = Article ID)
+    $article = Article::find($this->articleId);
 
-    // Optional: dispatch event to refresh frontend
+    if (!$article) {
+        return false;
+    }
+
+    // ✅ Update status on Article
+    $article->update([
+        'status' => $status,
+    ]);
+
+    // ✅ Refresh article list
     $this->dispatch('refresh-articles-list');
 
+    $this->toast()
+        ->success('Status Updated', 'Article status updated successfully')
+        ->send();
+
     return true;
+}
+
+public function triggerSave(): void
+{
+    // Alpine/JS ला सांगतो: editor data पाठव
+    $this->dispatch('request-editor-save');
 }
 
 

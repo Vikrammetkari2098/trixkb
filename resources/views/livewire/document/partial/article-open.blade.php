@@ -117,25 +117,25 @@
                         <li>
                             <button @click="handleManualSave('draft'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                📝 Draft
+                                 Draft
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('in_review'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                👀 In Review
+                                 In Review
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('published'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                ✅ Published
+                                 Published
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('archived'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600">
-                                📦 Archived
+                                Archived
                             </button>
                         </li>
                     </ul>

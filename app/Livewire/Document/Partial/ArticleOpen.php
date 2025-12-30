@@ -102,6 +102,30 @@ class ArticleOpen extends Component
 
         return asset('storage/' . $path);
     }
+    public function updateStatus(string $status): bool
+{
+    $validStatuses = ['draft', 'in_review', 'published', 'archived'];
+
+    if (!in_array($status, $validStatuses)) {
+        return false; // Invalid status
+    }
+
+    // Find current ArticleVersion
+    $articleVersion = ArticleVersion::find($this->articleId);
+
+    if (!$articleVersion) {
+        return false;
+    }
+
+    // Use the model's method to update status
+    $articleVersion->updateStatus($status);
+
+    // Optional: dispatch event to refresh frontend
+    $this->dispatch('refresh-articles-list');
+
+    return true;
+}
+
 
     public function render()
     {

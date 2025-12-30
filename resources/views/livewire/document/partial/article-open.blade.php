@@ -84,12 +84,64 @@
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-gray-600 cursor-pointer">
                 <svg class="h-5 w-5" fill="#000000" viewBox="0 0 32 32"><path d="M16,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S17.654,13,16,13z"></path><path d="M6,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S7.654,13,6,13z"></path><path d="M26,13c-1.654,0-3,1.346-3,3s1.346,3,3,3s3-1.346,3-3S27.654,13,26,13z"></path></svg>
             </div>
-            <button @click="handleManualSave()"
+           <div x-data="{ open: false, isSaving: false }" class="relative inline-block">
+
+                <!-- Save Button -->
+                <button
+                    @click="handleManualSave()"
                     :disabled="isSaving"
-                    class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-1 px-3 rounded-lg shadow-md transition text-sm flex items-center disabled:opacity-50">
-                <span x-text="isSaving ? 'Saving...' : 'Save'"></span>
-                <svg x-show="!isSaving" class="h-4 w-4 ml-1" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z"></path></svg>
-            </button>
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-1 px-3 rounded-lg shadow-md transition text-sm flex items-center disabled:opacity-50"
+                >
+                    <span x-text="isSaving ? 'Saving...' : 'Save'"></span>
+
+                    <!-- Arrow SVG (click to open dropdown) -->
+                    <svg
+                        @click.stop="open = !open"
+                        x-show="!isSaving"
+                        class="h-4 w-4 ml-1 cursor-pointer"
+                        fill="#FFFFFF"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z"></path>
+                    </svg>
+                </button>
+
+                <!-- Dropdown -->
+                <div
+                    x-show="open"
+                    @click.outside="open = false"
+                    x-transition
+                    class="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-xl border border-gray-100 z-50"
+                >
+                    <ul class="py-1 text-sm text-gray-700">
+                        <li>
+                            <button @click="handleManualSave('draft'); open = false"
+                                    class="w-full text-left px-4 py-2 hover:bg-gray-50">
+                                📝 Draft
+                            </button>
+                        </li>
+                        <li>
+                            <button @click="handleManualSave('in_review'); open = false"
+                                    class="w-full text-left px-4 py-2 hover:bg-gray-50">
+                                👀 In Review
+                            </button>
+                        </li>
+                        <li>
+                            <button @click="handleManualSave('published'); open = false"
+                                    class="w-full text-left px-4 py-2 hover:bg-gray-50">
+                                ✅ Published
+                            </button>
+                        </li>
+                        <li>
+                            <button @click="handleManualSave('archived'); open = false"
+                                    class="w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600">
+                                📦 Archived
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
 

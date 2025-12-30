@@ -7,12 +7,14 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use TallStackUi\Traits\Interactions;
+
 use App\Models\Article;
 use App\Models\ArticleVersion;
 
 class ArticleOpen extends Component
 {
     use Interactions, WithFileUploads;
+
     public $articleId;
     public $title;
     public $content = [];
@@ -38,6 +40,14 @@ class ArticleOpen extends Component
 
         // Send data to EditorJS
         $this->dispatch('article-loaded', [
+            'title'   => $this->title,
+            'content' => $this->content,
+        ]);
+    }
+    #[On('request-preview-data')]
+    public function sendPreviewData()
+    {
+        $this->dispatch('send-preview-data', [
             'title'   => $this->title,
             'content' => $this->content,
         ]);

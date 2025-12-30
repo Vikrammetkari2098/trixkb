@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\ArticleLike;
+use App\Models\ArticleComment;
 
 class Article extends Model
 {
@@ -84,6 +87,14 @@ class Article extends Model
     public function author()
     {
         return $this->belongsTo(\App\Models\User::class, 'author_id');
+    }
+    public function likes(): HasMany
+    {
+        return $this->hasMany(ArticleLike::class);
+    }
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ArticleComment::class);
     }
 
 

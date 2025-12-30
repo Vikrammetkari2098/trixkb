@@ -99,19 +99,173 @@
 
             <div class="p-6 sm:p-10">
                 <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-                    @if(isset($articleContent['blocks']))
+                    @if(isset($articleContent['blocks']) && is_array($articleContent['blocks']))
                         @foreach($articleContent['blocks'] as $block)
-                            @if($block['type'] == 'paragraph')
-                                <p class="mb-6">{!! $block['data']['text'] !!}</p>
-                            @elseif($block['type'] == 'header')
-                                <h{{ $block['data']['level'] }} class="font-bold mt-10 mb-5 text-gray-900">{!! $block['data']['text'] !!}</h{{ $block['data']['level'] }}>
+
+                            {{-- 1. HEADER --}}
+                            @if($block['type'] == 'header')
+                                @php
+                                    $level = $block['data']['level'] ?? 2;
+                                    $class = match($level) {
+                                        1 => 'text-4xl font-extrabold mt-8 mb-4 text-gray-900',
+                                        2 => 'text-3xl font-bold mt-6 mb-4 text-gray-900 border-b pb-2 border-gray-200',
+                                        3 => 'text-2xl font-bold mt-6 mb-3 text-gray-800',
+                                        4 => 'text-xl font-semibold mt-4 mb-2 text-gray-800',
+                                        default => 'text-base font-bold mt-2 mb-1',
+                                    };
+                                    $text = $block['data']['text'] ?? '';
+                                @endphp
+                                <h{{ $level }} class="{{ $class }}">
+                                    {!! is_array($text) ? ($text['text'] ?? '') : $text !!}
+                                </h{{ $level }}>
+
+                            {{-- 2. PARAGRAPH (येथे जास्त शक्यता असते एररची) --}}
+                            @elseif($block['type'] == 'paragraph')
+                                @php $text = $block['data']['text'] ?? ''; @endphp
+                                <p class="mb-4 text-lg text-gray-700 leading-7">
+                                    {!! is_array($text) ? ($text['text'] ?? '') : $text !!}
+                                </p>
+
+                            {{-- 3. LIST --}}
                             @elseif($block['type'] == 'list')
-                                <ul class="list-disc pl-5 mb-6">
-                                    @foreach($block['data']['items'] as $item)
-                                        <li class="mb-2">{!! $item !!}</li>
-                                    @endforeach
-                                </ul>
+                                @php
+                                    $style = $block['data']['style'] ?? 'unordered';
+                                    $tag = $style === 'ordered' ? 'ol' : 'ul';
+                                    $listClass = $style === 'ordered' ? 'list-decimal' : 'list-disc';
+                                    $items = $block['data']['items'] ?? [];
+                                @endphp
+                                <{{ $tag }} class="{{ $listClass }} pl-8 mb-6 space-y-2 text-gray-700 text-lg">
+                                    @if(is_array($items))
+                                        @foreach($items as $item)
+                                            <li class="pl-1">
+                                                {{-- Safe Check for List Items --}}
+                                                {!! is_array($item) ? ($item['content'] ?? ($item['text'] ?? '')) : $item !!}
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                </{{ $tag }}>
+
+                            {{-- 4. IMAGE --}}
+                            @elseif($block['type'] == 'image')
+                                @php
+                                    $url = $block['data']['file']['url'] ?? '';
+                                    $caption = $block['data']['caption'] ?? '';
+                                    $withBorder = $block['data']['withBorder'] ?? false;
+                                    $withBackground = $block['data']['withBackground'] ?? false;
+                                    $stretched = $block['data']['stretched'] ?? false;
+                                @endphp
+                                <div class="my-8 {{ $stretched ? 'w-full' : '' }} {{ $withBackground ? 'bg-gray-100 p-4 rounded-lg' : '' }}">
+                                    @if(!empty($url))
+                                        <img src="{{ $url }}" 
+                                            alt="{{ is_string($caption) ? strip_tags($caption) : 'Image' }}" 
+                                            class="rounded-lg shadow-sm {{ $withBorder ? 'border-2 border-gray-200 p-1' : '' }} w-full h-auto">
+                                    @endif
+                                    @if(!empty($caption))
+                                        <div class="text-center text-sm text-gray-500 mt-2 italic">
+                                            {!! is_array($caption) ? ($caption['text'] ?? '') : $caption !!}
+                                        </div>
+                                    @endif
+                                </div>
+
+                            {{-- 5. TABLE --}}
+                            @elseif($block['type'] == 'table')
+                                @php
+                                    $content = $block['data']['content'] ?? [];
+                                    $withHeadings = $block['data']['withHeadings'] ?? false;
+                                @endphp
+                                @if(is_array($content) && count($content) > 0)
+                                <div class="overflow-x-auto my-8">
+                                    <table class="w-full border-collapse border border-gray-300 rounded-lg text-left">
+                                        @if($withHeadings)
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    @foreach($content[0] as $heading)
+                                                        <th class="border border-gray-300 px-4 py-2 font-semibold text-gray-700">
+                                                            {!! is_array($heading) ? ($heading['content'] ?? '') : $heading !!}
+                                                        </th>
+                                                    @endforeach
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(array_slice($content, 1) as $row)
+                                                    <tr class="odd:bg-white even:bg-gray-50">
+                                                        @foreach($row as $cell)
+                                                            <td class="border border-gray-300 px-4 py-2 text-gray-700">
+                                                                {!! is_array($cell) ? ($cell['content'] ?? '') : $cell !!}
+                                                            </td>
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        @else
+                                            <tbody>
+                                                @foreach($content as $row)
+                                                    <tr class="odd:bg-white even:bg-gray-50">
+                                                        @foreach($row as $cell)
+                                                            <td class="border border-gray-300 px-4 py-2 text-gray-700">
+                                                                {!! is_array($cell) ? ($cell['content'] ?? '') : $cell !!}
+                                                            </td>
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        @endif
+                                    </table>
+                                </div>
+                                @endif
+
+                            {{-- 6. CHECKLIST --}}
+                            @elseif($block['type'] == 'checklist')
+                                <div class="space-y-3 mb-6">
+                                    @php $items = $block['data']['items'] ?? []; @endphp
+                                    @if(is_array($items))
+                                        @foreach($items as $item)
+                                            <div class="flex items-start p-2 rounded hover:bg-gray-50 transition">
+                                                <div class="flex items-center h-6">
+                                                    <input type="checkbox" disabled {{ ($item['checked'] ?? false) ? 'checked' : '' }} 
+                                                        class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 disabled:opacity-50">
+                                                </div>
+                                                <div class="ml-3 text-lg">
+                                                    <span class="{{ ($item['checked'] ?? false) ? 'line-through text-gray-400' : 'text-gray-700' }}">
+                                                        {!! $item['text'] ?? '' !!}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+
+                            {{-- 7. QUOTE --}}
+                            @elseif($block['type'] == 'quote')
+                                @php 
+                                    $text = $block['data']['text'] ?? '';
+                                    $caption = $block['data']['caption'] ?? '';
+                                @endphp
+                                <figure class="my-8 pl-6 border-l-4 border-indigo-500 bg-gray-50 py-4 pr-4 rounded-r-lg">
+                                    <blockquote class="italic text-xl text-gray-800 leading-relaxed">
+                                        "{!! is_array($text) ? ($text['text'] ?? '') : $text !!}"
+                                    </blockquote>
+                                    @if(!empty($caption))
+                                        <figcaption class="mt-2 text-sm text-gray-600 font-semibold text-right">
+                                            — {!! is_array($caption) ? ($caption['text'] ?? '') : $caption !!}
+                                        </figcaption>
+                                    @endif
+                                </figure>
+
+                            {{-- 8. CODE --}}
+                            @elseif($block['type'] == 'code')
+                                <div class="my-6 bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                                    <pre class="p-4 overflow-x-auto"><code class="font-mono text-sm text-green-400">{!! htmlspecialchars($block['data']['code'] ?? '') !!}</code></pre>
+                                </div>
+
+                            {{-- 9. RAW HTML --}}
+                            @elseif($block['type'] == 'raw')
+                                <div class="my-6">
+                                    {!! $block['data']['html'] ?? '' !!}
+                                </div>
+
                             @endif
+
                         @endforeach
                     @endif
                 </div>
@@ -133,7 +287,7 @@
                             @endif
                         </div>
                         
-                        <span class="text-xl font-bold font-mono tracking-tight {{ $hasLiked ? 'text-gray-900' : 'text-gray-500' }}">
+                        <span class="font-bold font-arial tracking-tight {{ $hasLiked ? 'text-gray-900' : 'text-gray-500' }}">
                             {{ $likeCount }} <span class="text-sm font-sans font-medium ml-1">Likes</span>
                         </span>
                     </button>

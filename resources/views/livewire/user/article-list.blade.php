@@ -205,17 +205,12 @@
                                     <div class="flex items-center gap-3 lg:gap-4">
                                         <div class="flex items-center gap-1.5 text-gray-600 hover:text-blue-600 transition-colors cursor-pointer text-xs lg:text-sm">
                                             <i class="far fa-thumbs-up"></i>
-                                            <span class="font-medium">{{ $version->likes ?? 0 }}</span>
+                                            <span>{{ $version->article->likes_count }}</span>
                                         </div>
 
                                         <div class="flex items-center gap-1.5 text-gray-600 hover:text-green-600 transition-colors cursor-pointer text-xs lg:text-sm">
                                             <i class="far fa-comment"></i>
-                                            <span class="font-medium">{{ $version->comments_count ?? 0 }}</span>
-                                        </div>
-
-                                        <div class="flex items-center gap-1.5 text-gray-600 hover:text-purple-600 transition-colors cursor-pointer text-xs lg:text-sm">
-                                            <i class="far fa-eye"></i>
-                                            <span class="font-medium">{{ $version->views ?? 0 }}</span>
+                                            <span>{{ $version->article->comments_count }}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -17,6 +17,11 @@
     {{-- FontAwesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
     <style>[x-cloak] { display: none !important; }</style>
 </head>
 
@@ -94,35 +99,35 @@
                                  opacity-0 invisible group-hover:opacity-100 group-hover:visible
                                  transition-all duration-200 z-50"
                                   >
-                               
+
                                 <!-- Items -->
                                 <a href="#"
                                 class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
                                     <i class="fas fa-newspaper mr-2 text-primary"></i>
                                     New article published
-                                    
+
                                 </a>
 
                                 <a href="#"
                                 class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
                                     <i class="fas fa-edit mr-2 text-purple-500"></i>
                                     Article updated
-                                    
+
                                 </a>
 
                                 <a href="#"
                                 class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
                                     <i class="fas fa-check-circle mr-2 text-green-500"></i>
                                     Article approved
-                                
+
                                 </a>
 
-                                
+
                             </div>
                         </div>
 
 
-                            @php    
+                            @php
                                 $user = Auth::user() ?? (object) ['name' => ''];
                                 $initials = collect(explode(' ', $user->name))
                                                 ->map(fn($w) => strtoupper(substr($w,0,1)))

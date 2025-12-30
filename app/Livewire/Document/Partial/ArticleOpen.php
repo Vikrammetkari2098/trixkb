@@ -53,7 +53,7 @@ class ArticleOpen extends Component
         ]);
     }
 
-    public function save(array $editorData): void
+   public function save(array $editorData): void
     {
         $this->validate();
 
@@ -62,29 +62,51 @@ class ArticleOpen extends Component
 
                 $article = Article::findOrFail($this->articleId);
 
-                // Update article metadata
+                // Update article title only
                 $article->update([
                     'title' => $this->title,
                 ]);
 
-                // Update current version content
-                ArticleVersion::where('id', $article->current_version_id)
-                    ->update([
-                        'content' => $editorData,
-                    ]);
+                // Current version
+                $currentVersion = ArticleVersion::find(
+                    $article->current_version_id
+                );
+
+                // Next version number
+                $nextVersion = $this->nextVersion($article->id);
+
+                // Create NEW version row
+                $newVersion = ArticleVersion::create([
+                    'article_id'   => $article->id,
+                    'version'      => $nextVersion,
+                    'editor_id'    => auth()->id(),
+                    'content'      => $editorData,
+                    'status'       => $currentVersion->status ?? 'draft',
+                    'is_featured'  => $currentVersion->is_featured ?? 0,
+                    'views'        => $currentVersion->views ?? 0,
+                    'likes'        => $currentVersion->likes ?? 0,
+                    'published_at' => $currentVersion->published_at,
+                ]);
+
+                // Point article to latest version
+                $article->update([
+                    'current_version_id' => $newVersion->id,
+                ]);
             });
 
             $this->dispatch('refresh-articles-list');
+
             $this->toast()
-                ->success('Success', 'Article updated successfully')
+                ->success('Success', 'New article version created')
                 ->send();
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->toast()
                 ->error('Error', $e->getMessage())
                 ->send();
         }
     }
+
     private function nextVersion(int $articleId): float
     {
         $latest = ArticleVersion::where('article_id', $articleId)

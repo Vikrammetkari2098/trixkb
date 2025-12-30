@@ -85,6 +85,14 @@ class ArticleOpen extends Component
                 ->send();
         }
     }
+    private function nextVersion(int $articleId): float
+    {
+        $latest = ArticleVersion::where('article_id', $articleId)
+            ->orderByDesc('version')
+            ->value('version');
+
+        return $latest ? round($latest + 0.1, 1) : 1.0;
+    }
 
     public function updatedEditorImage(): void
     {

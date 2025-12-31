@@ -7,7 +7,6 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use TallStackUi\Traits\Interactions;
-
 use App\Models\Article;
 use App\Models\ArticleVersion;
 
@@ -16,17 +15,23 @@ class ArticleOpen extends Component
     use Interactions, WithFileUploads;
 
     public $articleId;
-    public $title;
+    public $title = '';
     public $content = [];
-
     public $editorImage;
 
     protected $rules = [
         'title' => 'required|string|max:255',
     ];
 
+    public function mount($articleId = null)
+    {
+        if ($articleId) {
+            $this->loadArticleData($articleId);
+        }
+    }
+
     #[On('openArticle')]
-    public function loadArticleData(int $id): void
+    public function loadArticleData($id)
     {
         $article = Article::with('currentVersion')->find($id);
 
@@ -35,63 +40,70 @@ class ArticleOpen extends Component
         }
 
         $this->articleId = $article->id;
-        $this->title     = $article->title;
-        $this->content   = $article->currentVersion?->content ?? [];
+        $this->title = $article->title;
 
-        // Send data to EditorJS
-        $this->dispatch('article-loaded', [
-            'title'   => $this->title,
-            'content' => $this->content,
-        ]);
-    }
-    #[On('request-preview-data')]
-    public function sendPreviewData()
-    {
-        $this->dispatch('send-preview-data', [
-            'title'   => $this->title,
-            'content' => $this->content,
-        ]);
+        $rawContent = $article->currentVersion?->content;
+
+        if (is_string($rawContent)) {
+            $this->content = json_decode($rawContent, true) ?? [];
+        } else {
+            $this->content = is_array($rawContent) ? $rawContent : [];
+        }
+
+        $this->dispatch('article-loaded', title: $this->title, content: $this->content);
     }
 
-    public function save(array $editorData): void
+    public function save($editorData = null, $status = null)
     {
-        $this->validate();
+        $dataToSave = $editorData ?? $this->content;
+
+        $this->validate(['title' => 'required|string|max:255']);
 
         try {
-            DB::transaction(function () use ($editorData) {
-
+            DB::transaction(function () use ($dataToSave, $status) {
                 $article = Article::findOrFail($this->articleId);
 
-                // Update article metadata
-                $article->update([
-                    'title' => $this->title,
-                ]);
+                $updateData = ['title' => $this->title];
+                if ($status) {
+                    $updateData['status'] = $status;
+                }
+                $article->update($updateData);
 
-                // Update current version content
-                ArticleVersion::where('id', $article->current_version_id)
-                    ->update([
-                        'content' => $editorData,
-                    ]);
+                $version = ArticleVersion::findOrFail($article->current_version_id);
+                $version->update(['content' => $dataToSave]);
             });
 
+            $this->content = $dataToSave;
+
             $this->dispatch('refresh-articles-list');
-            $this->toast()
-                ->success('Success', 'Article updated successfully')
-                ->send();
+
+            if (!$status) {
+                $this->toast()->success('Success', 'Article saved successfully')->send();
+            }
 
         } catch (\Exception $e) {
-            $this->toast()
-                ->error('Error', $e->getMessage())
-                ->send();
+            $this->toast()->error('Error', $e->getMessage())->send();
         }
     }
 
-    public function updatedEditorImage(): void
+    public function showPreview($editorData = null)
+    {
+        if ($editorData) {
+            $this->content = $editorData;
+        }
+
+        $this->save($this->content);
+
+        $this->dispatch('preview-article', articleId: $this->articleId);
+    }
+
+    public function updatedEditorImage()
     {
         $this->validate([
-            'editorImage' => 'image|max:10240', // 10MB
+            'editorImage' => 'image|max:10240',
         ]);
     }
+
     public function saveEditorImage(): ?string
     {
         if (!$this->editorImage) {
@@ -99,7 +111,6 @@ class ArticleOpen extends Component
         }
 
         $path = $this->editorImage->store('articles', 'public');
-
         return asset('storage/' . $path);
     }
 

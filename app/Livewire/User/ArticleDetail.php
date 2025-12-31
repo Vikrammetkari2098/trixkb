@@ -27,22 +27,30 @@ class ArticleDetail extends Component
 
     public $showAllComments = false;
 
-    
     public $editingCommentId = null;
     public $editingCommentText = '';
 
+    public $isPreview = false;
+
     public function mount($slug)
     {
-        $this->article = Article::with(['author', 'currentVersion'])
+        $this->article = Article::with(['author', 'currentVersion', 'publishedVersion'])
             ->where('slug', $slug)
             ->firstOrFail();
 
-        if ($this->article->currentVersion) {
-            $this->article->version_id = $this->article->currentVersion->id;
-            
-            $rawContent = $this->article->currentVersion->content;
-            $this->articleContent = is_string($rawContent) ? json_decode($rawContent, true) : $rawContent;
+        if (request()->query('preview') && Auth::check()) {
+            $this->isPreview = true;
+            $rawContent = $this->article->currentVersion?->content;
+        } else {
+            if ($this->article->status !== 'published') {
+                abort(404);
+            }
+            $rawContent = $this->article->publishedVersion?->content;
+        }
 
+        $this->articleContent = is_string($rawContent) ? json_decode($rawContent, true) : ($rawContent ?? []);
+
+        if ($this->article->currentVersion) {
             $this->likeCount = ArticleLike::where('article_id', $this->article->id)->count();
         }
 
@@ -65,14 +73,12 @@ class ArticleDetail extends Component
         $articleId = $this->article->id;
 
         if ($this->hasLiked) {
-            // UnLike Logic
             ArticleLike::where('article_id', $articleId)
                 ->where('user_id', $userId)
                 ->delete();
             
             $this->hasLiked = false;
         } else {
-            // Like Logic
             ArticleLike::create([
                 'article_id' => $articleId,
                 'user_id' => $userId,
@@ -141,8 +147,6 @@ class ArticleDetail extends Component
         $this->showReplyForm = ($this->showReplyForm === $commentId) ? null : $commentId;
     }
 
-    
-
     public function editComment($commentId)
     {
         $comment = ArticleComment::find($commentId);
@@ -187,8 +191,6 @@ class ArticleDetail extends Component
             ->success('Deleted', 'Comment deleted successfully')
             ->send();
     }
-
-    // ---------------------------------
 
     public function shareArticle()
     {

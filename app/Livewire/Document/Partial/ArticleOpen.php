@@ -53,12 +53,14 @@ class ArticleOpen extends Component
         $this->dispatch('article-loaded', title: $this->title, content: $this->content);
     }
 
-   public function save(array $editorData): void
+    public function save(array $editorData): void
     {
         $this->validate();
 
         try {
             DB::transaction(function () use ($editorData) {
+
+                $article = Article::findOrFail($this->articleId);
 
                 // Update article title only
                 $article->update([
@@ -103,22 +105,20 @@ class ArticleOpen extends Component
                 ->error('Error', $e->getMessage())
                 ->send();
         }
+    }
+
+    public function showPreview($editorData = null)
+    {
+        if ($editorData) {
+            $this->content = $editorData;
+        }
 
         $this->save($this->content);
 
         $this->dispatch('preview-article', articleId: $this->articleId);
     }
 
-    private function nextVersion(int $articleId): float
-    {
-        $latest = ArticleVersion::where('article_id', $articleId)
-            ->orderByDesc('version')
-            ->value('version');
-
-        return $latest ? round($latest + 0.1, 1) : 1.0;
-    }
-
-    public function updatedEditorImage(): void
+    public function updatedEditorImage()
     {
         $this->validate([
             'editorImage' => 'image|max:10240',
@@ -142,43 +142,6 @@ class ArticleOpen extends Component
 
         return $latest ? round($latest + 0.1, 1) : 1.0;
     }
-
-   public function updateStatus(string $status): bool
-{
-    $validStatuses = ['draft', 'in_review', 'published', 'archived'];
-
-    if (!in_array($status, $validStatuses)) {
-        return false;
-    }
-
-    // ✅ Article find kar (articleId = Article ID)
-    $article = Article::find($this->articleId);
-
-    if (!$article) {
-        return false;
-    }
-
-    // ✅ Update status on Article
-    $article->update([
-        'status' => $status,
-    ]);
-
-    // ✅ Refresh article list
-    $this->dispatch('refresh-articles-list');
-
-    $this->toast()
-        ->success('Status Updated', 'Article status updated successfully')
-        ->send();
-
-    return true;
-}
-
-public function triggerSave(): void
-{
-    // Alpine/JS ला सांगतो: editor data पाठव
-    $this->dispatch('request-editor-save');
-}
-
 
     public function render()
     {

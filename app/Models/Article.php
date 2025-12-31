@@ -23,6 +23,8 @@ class Article extends Model
         'category_id',
         'author_id',
         'status',
+        'kb_type',
+        'visibility',
         'is_featured',
         'current_version_id',
         'article_image',

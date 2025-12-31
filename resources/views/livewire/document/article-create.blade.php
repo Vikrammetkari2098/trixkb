@@ -213,6 +213,27 @@
                             select="label:label|value:value"
                             wire:model.defer="author_id"
                         />
+                        <!-- KB Type -->
+                        <x-select.styled
+                            label="KB Type"
+                            :options="[
+                                ['label' => 'Article', 'value' => 'article'],
+                                ['label' => 'Directory', 'value' => 'directory'],
+                            ]"
+                            select="label:label|value:value"
+                            wire:model.defer="kb_type"
+                        />
+
+                        <!-- Visibility -->
+                        <x-select.styled
+                            label="Visibility"
+                            :options="[
+                                ['label' => 'Public', 'value' => 'public'],
+                                ['label' => 'Internal', 'value' => 'internal'],
+                            ]"
+                            select="label:label|value:value"
+                            wire:model.defer="visibility"
+                        />
                     </div>
                 </div>
             </div>

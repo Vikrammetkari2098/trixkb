@@ -183,6 +183,9 @@ class ArticleDetail extends Component
         $comment->delete();
 
         $this->loadComments();
+        $this->toast()
+            ->success('Deleted', 'Comment deleted successfully')
+            ->send();
     }
 
     // ---------------------------------

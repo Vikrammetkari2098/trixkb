@@ -4,6 +4,7 @@ namespace App\Livewire\Document\Partial;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Models\Article; 
 
 class ArticlePreview extends Component
 {
@@ -11,24 +12,28 @@ class ArticlePreview extends Component
     public string $title = '';
     public array $content = [];
 
-    #[On('open-preview')]
-    public function open()
+    #[On('preview-article')] 
+    public function loadPreview($articleId)
     {
-        // Ask ArticleOpen for current editor data
-        $this->dispatch('request-preview-data');
-    }
+        // 1. डेटाबेसमधून डेटा आणणे (Professional & Safe)
+        $article = Article::with('currentVersion')->find($articleId);
 
-    #[On('send-preview-data')]
-    public function receive(array $data)
-    {
-        $this->title = $data['title'] ?? '';
-        $this->content = $data['content'] ?? [];
-        $this->isOpen = true;
+        if ($article) {
+            $this->title = $article->title;
+            
+            // डेटा JSON आहे की Array हे बघून सेट करणे
+            $rawContent = $article->currentVersion->content ?? [];
+            $this->content = is_string($rawContent) ? json_decode($rawContent, true) : $rawContent;
+            
+            // 2. मॉडेल उघडणे
+            $this->isOpen = true;
+        }
     }
 
     public function close()
     {
         $this->isOpen = false;
+        $this->reset(['title', 'content']);
     }
 
     public function render()

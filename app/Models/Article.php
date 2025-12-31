@@ -68,6 +68,10 @@ class Article extends Model
     {
         return $this->belongsTo(ArticleVersion::class, 'current_version_id');
     }
+    public function publishedVersion()
+    {
+        return $this->belongsTo(ArticleVersion::class, 'published_version_id');
+    }
     public function versions()
     {
         return $this->hasMany(\App\Models\ArticleVersion::class);

@@ -15,17 +15,17 @@ class ArticlePreview extends Component
     #[On('preview-article')] 
     public function loadPreview($articleId)
     {
-        // 1. डेटाबेसमधून डेटा आणणे (Professional & Safe)
+       
         $article = Article::with('currentVersion')->find($articleId);
 
         if ($article) {
             $this->title = $article->title;
             
-            // डेटा JSON आहे की Array हे बघून सेट करणे
+            
             $rawContent = $article->currentVersion->content ?? [];
             $this->content = is_string($rawContent) ? json_decode($rawContent, true) : $rawContent;
             
-            // 2. मॉडेल उघडणे
+           
             $this->isOpen = true;
         }
     }

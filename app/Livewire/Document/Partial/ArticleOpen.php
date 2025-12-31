@@ -108,14 +108,18 @@ class ArticleOpen extends Component
     }
 
     public function showPreview($editorData = null)
-    {
+   {
+    
         if ($editorData) {
             $this->content = $editorData;
         }
+        $this->save($this->content); 
 
-        $this->save($this->content);
-
-        $this->dispatch('preview-article', articleId: $this->articleId);
+        $article = Article::find($this->articleId);
+        return redirect()->route('article.detail', [
+            'slug' => $article->slug, 
+            'preview' => true 
+        ]);
     }
 
     public function updatedEditorImage()

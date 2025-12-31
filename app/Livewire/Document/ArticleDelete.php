@@ -6,6 +6,7 @@ use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 use Livewire\Attributes\On;
 use App\Models\ArticleVersion;
+use App\Models\Article;
 
 class ArticleDelete extends Component
 {
@@ -31,13 +32,21 @@ class ArticleDelete extends Component
 
     public function confirmed(): void
     {
-        ArticleVersion::whereIn('id', $this->selectedIds)->delete();
+        Article::whereIn(
+            'id',
+            array_map('intval', $this->selectedIds)
+        )->delete();
+
         $this->toast()
             ->success('Deleted', 'Selected articles deleted successfully')
             ->send();
+
         $this->selectedIds = [];
         $this->dispatch('loadData-articles');
     }
+
+
+
     public function render()
     {
         return view('livewire.document.article-delete');

@@ -139,7 +139,7 @@ class ArticleOpen extends Component
         $path = $this->editorImage->store('articles', 'public');
         return asset('storage/' . $path);
     }
-    
+
    public function updateStatus(string $status): bool
 {
     $validStatuses = ['draft', 'in_review', 'published', 'archived'];

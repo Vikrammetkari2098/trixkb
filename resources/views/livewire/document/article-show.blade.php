@@ -165,20 +165,26 @@
                                         <span :class="{ 'rotate-180': open }" class="icon-[tabler--chevron-down] size-4 transition-transform duration-200"></span>
                                     </button>
 
-                                    <!-- Dropdown Menu -->
-                                    <ul x-show="open" @click.outside="open = false"
+                                    <ul
+                                        x-show="open"
+                                        x-cloak
+                                        @click.outside="open = false"
                                         x-transition
-                                        class="absolute left-0 mt-1 w-24 bg-white border border-gray-300 rounded shadow z-50">
+                                        class="absolute left-0 mt-1 w-24 bg-white border border-gray-300 rounded shadow z-50"
+                                    >
                                         @foreach ([5, 10, 25] as $q)
                                             <li>
-                                                <button wire:click="setQuantity({{ $q }})" @click="open = false" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700">
+                                                <button
+                                                    wire:click="setQuantity({{ $q }})"
+                                                    @click="open = false"
+                                                    class="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                                                >
                                                     {{ $q }}
                                                 </button>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
-
                                 <!-- RIGHT : Search -->
                             <div x-data="{ search: @entangle('search').live }">
                                 <input
@@ -197,17 +203,25 @@
                                 toggleAll(event) {
                                     if (event.target.checked) {
                                         this.selectedRows = [...document.querySelectorAll('.row-checkbox')]
-                                            .map(cb => cb.value);
+                                            .map(cb => parseInt(cb.value));
                                     } else {
                                         this.selectedRows = [];
                                     }
                                 }
                             }"
+                            x-init="
+                                selectedRows = [];
+
+                                $el.addEventListener('loadData-articles', () => {
+                                    selectedRows = [];
+                                });
+                            "
                         >
 
                             <!-- Bulk Action Toolbar -->
                             <div
                                 x-show="selectedRows.length > 0"
+                                x-cloak
                                 x-transition:enter="transition-all ease-out duration-300"
                                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
                                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
@@ -224,6 +238,7 @@
                                     text-sm text-gray-700
                                 "
                             >
+
                                 <!-- Selected Count -->
                                 <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
@@ -537,7 +552,7 @@
                     // Set the article ID to show the Livewire component
                     this.tableArticleId = article.id;
                     this.$dispatch('openArticle', { id: article.id });
-                    window.dispatchEvent(new CustomEvent('load-article-title', 
+                    window.dispatchEvent(new CustomEvent('load-article-title',
                         {
                             detail: { title: article.title, content: article.content }
                         }

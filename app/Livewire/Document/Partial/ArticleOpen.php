@@ -53,36 +53,57 @@ class ArticleOpen extends Component
         $this->dispatch('article-loaded', title: $this->title, content: $this->content);
     }
 
-    public function save($editorData = null, $status = null)
+    public function save(array $editorData): void
     {
-        $dataToSave = $editorData ?? $this->content;
-
-        $this->validate(['title' => 'required|string|max:255']);
+        $this->validate();
 
         try {
-            DB::transaction(function () use ($dataToSave, $status) {
+            DB::transaction(function () use ($editorData) {
+
                 $article = Article::findOrFail($this->articleId);
 
-                $updateData = ['title' => $this->title];
-                if ($status) {
-                    $updateData['status'] = $status;
-                }
-                $article->update($updateData);
+                // Update article title only
+                $article->update([
+                    'title' => $this->title,
+                ]);
 
-                $version = ArticleVersion::findOrFail($article->current_version_id);
-                $version->update(['content' => $dataToSave]);
+                // Current version
+                $currentVersion = ArticleVersion::find(
+                    $article->current_version_id
+                );
+
+                // Next version number
+                $nextVersion = $this->nextVersion($article->id);
+
+                // Create NEW version row
+                $newVersion = ArticleVersion::create([
+                    'article_id'   => $article->id,
+                    'version'      => $nextVersion,
+                    'editor_id'    => auth()->id(),
+                    'content'      => $editorData,
+                    'status'       => $currentVersion->status ?? 'draft',
+                    'is_featured'  => $currentVersion->is_featured ?? 0,
+                    'views'        => $currentVersion->views ?? 0,
+                    'likes'        => $currentVersion->likes ?? 0,
+                    'published_at' => $currentVersion->published_at,
+                ]);
+
+                // Point article to latest version
+                $article->update([
+                    'current_version_id' => $newVersion->id,
+                ]);
             });
-
-            $this->content = $dataToSave;
 
             $this->dispatch('refresh-articles-list');
 
-            if (!$status) {
-                $this->toast()->success('Success', 'Article saved successfully')->send();
-            }
+            $this->toast()
+                ->success('Success', 'New article version created')
+                ->send();
 
-        } catch (\Exception $e) {
-            $this->toast()->error('Error', $e->getMessage())->send();
+        } catch (\Throwable $e) {
+            $this->toast()
+                ->error('Error', $e->getMessage())
+                ->send();
         }
     }
 
@@ -112,6 +133,14 @@ class ArticleOpen extends Component
 
         $path = $this->editorImage->store('articles', 'public');
         return asset('storage/' . $path);
+    }
+    private function nextVersion(int $articleId): float
+    {
+        $latest = ArticleVersion::where('article_id', $articleId)
+            ->orderByDesc('version')
+            ->value('version');
+
+        return $latest ? round($latest + 0.1, 1) : 1.0;
     }
 
     public function render()

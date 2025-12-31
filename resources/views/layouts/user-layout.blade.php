@@ -49,36 +49,36 @@
                     x-data="{ active: 'articles' }"
                     class="hidden lg:flex items-center space-x-1 text-lg font-medium"
                 >
-                    <a href="#" @click.prevent="active = 'features'"
+                    <!-- <a href="#" @click.prevent="active = 'features'"
                        :class="active === 'features' ?
                        'px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 text-primary border border-purple-100 shadow-sm' :
                        'px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors'">
                         <i class="fas fa-star mr-2 text-sm"></i>Features
-                    </a>
-                    <a href="#" @click.prevent="active = 'pricing'"
+                    </a> -->
+                    <!-- <a href="#" @click.prevent="active = 'pricing'"
                        :class="active === 'pricing' ?
                        'px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 text-primary border border-purple-100 shadow-sm' :
                        'px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors'">
                         <i class="fas fa-tag mr-2 text-sm"></i>Pricing
-                    </a>
-                    <a href="#" @click.prevent="active = 'demo'"
+                    </a> -->
+                    <!-- <a href="#" @click.prevent="active = 'demo'"
                        :class="active === 'demo' ?
                        'px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 text-primary border border-purple-100 shadow-sm' :
                        'px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors'">
                         <i class="fas fa-calendar-alt mr-2 text-sm"></i>Book a demo
-                    </a>
+                    </a> -->
                     <a href="#articles" @click="active = 'articles'"
                        :class="active === 'articles' ?
                        'px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 text-primary border border-purple-100 shadow-sm' :
                        'px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors'">
                         <i class="fas fa-newspaper mr-2 text-sm"></i>Articles
                     </a>
-                    <a href="#" @click.prevent="active = 'glossary'"
+                    <!-- <a href="#" @click.prevent="active = 'glossary'"
                        :class="active === 'glossary' ?
                        'px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 text-primary border border-purple-100 shadow-sm' :
                        'px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors'">
                         <i class="fas fa-book mr-2 text-sm"></i>Glossary
-                    </a>
+                    </a> -->
 
                     <div class="flex items-center space-x-3 ml-6 pl-6 border-l border-gray-200">
                         <div class="relative group">
@@ -157,11 +157,11 @@
                                 </div>
                             </div>
 
-
+<!-- 
                         <a href="#" @click.prevent="active = 'signup'"
                            class="ml-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-purple-200 transition-all duration-300 transform hover:-translate-y-0.5">
                             Get Started Free
-                        </a>
+                        </a> -->
                     </div>
                 </nav>
 
@@ -176,16 +176,16 @@
     </header>
 
     {{-- Enhanced Hero Section --}}
-    @if(request()->routeIs('articles.index') || request()->is('/') || request()->is('article-list'))
+  
     <section class="relative overflow-hidden py-20 sm:py-28" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full translate-y-48 -translate-x-48"></div>
 
         <div class="relative mx-auto px-6 lg:px-8 max-w-6xl text-center">
-            <div class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
+            <!-- <div class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
                 ✨ New: AI-Powered Documentation
-            </div>
+            </div> -->
 
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                 Welcome to
@@ -194,13 +194,13 @@
                     <span class="absolute bottom-2 left-0 w-full h-3 bg-yellow-400/30 -rotate-1 z-0"></span>
                 </span>
             </h1>
-
+<!-- 
             <p class="mt-6 text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                 Comprehensive, AI-enhanced documentation platform to help your users get started with Project.
                 Everything you need in one place.
-            </p>
+            </p> -->
 
-            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <!-- <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
                     <i class="fas fa-book-open mr-3"></i>
                     Start Documentation
@@ -210,7 +210,7 @@
                     <i class="fas fa-play-circle mr-3"></i>
                     Watch Demo
                 </a>
-            </div>
+            </div> -->
 
             {{-- Enhanced Search Bar --}}
             <div class="mt-16 max-w-2xl mx-auto" x-data="{ search: '' }">
@@ -224,12 +224,12 @@
                                 </svg>
                             </span>
                             <input
-    type="search"
-    placeholder="Search documentation, articles, guides..."
-    x-model="search"
-    class="flex-1 py-5 px-4 text-lg text-gray-800 focus:outline-none focus:border-0 placeholder-gray-400 rounded-none border-0"
-    aria-label="Search documentation"
-/>
+                                type="search"
+                                placeholder="Search documentation, articles, guides..."
+                                x-model="search"
+                                class="flex-1 py-5 px-4 text-lg text-gray-800 focus:outline-none focus:border-0 placeholder-gray-400 rounded-none border-0"
+                                aria-label="Search documentation"
+                            />
 
                             <div class="flex items-center space-x-4">
                                 <div class="hidden sm:block bg-gray-100 text-gray-700 text-sm font-mono py-2 px-3 rounded-lg whitespace-nowrap border border-gray-300">
@@ -242,13 +242,13 @@
                         </div>
                     </div>
                 </div>
-                <p class="mt-4 text-sm text-white/70 text-center">
+                <!-- <p class="mt-4 text-sm text-white/70 text-center">
                     Try searching for "getting started", "API reference", or "troubleshooting"
-                </p>
+                </p> -->
             </div>
         </div>
     </section>
-    @endif
+    
 
     <!-- {{-- Stats Section --}}
     <section class="py-12 bg-white">
@@ -283,9 +283,9 @@
             @yield('content')
         @endif
     </main>
-    {{-- Enhanced Footer --}}
+    <!-- {{-- Enhanced Footer --}}
     <footer class="bg-gray-900 text-white">
-        <!-- Quick Links Section -->
+       
         <section class="py-20">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="text-center mb-16">
@@ -342,7 +342,6 @@
             </div>
         </section>
 
-        <!-- Main Footer Content -->
         <div class="border-t border-gray-800 pt-16 pb-12">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-2 lg:grid-cols-6 gap-12">
@@ -438,7 +437,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     <!-- Back to Top Button -->
     <button x-data="{ show: false }"

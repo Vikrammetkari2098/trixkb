@@ -88,18 +88,7 @@
     @persist('navigation-elements')
     <div class="flex items-center space-x-5">
        <div class="dropdown relative inline-flex">
-            <button
-                id="dropdown-create-article"
-                type="button"
-                class="dropdown-toggle bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-4 py-2 h-10 rounded-lg font-semibold flex items-center shadow-lg transform hover:scale-[1.02] transition duration-200"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                aria-label="Create Article"
-            >
-                Create Article
-                <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4 ml-2"></span>
-            </button>
-
+           
             <!-- Dropdown Menu -->
             <div
                 class="dropdown-menu dropdown-open:opacity-100 hidden min-w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-gray ring-opacity-5 z-50 p-4"
@@ -157,6 +146,16 @@
                 <span>OPEN SITE</span>
             </button>
 
+           <button
+                onclick="window.location.href='{{ route('internal.articles') }}'"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white
+                    border border-white/40 hover:border-teal-400 hover:text-teal-300
+                    hover:shadow-[0_0_10px_rgba(0,255,200,0.6)]
+                    transition duration-300"
+                >
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>INTERNAL ARTICLE</span>
+            </button>
 
         <div class="flex items-center space-x-3 sm:space-x-4">
 

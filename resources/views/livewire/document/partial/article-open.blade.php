@@ -1,4 +1,4 @@
-    <div
+ <div
         class="bg-white min-h-screen text-gray-800"
         x-data="{
             isSaving: false,
@@ -91,7 +91,7 @@
                     @click="handleManualSave()"
                     :disabled="isSaving"
                     class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-1 px-3 rounded-lg shadow-md transition text-sm flex items-center disabled:opacity-50"
-                >
+                 >
                     <span x-text="isSaving ? 'Saving...' : 'Save'"></span>
 
                     <!-- Arrow SVG (click to open dropdown) -->
@@ -112,30 +112,30 @@
                     @click.outside="open = false"
                     x-transition
                     class="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-xl border border-gray-100 z-50"
-                >
+                 >
                     <ul class="py-1 text-sm text-gray-700">
                         <li>
                             <button @click="handleManualSave('draft'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                📝 Draft
+                                 Draft
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('in_review'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                👀 In Review
+                                 In Review
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('published'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50">
-                                ✅ Published
+                                 Published
                             </button>
                         </li>
                         <li>
                             <button @click="handleManualSave('archived'); open = false"
                                     class="w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600">
-                                📦 Archived
+                                Archived
                             </button>
                         </li>
                     </ul>

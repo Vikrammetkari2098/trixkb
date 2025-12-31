@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\User;
+namespace App\Livewire\Internal;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -177,7 +177,7 @@ public function getTopArticlesProperty()
      |--------------------------*/
     public function render()
     {
-        return view('livewire.user.article-list', [
+        return view('livewire.internal.article-list', [
             'articles'   => $this->rows,
             'topArticles' => $this->topArticles,
         ]);

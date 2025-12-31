@@ -17,7 +17,7 @@ use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\DriveController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\EditorMediaController;
-
+use App\Http\Controllers\Internal\ArticleController;
 use App\Http\Controllers\UserArticle;
 require __DIR__ . '/user.php';
 
@@ -54,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/widget', [WidgetController::class, 'index'])->name('widget');
     Route::get('/drive', [DriveController::class, 'index'])->name('drive');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+ 
+    Route::get('/internal/articles', [ArticleController::class, 'index'])
+    ->name('internal.articles');
+
 
 });
 

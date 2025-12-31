@@ -55,13 +55,10 @@ class ArticleOpen extends Component
 
    public function save(array $editorData): void
     {
-        $dataToSave = $editorData ?? $this->content;
-
-        $this->validate(['title' => 'required|string|max:255']);
+        $this->validate();
 
         try {
-            DB::transaction(function () use ($dataToSave, $status) {
-                $article = Article::findOrFail($this->articleId);
+            DB::transaction(function () use ($editorData) {
 
                 // Update article title only
                 $article->update([
@@ -94,8 +91,6 @@ class ArticleOpen extends Component
                     'current_version_id' => $newVersion->id,
                 ]);
             });
-
-            $this->content = $dataToSave;
 
             $this->dispatch('refresh-articles-list');
 
@@ -138,6 +133,14 @@ class ArticleOpen extends Component
 
         $path = $this->editorImage->store('articles', 'public');
         return asset('storage/' . $path);
+    }
+    private function nextVersion(int $articleId): float
+    {
+        $latest = ArticleVersion::where('article_id', $articleId)
+            ->orderByDesc('version')
+            ->value('version');
+
+        return $latest ? round($latest + 0.1, 1) : 1.0;
     }
 
    public function updateStatus(string $status): bool

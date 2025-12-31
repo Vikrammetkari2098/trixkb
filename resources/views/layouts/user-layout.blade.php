@@ -17,13 +17,24 @@
     {{-- FontAwesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
     <style>[x-cloak] { display: none !important; }</style>
 </head>
 
 <body class="font-sans antialiased bg-gray-50" x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 10">
 
     {{-- Enhanced Header --}}
-    <header class="sticky top-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'">
+    <header
+    x-data="{ scrolled: false }"
+    x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 10)"
+    :class="scrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'"
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+>
+
         <div class="mx-auto px-6 lg:px-8 max-w-full">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3">
@@ -70,23 +81,82 @@
                     </a>
 
                     <div class="flex items-center space-x-3 ml-6 pl-6 border-l border-gray-200">
-                        <button class="relative text-gray-600 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors group">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM12 18a2 2 0 11-4 0h4z"></path>
-                            </svg>
-                            <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        </button>
-
                         <div class="relative group">
-                            <div class="w-9 h-9 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center font-semibold text-white text-sm cursor-pointer hover:shadow-lg transition-shadow">
-                                JW
-                            </div>
-                            <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"><i class="fas fa-user mr-2"></i>Profile</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"><i class="fas fa-cog mr-2"></i>Settings</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+                            <!-- Bell Icon -->
+                            <button
+                                class="relative text-gray-600 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                             >
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM12 18a2 2 0 11-4 0h4z"></path>
+                                </svg>
+
+                                <!-- Red dot -->
+                                <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                            </button>
+
+                            <!-- Dropdown -->
+                            <div class="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2
+                                 opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                                 transition-all duration-200 z-50"
+                                  >
+
+                                <!-- Items -->
+                                <a href="#"
+                                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-newspaper mr-2 text-primary"></i>
+                                    New article published
+
+                                </a>
+
+                                <a href="#"
+                                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-edit mr-2 text-purple-500"></i>
+                                    Article updated
+
+                                </a>
+
+                                <a href="#"
+                                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                                    Article approved
+
+                                </a>
+
+
                             </div>
                         </div>
+
+
+                            @php
+                                $user = Auth::user() ?? (object) ['name' => ''];
+                                $initials = collect(explode(' ', $user->name))
+                                                ->map(fn($w) => strtoupper(substr($w,0,1)))
+                                                ->join('');
+                            @endphp
+
+                            <div class="relative group">
+                                {{-- Avatar --}}
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center font-semibold text-white text-sm cursor-pointer hover:shadow-lg transition-shadow">
+                                    {{ $initials }}
+                                </div>
+
+                                {{-- Dropdown --}}
+                                <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                        <i class="fas fa-user mr-2"></i>Profile
+                                    </a>
+                                    <a href="{{ route('settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                        <i class="fas fa-cog mr-2"></i>Settings
+                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
 
                         <a href="#" @click.prevent="active = 'signup'"
                            class="ml-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-purple-200 transition-all duration-300 transform hover:-translate-y-0.5">
@@ -154,12 +224,13 @@
                                 </svg>
                             </span>
                             <input
-                                type="search"
-                                placeholder="Search documentation, articles, guides..."
-                                x-model="search"
-                                class="flex-1 py-5 px-4 text-lg text-gray-800 focus:outline-none placeholder-gray-400"
-                                aria-label="Search documentation"
-                            >
+    type="search"
+    placeholder="Search documentation, articles, guides..."
+    x-model="search"
+    class="flex-1 py-5 px-4 text-lg text-gray-800 focus:outline-none focus:border-0 placeholder-gray-400 rounded-none border-0"
+    aria-label="Search documentation"
+/>
+
                             <div class="flex items-center space-x-4">
                                 <div class="hidden sm:block bg-gray-100 text-gray-700 text-sm font-mono py-2 px-3 rounded-lg whitespace-nowrap border border-gray-300">
                                     CTRL + K

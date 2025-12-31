@@ -61,17 +61,21 @@
             <svg class="h-5 w-5 cursor-pointer" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.71 3.45001L15.17 7.94C15.2272 8.04557 15.307 8.1371 15.4039 8.20801C15.5007 8.27892 15.6121 8.3274 15.73 8.34998L20.73 9.29999C20.8726 9.327 21.0053 9.39183 21.1142 9.48767C21.2232 9.58352 21.3044 9.70688 21.3494 9.84485C21.3943 9.98282 21.4014 10.1303 21.3698 10.272C21.3383 10.4136 21.2693 10.5442 21.17 10.65L17.66 14.38C17.5784 14.4676 17.5172 14.5723 17.4809 14.6864C17.4446 14.8005 17.4341 14.9213 17.45 15.04L18.09 20.12C18.1098 20.2633 18.0903 20.4094 18.0337 20.5425C17.9771 20.6757 17.8854 20.791 17.7684 20.8762C17.6514 20.9613 17.5135 21.0132 17.3694 21.0262C17.2253 21.0392 17.0804 21.0129 16.95 20.95L12.32 18.77C12.2114 18.7155 12.0915 18.6871 11.97 18.6871C11.8485 18.6871 11.7286 18.7155 11.62 18.77L6.99 20.95C6.85904 21.0119 6.71392 21.0375 6.56971 21.0242C6.4255 21.0109 6.28751 20.9591 6.17008 20.8744C6.05265 20.7896 5.96006 20.6749 5.90201 20.5422C5.84396 20.4096 5.82256 20.2638 5.84 20.12L6.49 15.04C6.50596 14.9213 6.49542 14.8005 6.45911 14.6864C6.4228 14.5723 6.36162 14.4676 6.28 14.38L2.76999 10.65C2.67072 10.5442 2.60172 10.4136 2.57017 10.272C2.53861 10.1303 2.54568 9.98282 2.59064 9.84485C2.63561 9.70688 2.71683 9.58352 2.82578 9.48767C2.93473 9.39183 3.06742 9.327 3.21 9.29999L8.21 8.34998C8.32789 8.3274 8.43929 8.27892 8.53614 8.20801C8.63299 8.1371 8.71286 8.04557 8.76999 7.94L11.28 3.45001C11.349 3.32033 11.4521 3.21187 11.578 3.13623C11.704 3.0606 11.8481 3.02063 11.995 3.02063C12.1419 3.02063 12.2861 3.0606 12.412 3.13623C12.538 3.21187 12.641 3.32033 12.71 3.45001Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <svg class="h-5 w-5 cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 8H12.01M12 11V16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <svg class="h-5 w-5 cursor-pointer" fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M16.108 10.044c-3.313 0-6 2.687-6 6s2.687 6 6 6 6-2.686 6-6-2.686-6-6-6zM16.108 20.044c-2.206 0-4.046-1.838-4.046-4.044s1.794-4 4-4c2.206 0 4 1.794 4 4s-1.748 4.044-3.954 4.044zM31.99 15.768c-0.012-0.050-0.006-0.104-0.021-0.153-0.006-0.021-0.020-0.033-0.027-0.051-0.011-0.028-0.008-0.062-0.023-0.089-2.909-6.66-9.177-10.492-15.857-10.492s-13.074 3.826-15.984 10.486c-0.012 0.028-0.010 0.057-0.021 0.089-0.007 0.020-0.021 0.030-0.028 0.049-0.015 0.050-0.009 0.103-0.019 0.154-0.018 0.090-0.035 0.178-0.035 0.269s0.017 0.177 0.035 0.268c0.010 0.050 0.003 0.105 0.019 0.152 0.006 0.023 0.021 0.032 0.028 0.052 0.010 0.027 0.008 0.061 0.021 0.089 2.91 6.658 9.242 10.428 15.922 10.428s13.011-3.762 15.92-10.422c0.015-0.029 0.012-0.058 0.023-0.090 0.007-0.017 0.020-0.030 0.026-0.050 0.015-0.049 0.011-0.102 0.021-0.154 0.018-0.090 0.034-0.177 0.034-0.27 0-0.088-0.017-0.175-0.035-0.266zM16 25.019c-5.665 0-11.242-2.986-13.982-8.99 2.714-5.983 8.365-9.047 14.044-9.047 5.678 0 11.203 3.067 13.918 9.053-2.713 5.982-8.301 8.984-13.981 8.984z"></path></svg>
-           @if($articleId)
-                <a
-                    href="{{ route('user.article.preview', $articleId) }}"
-                    target="_blank"
-                    class="text-gray-500 hover:text-gray-700 rounded-full transition"
+            @if($articleId)
+                <button 
+                    type="button"
+                    x-on:click="async () => {
+                        if(window.editorInstance) {
+                            const data = await window.editorInstance.save();
+                            $wire.showPreview(data); 
+                        }
+                    }"
+                    class="text-gray-500 hover:text-gray-700 rounded-full transition flex items-center gap-2"
                 >
-                    Preview
-                </a>
+                    <span wire:loading.remove wire:target="showPreview">Preview</span>
+                    <span wire:loading wire:target="showPreview" class="text-xs">Saving...</span>
+                </button>
             @endif
-
-
         </div>
 
         <div class="flex items-center space-x-4">
@@ -158,17 +162,21 @@
 
                 <div x-data="{
                         initEditor(initialData) {
-                            const staticArticleData = {
-                               blocks: [
-                                    {
-                                        id: 'welcome_01',
-                                        type: 'paragraph',
-                                        data: {
-                                            text: 'welcome editor'
-                                        }
-                                    }
-                                ]
-                            };
+                            let editorData = initialData;
+                            
+                            if (typeof editorData === 'string') {
+                                try {
+                                    editorData = JSON.parse(editorData);
+                                } catch(e) {
+                                    console.error('Error parsing content', e);
+                                    editorData = { blocks: [] };
+                                }
+                            }
+                            
+                            if (!editorData || !editorData.blocks || editorData.blocks.length === 0) {
+                                editorData = { blocks: [] };
+                            }
+
                             if (window.editorInstance && typeof window.editorInstance.destroy === 'function') {
                                 window.editorInstance.destroy();
                             }
@@ -176,7 +184,7 @@
                                 holder: this.$refs.editor,
                                 placeholder: 'Write here...',
                                 inlineToolbar: true,
-                                data: staticArticleData,
+                                data: editorData,
                                 tools: {
                                     header: { class: window.Header, inlineToolbar: true, config: { levels: [1, 2, 3, 4], defaultLevel: 2 } },
                                     paragraph: { class: window.Paragraph, inlineToolbar: true },
@@ -242,10 +250,8 @@
                                     linkTool: {
                                         class: window.LinkTool,
                                         config: {
-                                            // रूट ऐवजी थेट एका मॅन्युअल फंक्शनचा वापर (जर बॅकएंडला विचारायचे असेल तर)
                                             uploader: {
                                                 async fetchData(url) {
-                                                    // बॅकएंडला (Livewire) डेटा फेच करण्यासाठी कॉल करा
                                                     return @this.fetchLinkMetadata(url).then(result => {
                                                         return {
                                                             success: 1,
@@ -260,7 +266,7 @@
                             });
                         }
                     }"
-                    x-init="setTimeout(() => initEditor(), 500)"
+                    x-init="setTimeout(() => initEditor(@js($content)), 500)"
                     x-on:article-loaded.window="initEditor($event.detail.content)"
                     wire:ignore>
                     <div x-ref="editor" class="prose max-w-none rounded-lg p-4 bg-white min-h-[400px]"></div>
@@ -293,4 +299,5 @@
         h2.ce-header { font-size: 1.875rem; font-weight: 700; }
         h3.ce-header { font-size: 1.5rem; font-weight: 600; }
     </style>
+    <livewire:document.partial.article-preview />
 </div>

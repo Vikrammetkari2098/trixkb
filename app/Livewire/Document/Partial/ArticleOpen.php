@@ -7,7 +7,6 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use TallStackUi\Traits\Interactions;
-
 use App\Models\Article;
 use App\Models\ArticleVersion;
 
@@ -16,17 +15,23 @@ class ArticleOpen extends Component
     use Interactions, WithFileUploads;
 
     public $articleId;
-    public $title;
+    public $title = '';
     public $content = [];
-
     public $editorImage;
 
     protected $rules = [
         'title' => 'required|string|max:255',
     ];
 
+    public function mount($articleId = null)
+    {
+        if ($articleId) {
+            $this->loadArticleData($articleId);
+        }
+    }
+
     #[On('openArticle')]
-    public function loadArticleData(int $id): void
+    public function loadArticleData($id)
     {
         $article = Article::with('currentVersion')->find($id);
 
@@ -35,25 +40,20 @@ class ArticleOpen extends Component
         }
 
         $this->articleId = $article->id;
-        $this->title     = $article->title;
-        $this->content   = $article->currentVersion?->content ?? [];
+        $this->title = $article->title;
 
-        // Send data to EditorJS
-        $this->dispatch('article-loaded', [
-            'title'   => $this->title,
-            'content' => $this->content,
-        ]);
-    }
-    #[On('request-preview-data')]
-    public function sendPreviewData()
-    {
-        $this->dispatch('send-preview-data', [
-            'title'   => $this->title,
-            'content' => $this->content,
-        ]);
+        $rawContent = $article->currentVersion?->content;
+
+        if (is_string($rawContent)) {
+            $this->content = json_decode($rawContent, true) ?? [];
+        } else {
+            $this->content = is_array($rawContent) ? $rawContent : [];
+        }
+
+        $this->dispatch('article-loaded', title: $this->title, content: $this->content);
     }
 
-   public function save(array $editorData): void
+    public function save(array $editorData): void
     {
         $this->validate();
 
@@ -107,6 +107,33 @@ class ArticleOpen extends Component
         }
     }
 
+    public function showPreview($editorData = null)
+    {
+        if ($editorData) {
+            $this->content = $editorData;
+        }
+
+        $this->save($this->content);
+
+        $this->dispatch('preview-article', articleId: $this->articleId);
+    }
+
+    public function updatedEditorImage()
+    {
+        $this->validate([
+            'editorImage' => 'image|max:10240',
+        ]);
+    }
+
+    public function saveEditorImage(): ?string
+    {
+        if (!$this->editorImage) {
+            return null;
+        }
+
+        $path = $this->editorImage->store('articles', 'public');
+        return asset('storage/' . $path);
+    }
     private function nextVersion(int $articleId): float
     {
         $latest = ArticleVersion::where('article_id', $articleId)
@@ -115,60 +142,6 @@ class ArticleOpen extends Component
 
         return $latest ? round($latest + 0.1, 1) : 1.0;
     }
-
-    public function updatedEditorImage(): void
-    {
-        $this->validate([
-            'editorImage' => 'image|max:10240', // 10MB
-        ]);
-    }
-    public function saveEditorImage(): ?string
-    {
-        if (!$this->editorImage) {
-            return null;
-        }
-
-        $path = $this->editorImage->store('articles', 'public');
-
-        return asset('storage/' . $path);
-    }
-
-   public function updateStatus(string $status): bool
-{
-    $validStatuses = ['draft', 'in_review', 'published', 'archived'];
-
-    if (!in_array($status, $validStatuses)) {
-        return false;
-    }
-
-    // ✅ Article find kar (articleId = Article ID)
-    $article = Article::find($this->articleId);
-
-    if (!$article) {
-        return false;
-    }
-
-    // ✅ Update status on Article
-    $article->update([
-        'status' => $status,
-    ]);
-
-    // ✅ Refresh article list
-    $this->dispatch('refresh-articles-list');
-
-    $this->toast()
-        ->success('Status Updated', 'Article status updated successfully')
-        ->send();
-
-    return true;
-}
-
-public function triggerSave(): void
-{
-    // Alpine/JS ला सांगतो: editor data पाठव
-    $this->dispatch('request-editor-save');
-}
-
 
     public function render()
     {

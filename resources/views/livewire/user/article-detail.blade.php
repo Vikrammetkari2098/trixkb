@@ -433,4 +433,28 @@
 
         </section>
     </div>
+    @if($isPreview)
+        <div class="fixed bottom-0 left-0 right-0 z-[100] bg-indigo-900 text-white px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex justify-between items-center border-t border-indigo-700">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-700 p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 animate-pulse">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-bold text-base tracking-wide">Preview Mode</span> 
+                    <p class="text-xs text-indigo-200">You are viewing the draft version.</p>
+                </div>
+            </div>
+            
+            {{-- ✅ Back Button (Using history.back() because window.close() won't work here) --}}
+            <button onclick="history.back()" class="bg-white text-indigo-900 px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-gray-100 transition shadow-lg flex items-center gap-2 transform hover:scale-105 active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                Back to Editor
+            </button>
+        </div>
+    @endif
 </div>

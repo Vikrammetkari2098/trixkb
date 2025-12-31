@@ -132,7 +132,7 @@ class ArticleOpen extends Component
 
         return asset('storage/' . $path);
     }
-    
+
    public function updateStatus(string $status): bool
 {
     $validStatuses = ['draft', 'in_review', 'published', 'archived'];

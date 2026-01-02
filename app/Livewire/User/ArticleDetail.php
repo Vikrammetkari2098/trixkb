@@ -34,25 +34,45 @@ class ArticleDetail extends Component
 
     public function mount($slug)
     {
-        $this->article = Article::with(['author', 'currentVersion', 'publishedVersion'])
+        
+        $this->article = Article::with(['author', 'currentVersion'])
             ->where('slug', $slug)
             ->firstOrFail();
 
+      
         if (request()->query('preview') && Auth::check()) {
             $this->isPreview = true;
-            $rawContent = $this->article->currentVersion?->content;
         } else {
             if ($this->article->status !== 'published') {
                 abort(404);
             }
-            $rawContent = $this->article->publishedVersion?->content;
         }
 
-        $this->articleContent = is_string($rawContent) ? json_decode($rawContent, true) : ($rawContent ?? []);
+       
+        $rawContent = $this->article->currentVersion?->content;
 
-        if ($this->article->currentVersion) {
-            $this->likeCount = ArticleLike::where('article_id', $this->article->id)->count();
+        
+        if (is_string($rawContent)) {
+            $decoded = json_decode($rawContent, true);
+            $this->articleContent = is_array($decoded) ? $decoded : [];
+        } elseif (is_array($rawContent)) {
+            $this->articleContent = $rawContent;
+        } else {
+            $this->articleContent = [];
         }
+
+       
+        if (!isset($this->articleContent['blocks'])) {
+           
+            if (!empty($this->articleContent)) {
+                $this->articleContent = ['blocks' => $this->articleContent];
+            } else {
+                $this->articleContent = ['blocks' => []];
+            }
+        }
+
+        // 6. Like Count Load
+        $this->likeCount = ArticleLike::where('article_id', $this->article->id)->count();
 
         if (Auth::check()) {
             $this->hasLiked = ArticleLike::where('article_id', $this->article->id)

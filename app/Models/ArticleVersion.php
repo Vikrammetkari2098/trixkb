@@ -20,13 +20,16 @@ class ArticleVersion extends Model
         'content',
         'version',
         'status',
+        'kb_type',        // ✅ added
+        'visibility',     // ✅ added
         'is_featured',
         'views',
         'likes',
         'published_at',
         'read_time',
         'likes_count',
-        'comments_count'
+        'comments_count',
+        'is_current',     // (already used in create logic)
     ];
 
     protected $casts = [
@@ -52,6 +55,6 @@ class ArticleVersion extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
+
 
 }

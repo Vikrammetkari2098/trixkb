@@ -43,6 +43,8 @@ class ArticleCreate extends Component
     ];
 
     public $showCategoryModal = false;
+    public $kb_type = 'article';
+    public $visibility = 'public';
 
     /* =======================
      | Validation
@@ -51,6 +53,8 @@ class ArticleCreate extends Component
         'title'         => 'required|string|max:255',
         'category_id'   => 'required|exists:categories,category_id',
         'status'        => 'required|in:draft,in_review,published',
+        'kb_type'       => 'required|in:article,directory',
+        'visibility'    => 'required|in:public,internal',
         'is_featured'   => 'boolean',
         'author_id'     => 'required|exists:users,id',
         'tags'          => 'nullable|array',
@@ -179,17 +183,19 @@ class ArticleCreate extends Component
 
                 $initialVersion = '1.0'; // first version
 
-                $version = ArticleVersion::create([
-                    'article_id'  => $article->id,
-                    'editor_id'   => auth()->id(),
-                    'version'     => $initialVersion,
-                    'content'     => $this->content,
-                    'status'      => $data['status'],
-                    'is_featured' => $data['is_featured'],
-                    'views'       => 0,
-                    'likes'       => 0,
-                    'is_current'  => true,
-                ]);
+               $version = ArticleVersion::create([
+                'article_id'  => $article->id,
+                'editor_id'   => auth()->id(),
+                'version'     => $initialVersion,
+                'content'     => $this->content,
+                'status'      => $data['status'],
+                'kb_type'     => $data['kb_type'],
+                'visibility'  => $data['visibility'],
+                'is_featured' => $data['is_featured'],
+                'views'       => 0,
+                'likes'       => 0,
+            ]);
+
 
             /*  Sync current_version_id */
             $article->update([
@@ -230,11 +236,14 @@ class ArticleCreate extends Component
             'content',
             'category_id',
             'status',
+            'kb_type',
+            'visibility',
             'is_featured',
             'tags',
             'labels',
             'article_image',
         ]);
+
     }
 
     public function render()

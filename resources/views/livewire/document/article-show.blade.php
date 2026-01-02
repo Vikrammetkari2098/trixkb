@@ -74,64 +74,87 @@
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-h-screen bg-white">
-           <div class="join justify-end flex">
-                <!-- Main Button -->
-            <button x-on:click="$modalOpen('modal-create')" class="font-medium flex items-center btn btn-primary text-white px-4 py-2 rounded-l-lg hover:bg-indigo-700 transition duration-150">
-                <span class="icon-[tabler--plus] size-4 mr-2"></span>
-                Create Article
-            </button>
-                <!-- Dropdown Split -->
-            <div class="dropdown relative inline-flex">
-                <button id="dropdown-article" type="button" class="dropdown-toggle btn btn-square btn-primary join-item" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                    <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+           <div class="flex justify-end gap-3">
+                <!-- Export Button -->
+                <button
+                    wire:click="exportExcel"
+                    class="btn btn-gradient btn-info flex items-center gap-2 rounded-lg"
+                >
+                    <span class="icon-[tabler--file-excel] size-4"></span>
+                    Export Excel
                 </button>
 
-                <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-article">
-                <li>
-                    <a class="dropdown-item" href="#" @click="$dispatch('open-modal', 'modal-create-eddy')">
-                    <span class="icon-[tabler--sparkles] mr-2"></span>
-                    Create with Eddy AI
-                    </a>
-                </li>
-                <li class="dropdown relative [--offset:15] [--placement:left-start] [--scope:window]">
-
-                    <!-- Parent Button -->
-                    <button id="nested-dropdown-article"
-                            class="dropdown-toggle dropdown-item justify-between"
-                            aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Article
-                        <span class="icon-[tabler--chevron-left] size-4 rtl:rotate-180"></span>
+               <div class="join dropdown relative overflow-visible">
+                    <!-- Main Button -->
+                    <button
+                        class="btn btn-primary join-item rounded-l-lg flex items-center gap-2"
+                        @click="$modalOpen('modal-create')"
+                    >
+                        <span class="icon-[tabler--plus] size-4"></span>
+                        Create Article
                     </button>
 
-                    <!-- Sub Dropdown Menu -->
-                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60"
-                        role="menu" aria-orientation="vertical" aria-labelledby="nested-dropdown-article">
-                        <li><a class="dropdown-item"
-                            href="#"
-                            @click="$dispatch('open-modal', 'modal-create-article')">
-                            Blank
+                    <!-- Toggle Button -->
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-square join-item rounded-r-lg dropdown-toggle"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                    >
+                        <span class="icon-[tabler--chevron-down] size-4 dropdown-open:rotate-180"></span>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60">
+                        <li>
+                            <a class="dropdown-item" href="#"
+                            @click="$dispatch('open-modal', 'modal-create-eddy')">
+                                <span class="icon-[tabler--sparkles] mr-2"></span>
+                                Create with Eddy AI
                             </a>
                         </li>
-                        <li><a class="dropdown-item" href="#">Form Template</a></li>
-                        <li><a class="dropdown-item" href="#">Import Article</a></li>
+
+                        <!-- Nested Dropdown -->
+                       <li class="dropdown relative [--offset:15] [--placement:left-start]">
+                            <button class="dropdown-toggle dropdown-item flex items-center justify-between gap-2">
+                                <!-- Left side (icon + text) -->
+                                <span class="flex items-center gap-2">
+                                    <span class="icon-[tabler--file-text] size-4"></span>
+                                    Article
+                                </span>
+                                <span class="icon-[tabler--chevron-left] size-4"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                    @click="$dispatch('open-modal', 'modal-create-article')">
+                                        Blank
+                                    </a>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Form Template</a></li>
+                                <li><a class="dropdown-item" href="#">Import Article</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                            @click="$dispatch('open-modal', 'modal-step-by-step')">
+                                <span class="icon-[tabler--book] mr-2"></span>
+                                Step by Step Guide
+                                <span class="badge badge-success ml-auto">NEW</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#"
+                            @click="$dispatch('open-modal', 'modal-sub-category')">
+                                <span class="icon-[tabler--folders] mr-2"></span>
+                                Sub Category
+                            </a>
+                        </li>
                     </ul>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#" @click="$dispatch('open-modal', 'modal-step-by-step')">
-                    <span class="icon-[tabler--book] mr-2"></span>
-                    Step by Step Guide
-                    <span class="badge badge-success ml-auto">NEW</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#" @click="$dispatch('open-modal', 'modal-sub-category')">
-                    <span class="icon-[tabler--folders] mr-2"></span>
-                    Sub Category
-                    </a>
-                </li>
-                </ul>
+                </div>
             </div>
-        </div>
+
            <!-- Article Content Section -->
             <div
                 x-cloak

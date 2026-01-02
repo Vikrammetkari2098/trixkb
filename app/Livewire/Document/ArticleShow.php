@@ -7,6 +7,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use TallStackUi\Traits\Interactions;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ArticlesExport;
 
 class ArticleShow extends Component
 {
@@ -98,7 +100,13 @@ class ArticleShow extends Component
             ['index' => 'updated_at', 'label' => 'Updated On', 'sortable' => true],
         ];
     }
-
+    public function exportExcel(array $ids = [])
+    {
+        return Excel::download(
+            new ArticlesExport($ids),
+            'articles_' . now()->format('Ymd_His') . '.xlsx'
+        );
+    }
     public function render()
     {
         return view('livewire.document.article-show', [

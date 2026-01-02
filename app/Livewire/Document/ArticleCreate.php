@@ -173,8 +173,6 @@ class ArticleCreate extends Component
                 'slug'          => $this->slug,
                 'category_id'   => $data['category_id'],
                 'status'        => $data['status'],
-                'kb_type'       => $data['kb_type'],
-                'visibility'    => $data['visibility'],
                 'is_featured'   => $data['is_featured'],
                 'author_id'     => $data['author_id'],
                 'article_image' => $imagePath,
@@ -196,7 +194,6 @@ class ArticleCreate extends Component
                 'is_featured' => $data['is_featured'],
                 'views'       => 0,
                 'likes'       => 0,
-                'is_current'  => true,
             ]);
 
 

@@ -81,12 +81,18 @@ class ArticleOpen extends Component
                     'version'      => $nextVersion,
                     'editor_id'    => auth()->id(),
                     'content'      => $editorData,
+
+                    // KEEP existing values
                     'status'       => $currentVersion->status ?? 'draft',
+                    'kb_type'      => $currentVersion->kb_type ?? 'article',
+                    'visibility'   => $currentVersion->visibility ?? 'public',
                     'is_featured'  => $currentVersion->is_featured ?? 0,
+
                     'views'        => $currentVersion->views ?? 0,
                     'likes'        => $currentVersion->likes ?? 0,
                     'published_at' => $currentVersion->published_at,
                 ]);
+
 
                 // Point article to latest version
                 $article->update([
@@ -109,16 +115,16 @@ class ArticleOpen extends Component
 
     public function showPreview($editorData = null)
    {
-    
+
         if ($editorData) {
             $this->content = $editorData;
         }
-        $this->save($this->content); 
+        $this->save($this->content);
 
         $article = Article::find($this->articleId);
         return redirect()->route('article.detail', [
-            'slug' => $article->slug, 
-            'preview' => true 
+            'slug' => $article->slug,
+            'preview' => true
         ]);
     }
 

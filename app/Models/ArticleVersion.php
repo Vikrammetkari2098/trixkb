@@ -20,8 +20,8 @@ class ArticleVersion extends Model
         'content',
         'version',
         'status',
-        'kb_type',        // ✅ added
-        'visibility',     // ✅ added
+        'kb_type',
+        'visibility',
         'is_featured',
         'views',
         'likes',

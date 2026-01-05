@@ -122,12 +122,15 @@ class ArticleList extends Component
     public function getRowsProperty()
     {
         return ArticleVersion::query()
+         ->where('visibility', 'internal')
         ->with([
             'article' => function ($query) {
                 $query->with(['author', 'category', 'tags'])
-                      ->withCount(['likes', 'comments']);    
+                      ->withCount(['likes', 'comments']);  
+                        
             }
         ])
+        
             ->whereHas('article', fn ($q) =>
                 $q->where('status', 'published')
             )
@@ -164,12 +167,26 @@ public function getTopArticlesProperty()
 {
     return Article::query()
         ->where('status', 'published')
+
+        // ✅ Only articles having INTERNAL version
+        ->whereExists(function ($q) {
+            $q->selectRaw(1)
+              ->from('article_version')
+              ->whereColumn('article_version.article_id', 'article.id')
+              ->where('article_version.visibility', 'internal');
+        })
+
         ->with(['author', 'category'])
         ->withCount(['likes', 'comments'])
-        ->orderByDesc('likes_count')
+
+        // 🔥 likes + comments = ranking score
+        ->orderByRaw('(likes_count + comments_count) DESC')
+
         ->limit(5)
         ->get();
 }
+
+
 
 
     /* -------------------------

@@ -182,7 +182,7 @@
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full translate-y-48 -translate-x-48"></div>
 
-        <div class="relative mx-auto px-6 lg:px-8 max-w-6xl text-center">
+      <div class="relative mx-auto px-6 lg:px-8 max-w-6xl text-center">
             <!-- <div class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6">
                 ✨ New: AI-Powered Documentation
             </div> -->
@@ -194,7 +194,7 @@
                     <span class="absolute bottom-2 left-0 w-full h-3 bg-yellow-400/30 -rotate-1 z-0"></span>
                 </span>
             </h1>
-<!-- 
+      <!-- 
             <p class="mt-6 text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                 Comprehensive, AI-enhanced documentation platform to help your users get started with Project.
                 Everything you need in one place.

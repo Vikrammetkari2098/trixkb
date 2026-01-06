@@ -161,7 +161,7 @@
                 x-show="tableArticleId !== null"
                 x-transition
                 class="flex-1"
-            >
+             >
                 <livewire:document.partial.article-open />
             </div>
             <livewire:document.article-delete />
@@ -208,17 +208,54 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                <!-- RIGHT : Search -->
-                            <div x-data="{ search: @entangle('search').live }">
-                                <input
-                                    type="text"
-                                    x-model="search"
-                                    placeholder="Search articles..."
-                                    class="px-3 py-1 rounded-lg border border-gray-300
-                                        focus:outline-none focus:ring-1 focus:ring-purple-500"
-                                >
-                                </div>
-                        </div>
+            
+                                <div class="flex items-center gap-2">
+
+                                    
+                                <div x-data="{ version: @entangle('version').live, open: false }" class="relative w-44">
+                                        <!-- Input Button -->
+                                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500">
+                                            <span x-text="version || 'Search version...'"></span>
+                                            <span :class="{ 'rotate-180': open }" class="icon-[tabler--chevron-down] size-4 transition-transform duration-200"></span>
+                                        </button>
+
+                                        <!-- Dropdown Options -->
+                                        <ul
+                                            x-show="open"
+                                            x-cloak
+                                            x-transition
+                                            @click.outside="open = false"
+                                            class="absolute left-0 mt-1 w-full bg-white border border-gray-300 rounded shadow z-50"
+                                        >
+                                            @for ($i = 1; $i <= 9; $i++)
+                                                <li>
+                                                    <button
+                                                        @click="version = '1.{{ $i }}'; open = false"
+                                                        class="w-full text-left px-3 py-1 hover:bg-purple-100"
+                                                    >
+                                                        1.{{ $i }}
+                                                    </button>
+                                                </li>
+                                            @endfor
+                                        </ul>
+                                    </div>
+                                        <!-- Article Search -->
+                                         <div x-data="{ search: @entangle('search').live }" class="w-48">
+                                                    <input
+                                                        type="text"
+                                                        x-model="search"
+                                                        placeholder="Search articles..."
+                                                        class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                                    > 
+                                                    </div>      
+                                               
+                        </div>                       
+
+                </div>
+            
+
+          
+                        
                        <div
                             x-data="{
                                 selectedRows: [],

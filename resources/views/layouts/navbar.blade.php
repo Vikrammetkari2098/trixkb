@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between h-[45px] px-6 bg-[#18181b] text-gray-100 shadow-xl border-b border-[#374151] z-50 sticky top-0">
+<header class="flex items-center justify-between h-[45px] px-6 bg-trix-navy text-white shadow-xl border-b border-trix-ocean z-50 sticky top-0">
     <div class="flex items-center space-x-4">
         <button type="button" class="text-gray-300 lg:hidden hover:text-white transition duration-200 p-1 -ml-1 rounded-md hover:bg-[#374151]"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="with-navbar-sidebar" data-overlay="#with-navbar-sidebar">
@@ -66,29 +66,32 @@
     </div>
 
     <div class="flex-grow max-w-2xl px-2 mx-auto hidden md:block">
-    <div class="flex items-center bg-[#3e3e46] h-10 rounded-full px-4 shadow-inner border border-gray-400
-                focus-within:border-white/90 transition-all duration-300">
+        <div class="flex items-center bg-trix-ocean/10 h-10 rounded-full px-4 shadow-inner border border-gray-400
+                    focus-within:border-white/90 transition-all duration-300">
 
-        <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
-            <i class="fas fa-search text-gray-300"></i>
+            <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
+                <i class="fas fa-search text-gray-300"></i>
 
-            <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
-                AI
-            </span>
+                <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
+                    AI
+                </span>
+            </div>
+            <input
+                type="text"
+                placeholder="Search"
+                aria-label="AI Search"
+                class="w-full bg-trix-navy border-none
+                    text-white text-sm placeholder-white/70
+                    focus:outline-none focus:ring-0 focus:border-none"
+            />
         </div>
-
-        <input type="text" placeholder="Search"
-            class="bg-transparent border-none text-gray-100 text-sm w-full placeholder-gray-300
-                   focus:outline-none focus:ring-0 focus:border-none"
-            aria-label="AI Search">
     </div>
-</div>
 
 
     @persist('navigation-elements')
     <div class="flex items-center space-x-5">
        <div class="dropdown relative inline-flex">
-           
+
             <!-- Dropdown Menu -->
             <div
                 class="dropdown-menu dropdown-open:opacity-100 hidden min-w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-gray ring-opacity-5 z-50 p-4"

@@ -39,7 +39,7 @@
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0 text-2xl font-bold  bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">
-                        DOCUMENT360
+                        KNOWLEDGEBASE
                     </div>
 
                 </div>
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
 
-<!-- 
+<!--
                         <a href="#" @click.prevent="active = 'signup'"
                            class="ml-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-purple-200 transition-all duration-300 transform hover:-translate-y-0.5">
                             Get Started Free
@@ -176,7 +176,7 @@
     </header>
 
     {{-- Enhanced Hero Section --}}
-  
+
     <section class="relative overflow-hidden py-20 sm:py-28" style="background-image: linear-gradient(135deg, #A74E91 0%, #6A329D 100%);">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
@@ -194,7 +194,7 @@
                     <span class="absolute bottom-2 left-0 w-full h-3 bg-yellow-400/30 -rotate-1 z-0"></span>
                 </span>
             </h1>
-      <!-- 
+      <!--
             <p class="mt-6 text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                 Comprehensive, AI-enhanced documentation platform to help your users get started with Project.
                 Everything you need in one place.
@@ -248,7 +248,7 @@
             </div>
         </div>
     </section>
-    
+
 
     <!-- {{-- Stats Section --}}
     <section class="py-12 bg-white">
@@ -285,7 +285,7 @@
     </main>
     <!-- {{-- Enhanced Footer --}}
     <footer class="bg-gray-900 text-white">
-       
+
         <section class="py-20">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="text-center mb-16">

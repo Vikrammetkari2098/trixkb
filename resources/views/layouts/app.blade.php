@@ -23,15 +23,14 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>[x-cloak] { display: none !important; }</style>
     </head>
 
-    <body id="page-top" class="bg-gray-50">
+    <body>
 
         <div x-data="{ activePage: window.location.pathname, sidebarOpen: false }"
             x-init="
@@ -49,27 +48,29 @@
 
                 {{-- Sidebar --}}
                 <aside id="with-navbar-sidebar"
-                :class="{
-                        'translate-x-0 w-64': sidebarOpen,
-                        '-translate-x-full sm:translate-x-0 w-24': !sidebarOpen
-                    }"
-                    class="flex flex-col items-center py-4 space-y-2 bg-white shadow-lg
-                w-24 sticky top-[45px] h-185 overflow-visible z-20">
+                    :class="{
+                            'translate-x-0 w-64': sidebarOpen,
+                            '-translate-x-full sm:translate-x-0 w-24': !sidebarOpen
+                        }"
+                        class="flex flex-col items-center py-4 space-y-2
+                            bg-white shadow-lg border-r border-trix-ocean
+                            w-24 sticky top-[45px] h-185 overflow-visible z-20"
+                        >
 
 
-                {{-- New: Toggle Button (The "Arrow") --}}
-                    <div class="w-full px-2 mb-2">
-                        <button @click="sidebarOpen = !sidebarOpen"
-                                class="p-2 rounded-lg text-gray-500  w-full flex transition-colors duration-200"
-                            :class="{ 'justify-between': sidebarOpen, 'justify-center': !sidebarOpen }">
-                            <span x-show="sidebarOpen" x-transition class="ml-3 whitespace-nowrap flex items-center">
-                            </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#09325d" :class="{'hidden': sidebarOpen}">
-                            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
-                            </svg>
-                            <i class="fas fa-chevron-left text-xl text-[#09325d] transition-transform" x-show="sidebarOpen" :class="sidebarOpen ? 'rotate-0' : 'rotate-180'"></i>
-                      </button>
-                  </div>
+                    {{-- New: Toggle Button (The "Arrow") --}}
+                        <div class="w-full px-2 mb-2">
+                            <button @click="sidebarOpen = !sidebarOpen"
+                                    class="p-2 rounded-lg text-gray-500  w-full flex transition-colors duration-200"
+                                :class="{ 'justify-between': sidebarOpen, 'justify-center': !sidebarOpen }">
+                                <span x-show="sidebarOpen" x-transition class="ml-3 whitespace-nowrap flex items-center">
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor" :class="{'hidden': sidebarOpen}">
+                                <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                                </svg>
+                                <i class="fas fa-chevron-left text-xl text-trix-navy transition-transform" x-show="sidebarOpen" :class="sidebarOpen ? 'rotate-0' : 'rotate-180'"></i>
+                        </button>
+                    </div>
 
                     <ul class="menu p-0 space-y-2 w-full" x-data="{ activePath: window.location.pathname }">
 
@@ -81,7 +82,7 @@
 
                             <a href="{{ route('dashboard') }}"
                             :class="activePath === '/' || activePath === '/dashboard'
-                                            ? 'bg-[#09325d] text-white shadow-md'
+                                            ? 'bg-trix-navy text-white shadow-md'
                                             : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -112,7 +113,7 @@
                                     Dashboard
                                 </span>
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                      Dashboard
                                 </span>
                             </a>
@@ -164,7 +165,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('docs') }}"
                             :class="activePath.includes('/docs')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -192,7 +193,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible whitespace-nowrap transition-all duration-200 z-50 top-1/2 -translate-y-1/2">
                                     Documentation
                                 </span>
                             </a>
@@ -202,7 +203,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('decision.tree') }}"
                             :class="activePath.includes('/decision-tree')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -234,7 +235,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Interactive Decision Tree
@@ -246,7 +247,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('api.docs') }}"
                             :class="activePath.includes('/api-docs')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -276,7 +277,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     API Documentation
@@ -294,7 +295,7 @@
 
                             <a href="{{ route('feedback.index') }}"
                             :class="activePath.includes('/feedback')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative group">
 
@@ -324,7 +325,7 @@
                                     Feedback Manager
                                 </span>
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Feedback Manager
@@ -373,7 +374,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('analytics') }}"
                             :class="activePath.includes('/analytics')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -402,7 +403,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Analytics
@@ -414,7 +415,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('knowledge.pulse') }}"
                             :class="activePath.includes('/knowledge-pulse')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -439,7 +440,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Knowledge Pulse
@@ -451,7 +452,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('widget') }}"
                             :class="activePath.includes('/widget')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -480,7 +481,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Widget
@@ -492,7 +493,7 @@
                         <li class="relative group w-full px-2">
                             <a href="{{ route('drive') }}"
                             :class="activePath.includes('/drive')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -521,7 +522,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Drive
@@ -533,7 +534,7 @@
                         <li class="relative group w-full px-2 py-30">
                             <a href="{{ route('settings') }}"
                             :class="activePath.includes('/settings')
-                                        ? 'bg-[#09325d] text-white shadow-md'
+                                        ? 'bg-trix-navy text-white shadow-md'
                                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'"
                             class="flex items-center w-full h-12 rounded-xl transition-all relative">
 
@@ -573,7 +574,7 @@
                                 </span>
 
                                 <span x-show="!sidebarOpen"
-                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-[#09325d] text-white rounded
+                                    class="absolute left-full ml-2 px-2 py-1 text-xs bg-trix-navy text-white rounded
                                             opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200
                                             z-50 top-1/2 -translate-y-1/2">
                                     Settings

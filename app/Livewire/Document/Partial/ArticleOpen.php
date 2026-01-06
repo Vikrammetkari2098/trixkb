@@ -36,9 +36,7 @@ class ArticleOpen extends Component
     {
         $article = Article::find($id);
 
-        if (!$article) {
-            return;
-        }
+        if (!$article) return;
 
         $latestVersion = ArticleVersion::where('article_id', $id)
                             ->orderByDesc('id')
@@ -65,11 +63,10 @@ class ArticleOpen extends Component
     {
         $dataToSave = $editorData ?? $this->content;
         $contentForDb = empty($dataToSave) ? null : $dataToSave;
-        
+
         $this->validate();
 
         $article = Article::find($this->articleId);
-        
         $currentVersion = ArticleVersion::where('article_id', $this->articleId)
                             ->orderByDesc('id')
                             ->first();
@@ -90,9 +87,8 @@ class ArticleOpen extends Component
                 }
 
                 if ($oldContentJson !== $newContentJson) {
-                    
+
                     if ($article->status === 'published') {
-                        
                         $nextVer = $currentVersion ? round((float)$currentVersion->version + 0.1, 1) : 1.0;
 
                         $newVersion = ArticleVersion::create([
@@ -108,19 +104,19 @@ class ArticleOpen extends Component
                         ]);
 
                         $article->update(['current_version_id' => $newVersion->id]);
-                        
+
                         $this->toast()->success('Live Updated', "Changes saved successfully.")->send();
-                    
+
                     } else {
                         if ($currentVersion) {
                             $currentVersion->update([
-                                'content' => $contentForDb, 
+                                'content' => $contentForDb,
                                 'updated_at' => now()
                             ]);
                         }
                         $this->toast()->success('Draft Saved', 'Draft saved successfully.')->send();
                     }
-                
+
                 } else {
                     $this->toast()->success('Saved', 'Title updated.')->send();
                 }
@@ -140,32 +136,27 @@ class ArticleOpen extends Component
 
         try {
             DB::transaction(function () use ($newStatus, $contentForDb) {
-                
+
                 $article = Article::findOrFail($this->articleId);
                 $currentVersion = ArticleVersion::find($article->current_version_id);
 
                 if ($newStatus === 'published' && $article->status !== 'published') {
-                    
                     $currentVersion->update([
                         'content' => $contentForDb,
                         'status' => 'published',
                         'published_at' => now()
                     ]);
                     $article->update(['status' => 'published']);
-                    
                     $this->toast()->success('Published!', 'Article is now Live.')->send();
-                }
-                elseif ($newStatus === 'draft' && $article->status === 'published') {
-                    
+
+                } elseif ($newStatus === 'draft' && $article->status === 'published') {
                     $currentVersion->update(['status' => 'draft']);
                     $article->update(['status' => 'draft']);
-                    
                     $this->toast()->success('Unpublished', 'Reverted to Draft.')->send();
-                }
-                else {
+
+                } else {
                     $currentVersion->update(['content' => $contentForDb, 'status' => $newStatus]);
                     $article->update(['status' => $newStatus]);
-                    
                     $this->toast()->success('Status Changed', 'Status updated to ' . ucfirst($newStatus))->send();
                 }
             });
@@ -184,14 +175,14 @@ class ArticleOpen extends Component
         if ($editorData) {
             $this->content = $editorData;
         }
-        
-        $this->save($this->content); 
+
+        $this->save($this->content);
 
         $article = Article::find($this->articleId);
-        
+
         return redirect()->route('article.detail', [
-            'slug' => $article->slug, 
-            'preview' => true 
+            'slug' => $article->slug,
+            'preview' => true
         ]);
     }
 
@@ -204,9 +195,7 @@ class ArticleOpen extends Component
 
     public function saveEditorImage(): ?string
     {
-        if (!$this->editorImage) {
-            return null;
-        }
+        if (!$this->editorImage) return null;
 
         try {
             $path = $this->editorImage->store('articles', 'public');

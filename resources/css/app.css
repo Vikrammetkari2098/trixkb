@@ -1,6 +1,6 @@
-@import 'tailwindcss';
-@import '../../vendor/tallstackui/tallstackui/css/v4.css';
-@import 'tom-select/dist/css/tom-select.default.css';
+@import "tailwindcss";
+@import "../../vendor/tallstackui/tallstackui/css/v4.css";
+@import "tom-select/dist/css/tom-select.default.css";
 
 @plugin '@tailwindcss/forms';
 @plugin "flyonui";
@@ -15,28 +15,26 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-    /* ===========================
+/* ===========================
     THEME VARIABLES (TOP LEVEL)
     =========================== */
-    @theme {
+@theme {
     --color-trix-navy: #09325d;
     --color-trix-ocean: #0f4a7a;
     --color-trix-blue: #1a5a8f;
-    }
+}
 
-    /* ===========================
+/* ===========================
     BASE STYLES
     =========================== */
-    @layer base {
+@layer base {
     html {
-        font-family: theme('fontFamily.sans');
-        font-size: 16px;
+        font-family: theme("fontFamily.sans");
+        font-size: 12px;
     }
 
     body {
         color: var(--color-trix-navy);
         -webkit-font-smoothing: antialiased;
     }
-
-
 }

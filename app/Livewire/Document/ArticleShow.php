@@ -117,7 +117,7 @@ class ArticleShow extends Component
                 });
             })
 
-            ->orderBy($this->sort['column'], $this->sort['direction'])
+        
             ->paginate($this->quantity);
     }
 
@@ -155,6 +155,49 @@ class ArticleShow extends Component
             'articles_' . now()->format('Ymd_His') . '.xlsx'
         );
     }
+    /* ------------------
+    FAVOURITE
+------------------ */
+public function toggleFavourite(int $articleId): void
+{
+    $article = Article::findOrFail($articleId);
+    $article->timestamps = false;
+
+    $article->update([
+        'is_favourite' => ! $article->is_favourite,
+    ]);
+}
+
+public function bulkFavourite(array $ids = []): void
+{
+    $ids = $ids ?: $this->selectedRows;
+    if (empty($ids)) return;
+
+    Article::whereIn('id', $ids)
+        ->update(['is_favourite' => true]);
+
+    $this->selectedRows = [];
+}
+
+
+
+public function starSelected(array|int $articleIds): void
+{
+    $ids = is_array($articleIds) ? $articleIds : [$articleIds];
+    if (empty($ids)) return;
+
+   
+    Article::whereIn('id', $ids)->update([
+        'is_favourite' => true,
+        'updated_at' => \DB::raw('updated_at') 
+    ]);
+
+    if (is_array($articleIds)) {
+        $this->selectedRows = [];
+    }
+}
+
+
 
     /* ------------------
         RENDER

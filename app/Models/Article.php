@@ -26,6 +26,7 @@ class Article extends Model
         'kb_type',
         'visibility',
         'is_featured',
+        'is_favourite',
         'current_version_id',
         'article_image',
     ];

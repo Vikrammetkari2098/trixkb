@@ -36,10 +36,10 @@
 
 <body id="page-top" class="bg-white text-base-content font-sans antialiased overflow-hidden">
 
-    <div x-data="{ 
+    <div x-data="{
             sidebarOpen: JSON.parse(localStorage.getItem('sidebarOpen') || 'true'),
             activePath: window.location.pathname,
-            
+
             toggleSidebar() {
                 this.sidebarOpen = !this.sidebarOpen;
                 localStorage.setItem('sidebarOpen', this.sidebarOpen);
@@ -57,7 +57,7 @@
         <div class="flex flex-1 pt-16 h-full overflow-hidden">
 
             {{-- SIDEBAR--}}
-            <aside 
+            <aside
                 class="flex-shrink-0 h-full bg-white border-r border-gray-200 shadow-lg sidebar-transition flex flex-col z-40 no-scrollbar overflow-visible relative"
                 :class="sidebarOpen ? 'w-64' : 'w-16'"
             >
@@ -71,14 +71,14 @@
                 </div>
 
                 <ul class="menu p-2 gap-2 text-base-content w-full">
-                    
+
                     {{-- 1. DASHBOARD (Hover Menu) --}}
                     <li class="relative group w-full" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                        
+
                        <a href="{{ route('dashboard') }}"
                          class="flex items-center justify-between px-3 py-3 rounded-xl cursor-pointer transition-colors duration-200 relative"
                              :class="(activePath === '/' || activePath.startsWith('/dashboard')) ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-900 hover:bg-gray-100'">
-                            
+
                             <div class="flex items-center gap-4 overflow-hidden">
                                 <div class="w-6 h-6 flex justify-center items-center shrink-0">
                                     <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 stroke-current stroke-2"><path d="M21 18.8739V10.8663C21 9.88216 20.5726 8.95316 19.8418 8.34896L14.4558 3.89571C13.0113 2.70143 10.9887 2.70143 9.54424 3.89571L4.15818 8.34896C3.42742 8.95316 3 9.88216 3 10.8663V18.8739C3 20.0481 3.89543 21 5 21H7C8.10457 21 9 20.1046 9 19V15.6848C9 14.5106 9.89543 13.5587 11 13.5587H13C14.1046 13.5587 15 14.5106 15 15.6848V19C15 20.1046 15.8954 21 17 21H19C20.1046 21 21 20.0481 21 18.8739Z" stroke-linecap="round" stroke-linejoin="round" /></svg>
@@ -88,11 +88,11 @@
                          </a>
 
                         {{--  FLOATING HOVER MENU  --}}
-                        <div x-show="hover" 
+                        <div x-show="hover"
                             class="absolute left-full top-0 ml-2 w-40 bg-white shadow-2xl rounded-lg border border-gray-100 p-2 z-[9999]"
                             style="display: none; background-color: #ffffff !important;">
-                            
-                            
+
+
                             <div class="absolute -left-4 top-0 bottom-0 w-4 bg-transparent"></div>
 
                             <ul class="space-y-1">
@@ -178,7 +178,7 @@
                         <a href="{{ route('feedback.index') }}"
                          class="flex items-center justify-between px-3 py-3 rounded-xl cursor-pointer transition-colors duration-200 relative"
                              :class="activePath.startsWith('/feedback') ? 'bg-[#09325d] text-white shadow-md' : 'text-gray-900 hover:bg-gray-100'">
-                            
+
                             <div class="flex items-center gap-4 overflow-hidden">
                                 <div class="w-6 h-6 flex justify-center items-center shrink-0">
                                     <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 stroke-current stroke-2"><path d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -186,13 +186,13 @@
                                 <span x-show="sidebarOpen" x-transition class="text-smooth whitespace-nowrap font-medium">Feedback</span>
                             </div>
                          </a>
-                        
+
 
                         {{-- HOVER MENU  --}}
-                        <div x-show="hover" 
+                        <div x-show="hover"
                              class="absolute left-full top-0 ml-2 w-40 bg-white shadow-2xl rounded-lg border border-gray-100 p-2 z-[9999]"
                              style="display: none; background-color: #ffffff !important;">
-                        
+
                              <ul class="space-y-1">
                                 <li><a href="{{ route('feedback.index') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polyline points="7.25 14.25,2.75 14.25,2.75 1.75,13.25 1.75,13.25 9.25"></polyline> <path d="m9.75 12.75 1.5 1.5 3-2.5m-8.5-4h4.5m-4.5 3h1.5m-1.5-6h4.5"></path> </g></svg>
                                      Articles</a></li>

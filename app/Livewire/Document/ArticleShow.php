@@ -3,8 +3,8 @@
 namespace App\Livewire\Document;
 
 use App\Models\Article;
-use Livewire\Component;
 use App\Models\ArticleVersion;
+use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use TallStackUi\Traits\Interactions;
@@ -18,26 +18,18 @@ class ArticleShow extends Component
     protected $listeners = ['refresh-articles-list' => '$refresh'];
     protected $paginationTheme = 'tailwind';
 
-    /* ------------------
-        STATE
-    ------------------ */
     public ?int $quantity = 5;
-
-    // 🔍 Title / Slug search
     public string $search = '';
-
-    // 🔢 Version search
     public string $version = '';
-
     public array $sort = [
         'column' => 'updated_at',
         'direction' => 'desc',
     ];
 
-    public ?int $articleId ;
-    public ?Article $article  ;
-
+    public ?int $articleId;
+    public ?Article $article;
     public array $selectedRows = [];
+    public ?int $selectedArticleId = null;
 
     protected $queryString = [
         'search',
@@ -46,9 +38,6 @@ class ArticleShow extends Component
         'sort',
     ];
 
-    /* ------------------
-        LIFECYCLE
-    ------------------ */
     #[On('refresh-articles-list')]
     public function refreshList(): void
     {
@@ -61,9 +50,6 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-    /* ------------------
-        UPDATERS
-    ------------------ */
     public function updatedSearch(): void
     {
         $this->resetPage();
@@ -80,9 +66,6 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-    /* ------------------
-        SORTING
-    ------------------ */
     public function sortBy(string $column): void
     {
         if ($this->sort['column'] === $column) {
@@ -96,36 +79,28 @@ class ArticleShow extends Component
         $this->resetPage();
     }
 
-    /* ------------------
-        DATA
-    ------------------ */
-   public function getRowsProperty()
-{
-    return Article::with(['tags', 'labels'])
-        ->where('is_hide', 0) // 👈 hidden remove
-        ->when($this->search, function ($query) {
-            $query->where(function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('slug', 'like', "%{$this->search}%");
-            });
-        })
-        ->when($this->version, function ($query) {
-            $query->whereHas('versions', function ($q) {
-                $q->where('version', 'like', "%{$this->version}%");
-            });
-        })
-        ->orderByDesc('created_at')
-        ->paginate($this->quantity);
-}
+    public function getRowsProperty()
+    {
+        return Article::with(['tags', 'labels'])
+            ->where('is_hide', 0)
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('title', 'like', "%{$this->search}%")
+                      ->orWhere('slug', 'like', "%{$this->search}%");
+                });
+            })
+            ->when($this->version, function ($query) {
+                $query->whereHas('versions', function ($q) {
+                    $q->where('version', 'like', "%{$this->version}%");
+                });
+            })
+            ->orderByDesc('created_at')
+            ->paginate($this->quantity);
+    }
 
-    public ?int $selectedArticleId = null;
-
-  /* ------------------
-        UNPUBLISH
-    ------------------ */
     public function unpublishSelected(): void
     {
-        if (! $this->selectedArticleId) {
+        if (!$this->selectedArticleId) {
             return;
         }
 
@@ -136,44 +111,34 @@ class ArticleShow extends Component
             ]);
     }
 
-public function setSelectedArticle(int $id): void
-{
-    $this->selectedArticleId = $id;
-}
- public function toggleVisibility(): void
+    public function setSelectedArticle(int $id): void
+    {
+        $this->selectedArticleId = $id;
+    }
+
+    public function toggleVisibility(): void
     {
         if (!$this->selectedArticleId) {
-            $this->toast()
-                ->warning('Please select an article first')
-                ->send();
+            $this->toast()->warning('Please select an article first')->send();
             return;
         }
 
         $version = ArticleVersion::where('article_id', $this->selectedArticleId)->first();
 
         if (!$version) {
-            $this->toast()
-                ->error('Article version not found')
-                ->send();
+            $this->toast()->error('Article version not found')->send();
             return;
         }
 
-        $newVisibility = $version->visibility === 'public'
-            ? 'internal'
-            : 'public';
+        $newVisibility = $version->visibility === 'public' ? 'internal' : 'public';
 
-        $version->update([
-            'visibility' => $newVisibility,
-        ]);
+        $version->update(['visibility' => $newVisibility]);
 
         $this->toast()
-            ->success(
-                $newVisibility === 'public'
-                    ? 'Moved to Public'
-                    : 'Moved to Internal'
-            )
+            ->success($newVisibility === 'public' ? 'Moved to Public' : 'Moved to Internal')
             ->send();
     }
+
     public function getHeadersProperty(): array
     {
         return [
@@ -183,14 +148,10 @@ public function setSelectedArticle(int $id): void
         ];
     }
 
-
-    /* ------------------
-        ACTIONS
-    ------------------ */
     public function openArticle(int $id): void
     {
         $this->articleId = $id;
-        $this->article   = Article::find($id);
+        $this->article = Article::find($id);
     }
 
     public function toggleAll(bool $checked): void
@@ -209,53 +170,38 @@ public function setSelectedArticle(int $id): void
             'articles_' . now()->format('Ymd_His') . '.xlsx'
         );
     }
-    /* ------------------
-    FAVOURITE
------------------- */
-public function toggleFavourite(int $articleId): void
-{
-    $article = Article::findOrFail($articleId);
-    $article->timestamps = false;
 
-    $article->update([
-        'is_favourite' => ! $article->is_favourite,
-    ]);
-}
+    public function toggleFavourite(int $articleId): void
+    {
+        $article = Article::findOrFail($articleId);
+        $article->timestamps = false;
+        $article->update(['is_favourite' => !$article->is_favourite]);
+    }
 
-public function bulkFavourite(array $ids = []): void
-{
-    $ids = $ids ?: $this->selectedRows;
-    if (empty($ids)) return;
+    public function bulkFavourite(array $ids = []): void
+    {
+        $ids = $ids ?: $this->selectedRows;
+        if (empty($ids)) return;
 
-    Article::whereIn('id', $ids)
-        ->update(['is_favourite' => true]);
-
-    $this->selectedRows = [];
-}
-
-
-
-public function starSelected(array|int $articleIds): void
-{
-    $ids = is_array($articleIds) ? $articleIds : [$articleIds];
-    if (empty($ids)) return;
-
-   
-    Article::whereIn('id', $ids)->update([
-        'is_favourite' => true,
-        'updated_at' => \DB::raw('updated_at') 
-    ]);
-
-    if (is_array($articleIds)) {
+        Article::whereIn('id', $ids)->update(['is_favourite' => true]);
         $this->selectedRows = [];
     }
-}
 
+    public function starSelected(array|int $articleIds): void
+    {
+        $ids = is_array($articleIds) ? $articleIds : [$articleIds];
+        if (empty($ids)) return;
 
+        Article::whereIn('id', $ids)->update([
+            'is_favourite' => true,
+            'updated_at' => \DB::raw('updated_at')
+        ]);
 
-    /* ------------------
-        RENDER
-    ------------------ */
+        if (is_array($articleIds)) {
+            $this->selectedRows = [];
+        }
+    }
+
     public function render()
     {
         return view('livewire.document.article-show', [

@@ -4,6 +4,7 @@ namespace App\Livewire\Document;
 
 use App\Models\Article;
 use Livewire\Component;
+use App\Models\ArticleVersion;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use TallStackUi\Traits\Interactions;
@@ -33,8 +34,8 @@ class ArticleShow extends Component
         'direction' => 'desc',
     ];
 
-    public ?int $articleId = null;
-    public ?Article $article = null;
+    public ?int $articleId ;
+    public ?Article $article  ;
 
     public array $selectedRows = [];
 
@@ -98,29 +99,81 @@ class ArticleShow extends Component
     /* ------------------
         DATA
     ------------------ */
-    public function getRowsProperty()
+   public function getRowsProperty()
+{
+    return Article::with(['tags', 'labels'])
+        ->where('is_hide', 0) // 👈 hidden remove
+        ->when($this->search, function ($query) {
+            $query->where(function ($q) {
+                $q->where('title', 'like', "%{$this->search}%")
+                  ->orWhere('slug', 'like', "%{$this->search}%");
+            });
+        })
+        ->when($this->version, function ($query) {
+            $query->whereHas('versions', function ($q) {
+                $q->where('version', 'like', "%{$this->version}%");
+            });
+        })
+        ->orderByDesc('created_at')
+        ->paginate($this->quantity);
+}
+
+    public ?int $selectedArticleId = null;
+
+  /* ------------------
+        UNPUBLISH
+    ------------------ */
+    public function unpublishSelected(): void
     {
-        return Article::with(['tags', 'labels'])
+        if (! $this->selectedArticleId) {
+            return;
+        }
 
-            // 🔍 SEARCH (title + slug)
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('title', 'like', "%{$this->search}%")
-                      ->orWhere('slug', 'like', "%{$this->search}%");
-                });
-            })
-
-            // 🔢 VERSION SEARCH (article_versions table)
-            ->when($this->version, function ($query) {
-                $query->whereHas('versions', function ($q) {
-                    $q->where('version', 'like', "%{$this->version}%");
-                });
-            })
-
-        
-            ->paginate($this->quantity);
+        Article::where('id', $this->selectedArticleId)
+            ->where('status', 'published')
+            ->update([
+                'status' => 'draft',
+            ]);
     }
 
+public function setSelectedArticle(int $id): void
+{
+    $this->selectedArticleId = $id;
+}
+ public function toggleVisibility(): void
+    {
+        if (!$this->selectedArticleId) {
+            $this->toast()
+                ->warning('Please select an article first')
+                ->send();
+            return;
+        }
+
+        $version = ArticleVersion::where('article_id', $this->selectedArticleId)->first();
+
+        if (!$version) {
+            $this->toast()
+                ->error('Article version not found')
+                ->send();
+            return;
+        }
+
+        $newVisibility = $version->visibility === 'public'
+            ? 'internal'
+            : 'public';
+
+        $version->update([
+            'visibility' => $newVisibility,
+        ]);
+
+        $this->toast()
+            ->success(
+                $newVisibility === 'public'
+                    ? 'Moved to Public'
+                    : 'Moved to Internal'
+            )
+            ->send();
+    }
     public function getHeadersProperty(): array
     {
         return [
@@ -129,6 +182,7 @@ class ArticleShow extends Component
             ['index' => 'updated_at', 'label' => 'Updated On', 'sortable' => true],
         ];
     }
+
 
     /* ------------------
         ACTIONS

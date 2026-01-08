@@ -266,14 +266,18 @@
                              x-transition:leave="transition-all ease-in duration-200"
                              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                              x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
-                             class="sticky top-0 z-20 bg-white rounded-xl shadow-sm px-4 py-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
+                             class="sticky top-0 z-20 mb-4 bg-white rounded-xl shadow-sm px-4 py-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
 
                             <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                            <button
+                                wire:click="hideSelected"
+                                class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
+                             >
                                 <i class="fas fa-eye-slash text-xs"></i>
                                 <span class="hidden sm:inline">Hide</span>
                             </button>
+
 
                             <button @click="$dispatch('open-delete-dialog', selectedRows)"
                                     class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition">
@@ -281,15 +285,24 @@
                                 <span>Delete</span>
                             </button>
 
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                           <button
+                                wire:click="unpublishSelected"
+                                class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition"
+                               >
                                 <i class="fas fa-ban text-xs"></i>
                                 <span class="hidden sm:inline">Unpublish</span>
                             </button>
 
-                            <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
-                                <i class="fas fa-arrows-alt text-xs"></i>
+
+
+                          <button
+                                wire:click="toggleVisibility"
+                                class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition"
+                             >
+                                <i class="fas fa-exchange-alt text-xs"></i>
                                 <span class="hidden sm:inline">Move</span>
                             </button>
+
 
                            <button @click="$wire.starSelected(selectedRows)"
                                     class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
@@ -324,8 +337,11 @@
 
                                 <tbody class="bg-white divide-y divide-gray-200 text-sm">
                                     @forelse($rows as $index => $article)
-                                        <tr wire:click.stop
-                                            class="hover:bg-gray-50 transition duration-150 {{ $articleId === $article->id ? 'bg-indigo-50' : '' }}">
+                                        <tr
+                                                wire:click="setSelectedArticle({{ $article->id }})"
+                                                class="hover:bg-gray-50 cursor-pointer transition duration-150
+                                                    {{ $selectedArticleId === $article->id ? 'bg-indigo-50' : '' }}"
+                                            >
                                             <td class="px-6 py-3">
                                                 <input type="checkbox" x-model="selectedRows" value="{{ $article->id }}"
                                                        class="row-checkbox rounded border-gray-300">

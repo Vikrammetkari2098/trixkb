@@ -1,7 +1,7 @@
 <div x-data="flyLayout" class="min-h-screen bg-gray-50">
     <!-- Main Layout -->
-    <div class="bg-white flex flex-1 rounded-xl shadow-md border border-gray-200 flex flex-1 p-6 space-y-6">
-        
+    <div class="bg-white flex flex-1 rounded-xl shadow-md border border-gray-200 p-6 space-y-6">
+
         <!-- Sidebar -->
         <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
             <div class="flex space-x-2">
@@ -21,7 +21,7 @@
 
             <div class="p-4">
                 <a href="{{ route('api.docs') }}"
-                    class="flex items-center justify-between p-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
+                   class="flex items-center justify-between p-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
                     <span class="flex items-center">
                         <i class="fas fa-building mr-3 text-gray-500"></i>
                         Site builder
@@ -30,7 +30,7 @@
                 </a>
 
                 <a href="#"
-                    class="flex items-center justify-between p-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
+                   class="flex items-center justify-between p-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
                     <span class="flex items-center">
                         <i class="fas fa-tools mr-3 text-gray-500"></i>
                         Content tools
@@ -51,31 +51,39 @@
             <nav class="px-2">
                 <template x-for="category in navItems" :key="category.name">
                     <div>
-                        <!-- Category Item -->
-                        <button @click="toggleCategory(category)"
-                                :class="{
-                                    'bg-indigo-50 text-indigo-600 border-l-3 border-indigo-600': isCategoryActive(category),
-                                    'hover:bg-gray-50': !isCategoryActive(category)
-                                }"
-                                class="w-full flex items-center px-3 py-2 text-sm font-medium rounded transition-colors">
+                        <button
+                            @click="toggleCategory(category)"
+                            class="w-full flex items-center px-3 py-2 text-sm font-medium rounded transition-colors"
+                            :class="{
+                                'bg-indigo-50 text-indigo-600 border-l-3 border-indigo-600': isCategoryActive(category),
+                                'hover:bg-gray-50': !isCategoryActive(category)
+                            }"
+                        >
                             <i class="fas fa-chevron-right text-xs w-4 transition-transform"
-                               :class="{'rotate-90': category.isOpen}"></i>
-                            <i :class="[category.icon, 'mr-3', {'text-indigo-500': isCategoryActive(category)}]"></i>
+                               :class="{ 'rotate-90': category.isOpen }"></i>
+
+                            <i :class="[category.icon, 'mr-3', { 'text-indigo-500': isCategoryActive(category) }]"></i>
+
                             <span x-text="category.name" class="flex-1 text-left"></span>
                         </button>
 
-                        <!-- Nested Articles -->
-                        <div x-show="category.isOpen" x-transition class="ml-4 pl-4 border-l border-gray-200">
+                        <div x-show="category.isOpen"
+                             x-transition
+                             class="ml-4 pl-4 border-l border-gray-200">
                             <template x-for="article in category.articles" :key="article.id">
-                                <button @click="setActiveArticle(article, category)"
-                                        :class="{
-                                            'bg-indigo-50 text-indigo-600': isArticleActive(article),
-                                            'hover:bg-gray-50': !isArticleActive(article)
-                                        }"
-                                        class="w-full flex items-center px-3 py-2 text-sm rounded transition-colors">
+                                <button
+                                    @click="setActiveArticle(article, category)"
+                                    class="w-full flex items-center px-3 py-2 text-sm rounded transition-colors"
+                                    :class="{
+                                        'bg-indigo-50 text-indigo-600': isArticleActive(article),
+                                        'hover:bg-gray-50': !isArticleActive(article)
+                                    }"
+                                >
                                     <i class="far fa-file-alt mr-3 text-gray-500"
-                                       :class="{'text-indigo-500': isArticleActive(article)}"></i>
+                                       :class="{ 'text-indigo-500': isArticleActive(article) }"></i>
+
                                     <span x-text="article.title" class="flex-1 text-left"></span>
+
                                     <i x-show="article.status === 'Draft'"
                                        class="fas fa-circle text-xs text-yellow-500"></i>
                                 </button>
@@ -86,33 +94,36 @@
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <div class="flex-1 flex flex-col min-h-screen bg-white">
-            
+
+            <!-- Top Actions -->
             <div class="flex justify-end gap-3">
-                <!-- Export Button -->
                 <button wire:click="exportExcel"
                         class="btn btn-gradient btn-info flex items-center gap-2 rounded-lg">
                     <span class="icon-[tabler--file-excel] size-4"></span>
                     Export Excel
                 </button>
 
+                <!-- Create Dropdown -->
                 <div class="join dropdown relative overflow-visible">
-                    <!-- Main Button -->
-                    <button class="btn btn-primary join-item rounded-l-lg flex items-center gap-2"
-                            @click="$modalOpen('modal-create')">
+                    <button
+                        class="btn btn-primary join-item rounded-l-lg flex items-center gap-2"
+                        @click="$modalOpen('modal-create')"
+                    >
                         <span class="icon-[tabler--plus] size-4"></span>
                         Create Article
                     </button>
 
-                    <!-- Toggle Button -->
-                    <button type="button"
-                            class="btn btn-primary btn-square join-item rounded-r-lg dropdown-toggle"
-                            aria-haspopup="menu" aria-expanded="false">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-square join-item rounded-r-lg dropdown-toggle"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                    >
                         <span class="icon-[tabler--chevron-down] size-4 dropdown-open:rotate-180"></span>
                     </button>
 
-                    <!-- Dropdown Menu -->
                     <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60">
                         <li>
                             <a class="dropdown-item" href="#"
@@ -122,7 +133,6 @@
                             </a>
                         </li>
 
-                        <!-- Nested Dropdown -->
                         <li class="dropdown relative [--offset:15] [--placement:left-start]">
                             <button class="dropdown-toggle dropdown-item flex items-center justify-between gap-2">
                                 <span class="flex items-center gap-2">
@@ -163,30 +173,37 @@
                 </div>
             </div>
 
-            <!-- Article Content Section -->
+            <!-- Opened Article -->
             <div x-cloak x-show="tableArticleId !== null" x-transition class="flex-1">
                 <livewire:document.partial.article-open />
             </div>
 
             <livewire:document.article-delete />
 
-            <!-- Table View Section -->
-            <div x-show="!tableArticleId" x-transition class="flex-1 overflow-y-auto p-6 bg-white">
-                
+            <!-- Table View -->
+            <div x-show="!tableArticleId"
+                 x-transition
+                 class="flex-1 overflow-y-auto p-6 bg-white">
+
                 <!-- Breadcrumb -->
                 <div class="text-sm text-gray-500 mb-2" x-text="activeSelection.path"></div>
 
                 <!-- Header -->
                 <h1 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                     <i class="far fa-star text-yellow-500 mr-2"></i>
-                    <span x-text="activeSelection.type === 'article' ? activeSelection.articleData.title : activeSelection.name"></span>
+                    <span
+                        x-text="activeSelection.type === 'article'
+                            ? activeSelection.articleData.title
+                            : activeSelection.name">
+                    </span>
                 </h1>
 
                 <div class="bg-white min-h-screen antialiased p-6">
 
+                    <!-- Top Filters & Quantity -->
                     <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
-                        
-                        <!-- LEFT : Quantity -->
+
+                        <!-- Quantity Dropdown -->
                         <div x-data="{ open: false }" class="relative inline-block">
                             <button @click="open = !open"
                                     class="btn btn-outline flex items-center gap-1 border border-gray-300 text-gray-700">
@@ -195,7 +212,10 @@
                                       class="icon-[tabler--chevron-down] size-4 transition-transform duration-200"></span>
                             </button>
 
-                            <ul x-show="open" x-cloak @click.outside="open = false" x-transition
+                            <ul x-show="open"
+                                x-cloak
+                                @click.outside="open = false"
+                                x-transition
                                 class="absolute left-0 mt-1 w-24 bg-white border border-gray-300 rounded shadow z-50">
                                 @foreach ([5, 10, 25] as $q)
                                     <li>
@@ -209,7 +229,7 @@
                         </div>
 
                         <div class="flex items-center gap-2">
-                            
+
                             <!-- Version Dropdown -->
                             <div x-data="{ version: @entangle('version').live, open: false }" class="relative w-44">
                                 <button @click="open = !open"
@@ -237,27 +257,40 @@
                                 <input type="text" x-model="search" placeholder="Search articles..."
                                        class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500">
                             </div>
+
                         </div>
                     </div>
 
+                    <!-- Articles Table + Bulk Toolbar -->
                     <div x-data="{
-                            selectedRows: [],
-                            toggleAll(event) {
-                                if (event.target.checked) {
-                                    this.selectedRows = [...document.querySelectorAll('.row-checkbox')]
-                                        .map(cb => parseInt(cb.value));
-                                } else {
-                                    this.selectedRows = [];
-                                }
-                            }
-                        }"
-                        x-init="
+
+
+                        selectedRows: [],
+                        hiddenRows: @entangle('hiddenArticleIds').live,
+
+                        toggleAll(event) {
+                            const checked = event.target.checked;
+                            // Make sure selectedRows store numbers
+                            this.selectedRows = checked
+                                ? @json($rows->pluck('id')->toArray())
+                                : [];
+                        },
+
+                        toolbarDisabled() {
+                            // Convert both arrays to Number to avoid type mismatch
+                            const hidden = this.hiddenRows.map(Number);
+                            return this.selectedRows.some(id => hidden.includes(Number(id)));
+                        }
+                     }"
+
+
+                         x-init="
                             selectedRows = [];
                             $el.addEventListener('loadData-articles', () => {
                                 selectedRows = [];
                             });
                         ">
-                        
+
                         <!-- Bulk Action Toolbar -->
                         <div x-show="selectedRows.length > 0" x-cloak
                              x-transition:enter="transition-all ease-out duration-300"
@@ -270,48 +303,42 @@
 
                             <span class="font-semibold" x-text="selectedRows.length + ' selected'"></span>
 
-                            <button
-                                wire:click="hideSelected"
-                                class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition"
-                             >
+                            <button wire:click="toggleHide(selectedRows)"
+                                    class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
                                 <i class="fas fa-eye-slash text-xs"></i>
-                                <span class="hidden sm:inline">Hide</span>
+                                <span class="hidden sm:inline">Hide </span>
                             </button>
 
-
                             <button @click="$dispatch('open-delete-dialog', selectedRows)"
+                            :disabled="toolbarDisabled()"
                                     class="flex items-center gap-1 text-gray-600 hover:text-red-600 transition">
                                 <i class="fas fa-trash text-xs"></i>
                                 <span>Delete</span>
                             </button>
 
-                           <button
-                                wire:click="unpublishSelected"
-                                class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition"
-                               >
+                            <button wire:click="unpublishSelected"
+                            :disabled="toolbarDisabled()"
+                                    class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
                                 <i class="fas fa-ban text-xs"></i>
                                 <span class="hidden sm:inline">Unpublish</span>
                             </button>
 
-
-
-                          <button
-                                wire:click="toggleVisibility"
-                                class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition"
-                             >
+                            <button wire:click="toggleVisibility"
+                            :disabled="toolbarDisabled()"
+                                    class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
                                 <i class="fas fa-exchange-alt text-xs"></i>
                                 <span class="hidden sm:inline">Move</span>
                             </button>
 
-
-                           <button @click="$wire.starSelected(selectedRows)"
+                            <button @click="$wire.starSelected(selectedRows)"
+                            :disabled="toolbarDisabled()"
                                     class="flex items-center gap-1 text-gray-600 hover:text-yellow-500 transition">
                                 <i class="far fa-star text-xs"></i>
                                 <span class="hidden sm:inline">Star</span>
                             </button>
 
-
                             <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+
                                 <i class="far fa-bookmark text-xs"></i>
                                 <span class="hidden sm:inline">Labels</span>
                             </button>
@@ -339,43 +366,72 @@
                                 <tbody class="bg-white divide-y divide-gray-200 text-sm">
                                     @forelse($rows as $index => $article)
                                         <tr
+                                            @if(!$article->is_hide)
                                                 wire:click="setSelectedArticle({{ $article->id }})"
-                                                class="hover:bg-gray-50 cursor-pointer transition duration-150
-                                                    {{ $selectedArticleId === $article->id ? 'bg-indigo-50' : '' }}"
-                                            >
+                                            @endif
+                                            class="
+                                                transition duration-150
+                                                {{ $article->is_hide
+                                                    ? 'opacity-50 bg-gray-100'
+                                                    : 'hover:bg-gray-50 cursor-pointer'
+                                                }}
+                                                {{ $selectedArticleId === $article->id ? 'bg-indigo-50' : '' }}
+                                            "
+                                        >
                                             <td class="px-6 py-3">
                                                 <input type="checkbox" x-model="selectedRows" value="{{ $article->id }}"
                                                        class="row-checkbox rounded border-gray-300">
                                             </td>
-                                            <td class="px-6 py-3 text-gray-500">{{ $rows->firstItem() + $index }}</td>
+
+                                            <td class="px-6 py-3 text-gray-500">
+                                                {{ $rows->firstItem() + $index }}
+                                            </td>
+
                                             <td class="py-3 px-4 flex justify-between items-center">
-                                                <button type="button"
-                                                        @click="openArticleFromTable({ id: {{ $article->id }}, title: '{{ addslashes($article->title) }}', content: '{{ addslashes($article->content) }}' })"
-                                                        class="text-indigo-600 hover:text-indigo-800 flex items-center gap-2">
+                                                <button
+                                                    type="button"
+                                                    @if(!$article->is_hide)
+                                                        @click="openArticleFromTable({
+                                                            id: {{ $article->id }},
+                                                            title: '{{ addslashes($article->title) }}',
+                                                            content: '{{ addslashes($article->content) }}'
+                                                        })"
+                                                    @endif
+                                                    class="
+                                                        flex items-center gap-2
+                                                        {{ $article->is_hide
+                                                            ? 'text-gray-400 cursor-not-allowed'
+                                                            : 'text-indigo-600 hover:text-indigo-800'
+                                                        }}
+                                                    "
+                                                >
                                                     <i class="fas fa-clipboard text-yellow-500"></i>
                                                     <span>{{ $article->title }}</span>
                                                 </button>
 
                                                 @if($article->is_favourite)
-                                                    <button type="button" wire:click.stop="toggleFavourite({{ $article->id }})"
-                                                            class="focus:outline-none">
+                                                    <button
+                                                        type="button"
+                                                        wire:click.stop="toggleFavourite({{ $article->id }})"
+                                                        class="focus:outline-none"
+                                                    >
                                                         <i class="fas fa-star text-yellow-400"></i>
                                                     </button>
                                                 @endif
-
                                             </td>
-
-
 
                                             <td class="px-4 py-3">
                                                 <div class="flex flex-wrap gap-1">
                                                     @forelse($article->tags as $tag)
-                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">{{ $tag->name }}</span>
+                                                        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">
+                                                            {{ $tag->name }}
+                                                        </span>
                                                     @empty
                                                         <span class="text-xs text-gray-400 italic">No tags</span>
                                                     @endforelse
                                                 </div>
                                             </td>
+
                                             <td class="px-4 py-3">
                                                 <div class="flex flex-wrap gap-1">
                                                     @forelse($article->labels as $label)
@@ -387,54 +443,53 @@
                                                     @endforelse
                                                 </div>
                                             </td>
-                                            <td class="px-4 py-3 text-gray-600">{{ Str::headline($article->status) }}</td>
-                                            <td class="px-4 py-3 text-gray-500">{{ $article->updated_at->format('Y-m-d H:i') }}</td>
+
+                                            <td class="px-4 py-3 text-gray-600">
+                                                {{ Str::headline($article->status) }}
+                                            </td>
+
+                                            <td class="px-4 py-3 text-gray-500">
+                                                {{ $article->updated_at->format('Y-m-d H:i') }}
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="py-6 text-center text-gray-500">No articles found</td>
+                                            <td colspan="7" class="py-6 text-center text-gray-500">
+                                                No articles found
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
 
-                            <!-- Pagination -->
                             <div class="p-4 relative z-30">
                                 {{ $rows->links() }}
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <style>
-                    [class*="icon-"] {
-                        display: inline-block;
-                        width: 1.25rem;
-                        height: 1.25rem;
-                        background-color: currentColor;
-                        mask-repeat: no-repeat;
-                        mask-size: cover;
-                    }
-                </style>
+                </div>
             </div>
+
         </div>
     </div>
+
+    <style>
+        [class*="icon-"] {
+            display: inline-block;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: currentColor;
+            mask-repeat: no-repeat;
+            mask-size: cover;
+        }
+    </style>
 
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('flyLayout', () => ({
                 selectedRows: [],
-                tableArticleId: null, // Tracks which article is opened from table
-
-                toggleAll(event) {
-                    const checked = event.target.checked;
-                    if (checked) {
-                        this.selectedRows = @json($rows->pluck('id')->toArray());
-                    } else {
-                        this.selectedRows = [];
-                    }
-                },
-
+                tableArticleId: null,
                 navItems: [
                     {
                         type: 'category',
@@ -469,14 +524,7 @@
                         ]
                     }
                 ],
-
-                activeSelection: {
-                    type: 'article',
-                    name: 'New Article',
-                    path: '/getting-started-guides',
-                    articleData: null,
-                    articles: []
-                },
+                activeSelection: { type: 'article', name: 'New Article', path: '/getting-started-guides', articleData: null, articles: [] },
 
                 init() {
                     const firstCategory = this.navItems[0];
@@ -490,60 +538,42 @@
                 },
 
                 setActiveCategory(category) {
-                    this.activeSelection = {
-                        type: 'category',
-                        name: category.name,
-                        path: category.path,
-                        articleData: null,
-                        articles: category.articles
-                    };
+                    this.activeSelection = { type: 'category', name: category.name, path: category.path, articleData: null, articles: category.articles };
                     this.tableArticleId = null;
                 },
 
                 setActiveArticle(article, category) {
-                    this.navItems.forEach(cat => {
-                        cat.isOpen = cat.name === category.name;
-                    });
-                    this.activeSelection = {
-                        type: 'article',
-                        name: article.title,
-                        path: category.path,
-                        articleData: article,
-                        articles: category.articles
-                    };
+                    this.navItems.forEach(cat => cat.isOpen = cat.name === category.name);
+                    this.activeSelection = { type: 'article', name: article.title, path: category.path, articleData: article, articles: category.articles };
                     this.tableArticleId = null;
                 },
 
                 openArticleFromTable(article) {
                     this.tableArticleId = article.id;
                     this.$dispatch('openArticle', { id: article.id });
-                    window.dispatchEvent(new CustomEvent('load-article-title',
-                        { detail: { title: article.title, content: article.content } }
-                    ));
+                    window.dispatchEvent(new CustomEvent('load-article-title', { detail: { title: article.title, content: article.content } }));
 
-                    const category = this.navItems.find(cat =>
-                        cat.articles.some(a => a.id === article.id)
-                    );
-
+                    const category = this.navItems.find(cat => cat.articles.some(a => a.id === article.id));
                     if (category) {
-                        this.activeSelection = {
-                            type: 'article',
-                            name: article.title,
-                            path: category.path,
-                            articleData: article,
-                            articles: category.articles
-                        };
+                        this.activeSelection = { type: 'article', name: article.title, path: category.path, articleData: article, articles: category.articles };
                     }
                 },
 
                 isCategoryActive(category) {
-                    return this.activeSelection.type === 'category' &&
-                        this.activeSelection.name === category.name;
+                    return this.activeSelection.type === 'category' && this.activeSelection.name === category.name;
                 },
 
                 isArticleActive(article) {
-                    return this.activeSelection.type === 'article' &&
-                        this.activeSelection.articleData?.id === article.id;
+                    return this.activeSelection.type === 'article' && this.activeSelection.articleData?.id === article.id;
+                },
+
+                toggleAll(event) {
+                    const checked = event.target.checked;
+                    if (checked) {
+                        this.selectedRows = @json($rows->pluck('id')->toArray());
+                    } else {
+                        this.selectedRows = [];
+                    }
                 }
             }));
         });

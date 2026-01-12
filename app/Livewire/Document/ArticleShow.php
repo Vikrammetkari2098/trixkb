@@ -30,7 +30,6 @@ class ArticleShow extends Component
     public ?Article $article;
     public array $selectedRows = [];
     public ?int $selectedArticleId = null;
-    public array $hiddenArticleIds = [];
 
     protected $queryString = [
         'search',
@@ -49,7 +48,6 @@ class ArticleShow extends Component
     public function loadData(): void
     {
         $this->resetPage();
-        $this->hiddenArticleIds = Article::where('is_hide', 1)->pluck('id')->toArray();
     }
 
     public function updatedSearch(): void
@@ -84,7 +82,7 @@ class ArticleShow extends Component
     public function getRowsProperty()
     {
         return Article::with(['tags', 'labels'])
-            
+            ->where('is_hide', 0)
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('title', 'like', "%{$this->search}%")
@@ -164,36 +162,6 @@ class ArticleShow extends Component
             $this->selectedRows = [];
         }
     }
-    public function hideSelected(array $ids = []): void
-    {
-        if (empty($ids)) {
-            $this->toast()->warning('Please select at least one article')->send();
-            return;
-        }
-
-        Article::whereIn('id', $ids)->update([
-            'is_hide' => 1,
-        ]);
-
-        $this->toast()->success('Selected articles hidden successfully')->send();
-    }
-    
-    public function toggleHide(array $ids = []): void
- { 
-    if (empty($ids)) return;
-
-    $hasHidden = Article::whereIn('id', $ids)->where('is_hide', 1)->exists();
-
-    Article::whereIn('id', $ids)->update([
-        'is_hide' => $hasHidden ? 0 : 1,
-    ]);
-
-    // Update hiddenArticleIds property
-    $this->hiddenArticleIds = Article::where('is_hide', 1)->pluck('id')->toArray();
-
-    $this->toast()->success($hasHidden ? 'Selected articles are now visible' : 'Selected articles are now hidden')->send();
- }
-
 
     public function exportExcel(array $ids = [])
     {

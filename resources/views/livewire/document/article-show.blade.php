@@ -342,6 +342,11 @@
                                 <i class="far fa-bookmark text-xs"></i>
                                 <span class="hidden sm:inline">Labels</span>
                             </button>
+                             <button class="flex items-center gap-1 text-gray-600 hover:text-indigo-600 transition">
+                                
+                                <i class="far fa-bookmark text-xs"></i>
+                                <span class="hidden sm:inline">Labels</span>
+                            </button>
                         </div>
 
                         <!-- Articles Table -->

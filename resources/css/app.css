@@ -1,40 +1,40 @@
-@import 'tailwindcss';
-@import '../../vendor/tallstackui/tallstackui/css/v4.css';
-@import 'tom-select/dist/css/tom-select.default.css';
+@import "tailwindcss";
+@import "../../vendor/tallstackui/tallstackui/css/v4.css";
+@import "tom-select/dist/css/tom-select.default.css";
 
 @plugin '@tailwindcss/forms';
-
-@source '../../vendor/tallstackui/tallstackui/**/*.php';
-@source "../views";
-
 @plugin "flyonui";
 @plugin "@iconify/tailwind4";
+
 @import "flyonui/variants.css";
-@source "../node_modules/flyonui/flyonui.js";
 
-/* Import Third-party override css */
-/* @import "flyonui/src/vendor/flatpickr.css"; */
-/* @import "flyonui/src/vendor/notyf.css"; */
-/* @import "flyonui/src/vendor/datatables.css"; */
-/* @import "flyonui/src/vendor/editor.css"; */
-/* @import "flyonui/src/vendor/fullcalendar.css"; */
-/* @import "flyonui/src/vendor/raty.css"; */
-/* @import "flyonui/src/vendor/waves.css"; */
-/* @import "flyonui/src/vendor/apexcharts.css"; */
-
+@source '../../vendor/tallstackui/tallstackui/**/*.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-/* Default font size and family */
-@layer base {
-  html {
-    font-size: 12px;
-  }
+/* ===========================
+    THEME VARIABLES (TOP LEVEL)
+    =========================== */
+@theme {
+    --color-trix-navy: #09325d;
+    --color-trix-ocean: #0f4a7a;
+    --color-trix-blue: #1a5a8f;
+}
 
-  body {
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-    font-size: 1rem; /* This will be 12px due to html font-size */
-  }
+/* ===========================
+    BASE STYLES
+    =========================== */
+@layer base {
+    html {
+        font-family: theme('fontFamily.sans');
+        font-size: 12px;
+    }
+
+    body {
+        color: var(--color-trix-navy);
+        -webkit-font-smoothing: antialiased;
+    }
 }

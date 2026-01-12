@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between h-[64px] px-6 bg-[#09325d] text-gray-100 shadow-xl border-b border-[#374151] z-50">
+<header class="flex items-center justify-between h-[45px] px-6 bg-trix-navy text-white shadow-xl border-b border-trix-ocean z-50 sticky top-0">
     <div class="flex items-center space-x-4">
         <button type="button" class="text-gray-300 lg:hidden hover:text-white transition duration-200 p-1 -ml-1 rounded-md hover:bg-[#374151]"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="with-navbar-sidebar" data-overlay="#with-navbar-sidebar">
@@ -21,7 +21,7 @@
                     <span class="flag-icon flag-icon-us rounded-md" style="border-radius: 4px;"></span>
                 </span>
 
-                <span class="font-medium text-gray-300 group-hover:text-white transition">v1</span>
+               <span class="font-bold text-white group-hover:text-white">All Workspace</span>
 
                 <i class="fas fa-chevron-down text-gray-500 text-xs ml-1 transition dropdown-open:rotate-180"></i>
             </button>
@@ -66,82 +66,99 @@
     </div>
 
     <div class="flex-grow max-w-2xl px-2 mx-auto hidden md:block">
-    <div class="flex items-center bg-[#09325d] h-10 rounded-full px-4 shadow-inner border border-gray-400
-                focus-within:border-white/90 transition-all duration-300">
+        <div class="flex items-center bg-trix-ocean/10 h-10 rounded-full px-4 shadow-inner border border-gray-400
+                    focus-within:border-white/90 transition-all duration-300">
 
-        <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
-            <i class="fas fa-search text-gray-300"></i>
+            <div class="flex items-center mr-3 pr-3 space-x-2 border-r border-white/40">
+                <i class="fas fa-search text-gray-300"></i>
 
-            <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
-                AI
-            </span>
+                <span class="text-xs font-bold text-teal-400 bg-teal-900/50 px-2 py-0.5 rounded-full uppercase tracking-wider border border-teal-600/50 shadow-inner">
+                    AI
+                </span>
+            </div>
+            <input
+                type="text"
+                placeholder="Search"
+                aria-label="AI Search"
+                class="w-full bg-trix-navy border-none
+                    text-white text-sm placeholder-white/70
+                    focus:outline-none focus:ring-0 focus:border-none"
+            />
         </div>
-
-        <input type="text" placeholder="Search articles, documents, or ask a question..."
-            class="bg-transparent border-none text-gray-100 text-sm w-full placeholder-gray-300
-                   focus:outline-none focus:ring-0 focus:border-none"
-            aria-label="AI Search">
     </div>
-</div>
 
 
     @persist('navigation-elements')
     <div class="flex items-center space-x-5">
-       <div x-data="{ openArticleForm: false }" class="relative">
-            <a @click.prevent="openArticleForm = true"
-            href="#"
-            class="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white px-4 py-2 h-10 rounded-lg font-semibold flex items-center shadow-lg transform hover:scale-[1.02] transition duration-200 hidden sm:flex no-underline cursor-pointer">
-                <span>Create Article</span>
-                <i class="fa-solid fa-plus ml-2 text-sm"></i>
-            </a>
+       <div class="dropdown relative inline-flex">
 
-            <div x-show="openArticleForm"
-                x-cloak
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-90"
-                @click.away="openArticleForm = false"
-                class="absolute right-0 mt-3 w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-black ring-opacity-5 z-50 p-4">
-
-                <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100"> Create New Article</h3>
-
+            <!-- Dropdown Menu -->
+            <div
+                class="dropdown-menu dropdown-open:opacity-100 hidden min-w-96 origin-top-right rounded-lg shadow-2xl bg-white dark:bg-[#2c3644] ring-1 ring-gray ring-opacity-5 z-50 p-4"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="dropdown-create-article"
+            >
+                <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
+                Create New Article
+                </h3>
                 <form action="#" method="POST">
                     <div class="mb-3">
-                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Article Title</label>
-                        <input type="text" id="title" name="title" placeholder="How to use the new feature..."
-                            class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Article Title
+                        </label>
+                        <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="How to use the new feature..."
+                        class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        >
                     </div>
-
                     <div class="mb-4">
-                        <label for="prompt" class="block text-sm font-medium text-indigo-600 dark:text-indigo-400">AI Prompt (What do you want to write about?)</label>
-                        <textarea id="prompt" name="prompt" rows="3" placeholder="Generate an article about..."
-                                class="mt-1 block w-full rounded-md border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        <label for="prompt" class="block text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                        AI Prompt (What do you want to write about?)
+                        </label>
+                        <textarea
+                        id="prompt"
+                        name="prompt"
+                        rows="3"
+                        placeholder="Generate an article about..."
+                        class="mt-1 block w-full rounded-md border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-[#374151] text-gray-900 dark:text-gray-100 shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        ></textarea>
                     </div>
-
                     <div class="flex justify-end space-x-3">
-                        <button type="button" @click="openArticleForm = false"
-                                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-[#4b5563] transition duration-150">
-                            Cancel
+                        <button type="button" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-[#4b5563] transition duration-150">
+                        Cancel
                         </button>
-                        <button type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 shadow-md">
-                            Start AI Draft
+                        <button
+                        type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 shadow-md"
+                        >
+                        Start AI Draft
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-
-
-       <button class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300">
-            <a href="https://dyn-edge.com/v5/" target="_blank" class="flex items-center space-x-2 text-inherit no-underline">
+        <button
+                onclick="window.location.href='{{ route('articles.index') }}'"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white border border-white/40 hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_10px_rgba(0,255,200,0.6)] transition duration-300"
+            >
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 <span>OPEN SITE</span>
-            </a>
-        </button>
+            </button>
+
+           <button
+                onclick="window.location.href='{{ route('internal.articles') }}'"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-md font-semibold text-white
+                    border border-white/40 hover:border-teal-400 hover:text-teal-300
+                    hover:shadow-[0_0_10px_rgba(0,255,200,0.6)]
+                    transition duration-300"
+                >
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>INTERNAL ARTICLE</span>
+            </button>
 
         <div class="flex items-center space-x-3 sm:space-x-4">
 

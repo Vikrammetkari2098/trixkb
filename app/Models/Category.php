@@ -2,24 +2,53 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
     use HasFactory;
 
-
     protected $table = 'categories';
 
-    // Primary key (if it's not 'id')
     protected $primaryKey = 'category_id';
+
+    public $timestamps = true;
+
     protected $fillable = [
         'category_name',
+        'slug',
+        'category_status',
+        'parent_id',
+        'sort_order',
     ];
-    public function wikis()
+
+    /**
+     * Auto-generate slug on create
+     */
+    protected static function booted()
     {
-        return $this->belongsToMany(Wiki::class, 'wiki_categories', 'category_id', 'wiki_id');
+        static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = Str::slug($category->category_name);
+            }
+        });
     }
 
+    /**
+     * Parent category
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id', 'category_id');
+    }
+
+    /**
+     * Child categories
+     */
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'category_id');
+    }
 }

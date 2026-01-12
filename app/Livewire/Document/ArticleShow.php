@@ -101,15 +101,32 @@ class ArticleShow extends Component
     public function unpublishSelected(): void
     {
         if (!$this->selectedArticleId) {
+            $this->toast()
+                ->warning('No article selected')
+                ->send();
+
             return;
         }
 
-        Article::where('id', $this->selectedArticleId)
+        $updated = Article::where('id', $this->selectedArticleId)
             ->where('status', 'published')
             ->update([
                 'status' => 'draft',
             ]);
+
+        if ($updated) {
+            $this->toast()
+                ->success('Article unpublished successfully')
+                ->send();
+        } else {
+            $this->toast()
+                ->info('Article is already unpublished')
+                ->send();
+        }
+
+    
     }
+
 
     public function setSelectedArticle(int $id): void
     {

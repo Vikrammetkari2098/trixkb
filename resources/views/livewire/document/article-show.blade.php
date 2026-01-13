@@ -149,7 +149,14 @@
                                     </a>
                                 </li>
                                 <li><a class="dropdown-item" href="#">Form Template</a></li>
-                                <li><a class="dropdown-item" href="#">Import Article</a></li>
+                               <li>
+                                    <button type="button" 
+                                            class="dropdown-item w-full text-left flex items-center gap-2"
+                                            wire:click="$dispatch('open-import-modal')"> 
+                                        <span class="icon-[tabler--upload] size-4"></span>
+                                        Import Article
+                                    </button>
+                                </li>
                             </ul>
                         </li>
 
@@ -578,4 +585,5 @@
             }));
         });
     </script>
+    <livewire:document.import-article />
 </div>

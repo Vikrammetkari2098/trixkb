@@ -103,6 +103,9 @@ class Article extends Model
     {
         return $this->hasMany(ArticleComment::class);
     }
-
+    public function views()
+    {
+        return $this->hasMany(\App\Models\ArticleView::class, 'article_id');
+    }
 
 }

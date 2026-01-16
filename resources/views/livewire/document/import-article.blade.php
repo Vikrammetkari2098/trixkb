@@ -1,27 +1,30 @@
-<div x-data="{ openBulkModal: @entangle('modalImport').live }">
+<div x-data="{ openBulkModal: @entangle('modalImport').live }" x-cloak>
     
-    {{-- Modal Wrapper --}}
-    <div x-show="openBulkModal" 
-         x-cloak
-         style="display: none;" 
-         class="fixed inset-0 z-40 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-all px-4">
+    {{-- Modal Backdrop (Blur & Fade Effect) --}}
+    <div
+        x-show="openBulkModal"
+        style="display: none;"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-400/70 transition-opacity p-4"
+        x-on:keydown.escape.window="openBulkModal = false"
+    >
         
-        {{-- Modal Content --}}
-        <div x-show="openBulkModal" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             class="relative w-full max-w-3xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
-            
-            {{-- Close Button --}}
-            <button @click="openBulkModal = false" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+        <div
+            x-show="openBulkModal"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            x-on:click.away="openBulkModal = false"
+            class="w-full max-w-3xl bg-white rounded-xl shadow-2xl overflow-hidden"
+        >
 
             {{-- Header --}}
             <div class="p-8 pb-0 text-center">
@@ -33,7 +36,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     
                     {{-- Step 1: Download --}}
-                    <div class="flex flex-col items-center p-6 bg-purple-50 rounded-xl border border-purple-100 text-center">
+                    <div class="flex flex-col items-center p-6 bg-purple-50 rounded-xl border border-purple-100 text-center hover:shadow-md transition duration-200">
                         <div class="mb-4 p-3 bg-purple-600 text-white rounded-lg shadow-md">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -48,7 +51,7 @@
                     </div>
 
                     {{-- Step 2: Upload --}}
-                    <div class="flex flex-col items-center p-6 bg-blue-50 rounded-xl border border-blue-100 text-center relative">
+                    <div class="flex flex-col items-center p-6 bg-blue-50 rounded-xl border border-blue-100 text-center relative hover:shadow-md transition duration-200">
                         <div class="mb-4 p-3 bg-blue-600 text-white rounded-lg shadow-md">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
@@ -57,20 +60,25 @@
                         <span class="block text-sm font-bold text-blue-900 mb-1">Step 2: Upload File</span>
                         <p class="text-xs text-blue-700 mb-4 italic">
                             @if($file) 
-                                <span class="text-green-600 font-bold">File Selected!</span>
+                                <span class="text-green-600 font-bold flex items-center justify-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    File Selected!
+                                </span>
                             @else 
                                 Select your prepared Excel file.
                             @endif
                         </p>
                         
                         {{-- Loading Indicator during upload --}}
-                        <div wire:loading wire:target="file" class="absolute inset-0 bg-white/80 flex items-center justify-center rounded-xl z-10">
-                            <span class="text-blue-600 font-bold text-sm animate-pulse">Uploading...</span>
+                        <div wire:loading wire:target="file" class="absolute inset-0 bg-white/90 flex items-center justify-center rounded-xl z-10">
+                            <span class="text-blue-600 font-bold text-sm animate-pulse flex items-center gap-2">
+                                <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                Uploading...
+                            </span>
                         </div>
 
                         <label class="w-full bg-white text-blue-700 border border-blue-300 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-blue-100 transition block">
                             Select .xlsx File
-                            {{-- ✅ Wire Model --}}
                             <input type="file" wire:model="file" class="hidden" accept=".xlsx, .xls, .csv">
                         </label>
 
@@ -100,7 +108,7 @@
                 
                 <button wire:click="import" 
                         wire:loading.attr="disabled"
-                        class="btn btn-success">
+                        class="btn btn-success flex items-center gap-2">
                     
                     <span wire:loading wire:target="import" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
                     <span wire:loading.remove wire:target="import">Start Import</span>
